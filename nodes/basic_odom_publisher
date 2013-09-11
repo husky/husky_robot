@@ -6,7 +6,6 @@ import copy
 
 from math import sin,cos
 from geometry_msgs.msg import Quaternion
-from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
 from clearpath_base.msg import Encoders
 
@@ -44,9 +43,7 @@ class DeadReckoning(object):
         self.width = rospy.get_param('~width',0.5)
 
         # Set up publishers/subscribers
-        self.pub_imu = rospy.Publisher('imu_data',Imu)
         self.pub_enc_odom = rospy.Publisher('encoder',Odometry);
-        rospy.Subscriber('imu/data', Imu, self.HandleIMU)
         rospy.Subscriber('husky/data/encoders', Encoders, self.HandleEncoder)
 
         # Initialize odometry message
