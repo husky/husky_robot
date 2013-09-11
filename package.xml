@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>husky_base</name>
+  <version>0.0.0</version>
+  <description>The husky_base package</description>
+
+  <maintainer email="mpurvis@clearpathrobotics.com">Mike Purvis</maintainer>
+
+  <license>BSD</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>diagnostics_msgs</run_depend>
+  <run_depend>clearpath_base</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>python_orocos_kdl</run_depend>
+
+  <export></export>
+</package>
