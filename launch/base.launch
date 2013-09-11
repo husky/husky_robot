@@ -1,0 +1,23 @@
+<launch>
+  <arg name="port" default="/dev/prolific" />
+
+  <node pkg="clearpath_base" type="kinematic" name="husky_kinematic" ns="husky">
+    <param name="port" value="$(arg port)" />
+    <rosparam>    
+      cmd_fill: True
+      data:
+        system_status: 10
+        safety_status: 10
+        encoders: 10
+        differential_speed: 10
+        differential_output: 10
+        power_status: 1
+    </rosparam>
+  </node>
+
+  <!-- Publish diagnostics information from low-level MCU outputs -->
+  <node pkg="husky_base" name="husky_diagnostics" type="diagnostics_publisher" />
+
+  <!-- Publish wheel odometry from MCU encoder data -->
+  <node pkg="husky_bringup" name="husky_basic_odom" type="basic_odom_publisher" />
+</launch>
