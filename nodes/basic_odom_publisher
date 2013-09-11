@@ -12,7 +12,7 @@ from clearpath_base.msg import Encoders
 
 # Dynamic Reconfigure
 import dynamic_reconfigure.server
-from husky_bringup.cfg import HuskyConfig
+#from husky_bringup.cfg import HuskyConfig
 
 ODOM_POSE_COVAR_MOTION = [1e-3, 0, 0, 0, 0, 0, 
                         0, 1e-3, 0, 0, 0, 0,
@@ -60,12 +60,12 @@ class DeadReckoning(object):
         self.odom.child_frame_id = "base_footprint" 
         self.last_encoder = []
 
-        dynamic_reconfigure.server.Server(HuskyConfig, self.Reconfigure)
+        #dynamic_reconfigure.server.Server(HuskyConfig, self.Reconfigure)
 
-    def Reconfigure(self, config, level):
+    #def Reconfigure(self, config, level):
         # Handler for dynamic_reconfigure
-        self.gyro_scale = config['gyro_scale_correction']
-        return config
+    #    self.gyro_scale = config['gyro_scale_correction']
+    #    return config
 
     def HandleIMU(self,data):
 	# Correct IMU data
