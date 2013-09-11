@@ -1,0 +1,29 @@
+pub rate: 1.0 
+base_path: ''
+analyzers:
+    Safety:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: SafetySystem
+        timeout: 5.0
+        contains: 'Safety'
+    Voltage:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Voltage
+        timeout: 5.0
+        contains: 'Voltage'
+    PowerSystem:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: PowerSystem
+        timeout: 5.0
+        contains: 'Power'
+    Uptime:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Uptime
+        timeout: 5.0
+        contains: 'Uptime'
+    Temperature:
+        type: diagnostic_aggregator/GenericAnalyzer
+        path: Temperature
+        timeout: 5.0
+        contains: 'Temperature'
+

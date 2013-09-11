@@ -16,8 +16,13 @@
   </node>
 
   <!-- Publish diagnostics information from low-level MCU outputs -->
-  <node pkg="husky_base" name="husky_diagnostics" type="diagnostics_publisher" />
-
+  <node pkg="husky_base" name="husky_base_diagnostics" type="diagnostics_publisher" />
+	
   <!-- Publish wheel odometry from MCU encoder data -->
   <node pkg="husky_base" name="husky_basic_odom" type="basic_odom_publisher" />
+  
+  <!-- Diagnostic Aggregator -->
+	<node pkg="diagnostic_aggregator" type="aggregator_node" name="diag_agg">
+		<rosparam command="load" file="$(find husky_base)/config/diagnostic_agg.yaml"/>
+	</node>
 </launch>
