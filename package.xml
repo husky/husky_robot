@@ -9,7 +9,7 @@
   <license>BSD</license>
   
   <buildtool_depend>catkin</buildtool_depend>
-  <run_depend>diagnostics_msgs</run_depend>
+  <run_depend>diagnostic_msgs</run_depend>
   <run_depend>clearpath_base</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
