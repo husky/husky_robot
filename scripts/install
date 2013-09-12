@@ -6,7 +6,7 @@ rospd husky_bringup/udev > /dev/null
 echo "Installing udev rules."
 sudo cp *.rules /etc/udev/rules.d/
 popd > /dev/null
-udevadm trigger
+sudo udevadm trigger
 
 # Install the upstart job, populate it with launch files.
 install_pkg="rosrun robot_upstart install"
