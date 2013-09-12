@@ -1,0 +1,15 @@
+<launch>
+  <!-- GPS serial comms -->
+  <group ns="gps">
+    <node pkg="nmea_comms" type="nmea_serial_node" name="serial_node" output="screen">
+      <param name="port" value="/dev/ublox" />
+      <param name="baud" value="115200" />
+    </node>
+
+    <!-- interpretation -->
+    <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="nmea_topic_driver" />
+
+    <!-- ENU translation -->
+    <node pkg="enu" type="from_fix" name="enu_from_fix" />
+  </group>
+</launch>
