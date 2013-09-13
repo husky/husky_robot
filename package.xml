@@ -16,6 +16,7 @@
   <run_depend>nav_msgs</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>python_orocos_kdl</run_depend>
+  <run_depend>diagnostic_aggregator</run_depend>
 
   <export></export>
 </package>
