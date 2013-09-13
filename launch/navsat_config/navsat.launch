@@ -1,8 +1,8 @@
 <launch>
   <!-- GPS serial comms -->
   <group ns="gps">
-    <node pkg="nmea_comms" type="nmea_serial_node" name="serial_node" output="screen">
-      <param name="port" value="/dev/ublox" />
+    <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" output="screen">
+      <param name="port" value="/dev/clearpath/gps" />
       <param name="baud" value="115200" />
     </node>
 
