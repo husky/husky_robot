@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>husky_bringup</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>Installation for Husky</description>
 
   <maintainer email="mpurvis@clearpathrobotics.com">Mike Purvis</maintainer>
@@ -9,12 +9,17 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- For roslaunch_add_file_check() macro -->
+  <build_depend>roslaunch</build_depend>
+
   <run_depend>enu</run_depend>
   <run_depend>husky_base</run_depend>
   <run_depend>husky_description</run_depend>
   <run_depend>husky_teleop</run_depend>
   <run_depend>nmea_comms</run_depend>
   <run_depend>nmea_navsat_driver</run_depend>
+  <run_depend>robot_upstart</run_depend>
   <run_depend>um6</run_depend>
 
   <export>
