@@ -1,9 +1,9 @@
 <launch>
   <!-- GPS serial comms -->
-  <group ns="gps">
+  <group ns="navsat">
     <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" output="screen">
       <param name="port" value="/dev/clearpath/gps" />
-      <param name="baud" value="115200" />
+      <param name="baud" value="9600" />
     </node>
 
     <!-- interpretation -->
