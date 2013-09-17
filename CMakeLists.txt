@@ -11,6 +11,6 @@ roslaunch_add_file_check(launch/navsat_config)
 install(PROGRAMS scripts/install
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(DIRECTORY launch udev
+install(DIRECTORY launch udev config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 

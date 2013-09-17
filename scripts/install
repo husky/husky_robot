@@ -8,9 +8,11 @@ sudo cp *.rules /etc/udev/rules.d/
 popd > /dev/null
 sudo udevadm trigger
 
+
+
 # Install the upstart job, populate it with launch files.
 install_pkg="rosrun robot_upstart install"
-$install_pkg husky_base/launch --job husky-core
+$install_pkg husky_base/launch --job husky-core --interface eth2
 $install_pkg husky_description/launch --job husky-core --augment
 
 # Install the teleop script if a joystick is attached.
@@ -21,6 +23,7 @@ fi
 # Install the IMU launchers if the standard serial imu (um6) is attached.
 if [ -e /dev/clearpath/imu ]; then
   $install_pkg husky_bringup/launch/imu_config --job husky-core --augment
+  sudo cp $(rospack find husky_bringup)/config/imu_compass.yaml /etc/ros/hydro
 fi
 
 # Install the NavSat launchers if an NMEA GPS is attached.
