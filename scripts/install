@@ -21,7 +21,7 @@ fi
 # Install the IMU launchers if the standard serial imu (um6) is attached.
 if [ -e /dev/clearpath/imu ]; then
   $install_pkg husky_bringup/launch/imu_config --job husky-core --augment
-  sudo cp $(rospack find husky_bringup)/config/imu_compass.yaml /etc/ros/hydro
+  sudo cp $(rospack find husky_bringup)/config/imu_compass.yaml /etc/ros/$ROS_DISTRO
 fi
 
 # Install the NavSat launchers if an NMEA GPS is attached.
