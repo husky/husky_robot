@@ -1,0 +1,6 @@
+# Generated from /home/pmukherj/yaw_90.bag on 2013-09-17.
+mag_bias:
+     x: 0.183117
+     y: 0.273127
+     z: -0.761884
+     radius: 0.271064

@@ -1,5 +1,7 @@
 <launch>
   <node pkg="um6" type="um6_driver" name="um6_driver">
     <param name="port" type="string" value="/dev/clearpath/imu"/>
+    <param name="mag_updates" type="bool" value="false"/>
   </node>
+  <node pkg="tf" type="static_transform_publisher" name="imu_tf" args="0 0 0 1.5705 1.5705 0 base_link imu_link 10"/>
 </launch>
