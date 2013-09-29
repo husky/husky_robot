@@ -12,6 +12,8 @@
     </node>
 
     <!-- ENU translation -->
-    <node pkg="enu" type="from_fix" name="enu_from_fix" />
+    <node pkg="enu" type="from_fix" name="enu_from_fix" >
+      <param name="invalid_covariance_value" value="1000000" />
+    </node>
   </group>
 </launch>
