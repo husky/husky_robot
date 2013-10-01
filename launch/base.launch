@@ -1,5 +1,5 @@
 <launch>
-  <arg name="port" default="/dev/prolific" />
+  <arg name="port" default="$(optenv HUSKY_PORT /dev/prolific)" />
 
   <node pkg="clearpath_base" type="kinematic_node" name="husky_kinematic" ns="husky">
     <param name="port" value="$(arg port)" />
