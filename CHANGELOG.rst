@@ -2,6 +2,11 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.3 (2013-10-01)
+------------------
+* Add sicktoolbox_wrapper in advance of a config for standard LIDARs.
+* Parameterize from environment variables the IMU and GPS ports, and network interface to launch from.
+
 0.0.2 (2013-09-23)
 ------------------
 * Compass startup and inertial ekf
