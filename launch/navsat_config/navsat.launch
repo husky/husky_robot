@@ -2,8 +2,8 @@
   <!-- NavSat serial comms -->
   <group ns="navsat">
     <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" output="screen">
-      <param name="port" value="/dev/clearpath/gps" />
-      <param name="baud" value="9600" />
+      <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/clearpath/gps)" />
+      <param name="baud" value="$(optenv HUSKY_NAVSAT_BAUD 9600)" />
     </node>
 
     <!-- interpretation -->
