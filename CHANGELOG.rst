@@ -2,6 +2,10 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.4 (2013-10-03)
+------------------
+* Parameterize husky port in env variable.
+
 0.0.3 (2013-09-24)
 ------------------
 * Add launchfile check.
