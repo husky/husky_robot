@@ -2,6 +2,10 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.5 (2013-10-04)
+------------------
+* Mark the config directory to install.
+
 0.0.4 (2013-10-03)
 ------------------
 * Parameterize husky port in env variable.
