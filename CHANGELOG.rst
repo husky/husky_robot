@@ -2,6 +2,16 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.4 (2013-10-03)
+------------------
+* Remove the other launchfile check until we get a chance to fix the config location issue.
+* adding installation of ekf yaml file to install script
+* better parameters for husky compass calibration based on standard husky configurations
+* combining both ekf launchers into one and relying on a config file to to pick whether we want an outdoor or indoor ekf to start
+* allowing the user to scale the gps data if desired
+* adding parameter to lock the altitude at 0
+* set invalid covariance value for enu to really high, instead of -1
+
 0.0.3 (2013-10-01)
 ------------------
 * Add sicktoolbox_wrapper in advance of a config for standard LIDARs.
