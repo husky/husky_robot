@@ -1,0 +1,15 @@
+#Launch file parameters for robot_pose_ekf position estimator
+freq: 10.0
+output_frame: "odom"
+sensor_timeout: 1.0
+publish_tf: true
+odom_used: true
+imu_used: true
+#Uncomment line below if visual odometry is available
+#vo_used: false
+
+#Uncomment line below if gps or absolute position data is available
+#gps_used: true
+
+#Uncomment line below if compass data is available (only applicable if gps is available)
+#imu_absolute: true

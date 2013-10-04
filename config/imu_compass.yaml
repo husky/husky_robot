@@ -1,7 +1,6 @@
-# Default magnetic center for Husky. For superior compass performance, perform
-# a per-chassis calibration.
+# Generated from imu_test.bag on 2013-10-03.
 mag_bias:
-     x: 0.183117
-     y: 0.273127
-     z: -0.761884
-     radius: 0.271064
+     x: -0.187996
+     y: 0.031774
+     z: -0.640720
+     radius: 0.279036

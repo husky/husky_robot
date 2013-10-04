@@ -22,6 +22,14 @@ fi
 # Install the IMU launchers if the standard serial imu (um6) is attached.
 if [ -e /dev/clearpath/imu ]; then
   $install_pkg husky_bringup/launch/imu_config --job husky-core --augment
+  EKF_SETTINGS_YAML=/etc/ros/$ROS_DISTRO/husky_ekf.yaml
+  if [ -e "$EKF_SETTINGS_YAML" ]; then
+    echo "EKF Settings yaml config already exists, skipping."
+  else 
+    echo "Installing EKF settings file to $EKF_SETTINGS_YAML"
+    sudo cp "$(rospack find husky_bringup)/config/husky_ekf.yaml" "$EKF_SETTINGS_YAML"
+  fi
+
 fi
 
 # Install the NavSat launchers if an NMEA GPS is attached.

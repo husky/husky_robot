@@ -1,0 +1,8 @@
+<launch>
+<node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf" output="screen">
+  <rosparam command="load" file="/etc/ros/$(env ROS_DISTRO)/husky_ekf.yaml"/>
+  <remap from="gps" to="navsat/enu"/>
+  <remap from="imu_data" to="imu/data_compass"/>
+  <remap from="odom" to="encoder"/>
+</node>
+</launch>

@@ -5,11 +5,10 @@ find_package(catkin REQUIRED COMPONENTS roslaunch)
 
 catkin_package()
 
-roslaunch_add_file_check(launch/imu_config)
-
-# This won't pass as long as we explicitly include a config file
+# These won't pass as long as we explicitly include a config file
 # from an absolute /etc path. Probably need to specify that location
 # in the environment instead.
+#roslaunch_add_file_check(launch/imu_config)
 #roslaunch_add_file_check(launch/navsat_config)
 
 install(PROGRAMS scripts/install
