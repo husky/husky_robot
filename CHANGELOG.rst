@@ -2,6 +2,10 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.5 (2013-10-05)
+------------------
+* Acknowledge the ROBOT_SETUP env variable in the install script.
+
 0.0.4 (2013-10-03)
 ------------------
 * Remove the other launchfile check until we get a chance to fix the config location issue.
