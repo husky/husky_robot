@@ -8,10 +8,15 @@ sudo cp *.rules /etc/udev/rules.d/
 popd > /dev/null
 sudo udevadm trigger
 
-# Install the upstart job, populate it with launch files. For the network interface,
-# first try script parameter $1, then HUSKY_NETWORK, then ROBOT_NETWORK, then eth0.
+# Install the upstart job, populate it with launch files.
+#  * For the network interface, first try script parameter $1, then ROBOT_NETWORK, then eth0.
+#  * For the setup.bash to use, first try ROBOT_SETUP, then fall back on setup.bash from active workspace.
+#    In CPR-configured Ubuntu machines, /etc/ros/setup.bash is a wrapper on /opt/ros/xxx/setup.bash, and sets the
+#    ROBOT_SETUP var to itself. This allows platform-wide env vars to be placed in that file.
 install_pkg="rosrun robot_upstart install"
-$install_pkg husky_base/launch --job husky-core --interface ${1-${HUSKY_NETWORK-${ROBOT_NETWORK-eth0}}}
+$install_pkg husky_base/launch --job husky-core \
+                               --interface ${1-${ROBOT_NETWORK-eth0}} \
+                               --setup ${ROBOT_SETUP-$(roscd; echo `pwd`/setup.bash)}
 $install_pkg husky_description/launch --job husky-core --augment
 
 # Install the teleop script if a joystick is attached.
