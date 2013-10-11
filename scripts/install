@@ -20,7 +20,7 @@ $install_pkg husky_base/launch --job husky-core \
 $install_pkg husky_description/launch --job husky-core --augment
 
 # Install the teleop script if a joystick is attached.
-if [ -e dev/input/js0 ]; then
+if [ -e /dev/input/js0 ]; then
   $install_pkg husky_teleop/launch --job husky-core --augment
 fi
 
