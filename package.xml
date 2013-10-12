@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>husky_bringup</name>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <description>Installation for Husky</description>
 
   <maintainer email="mpurvis@clearpathrobotics.com">Mike Purvis</maintainer>
