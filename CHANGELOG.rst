@@ -2,6 +2,11 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.6 (2013-10-12)
+------------------
+* Restore leading slash in checking the joystick path.
+  This was removed by mistake in an earlier commit.
+
 0.0.5 (2013-10-05)
 ------------------
 * Acknowledge the ROBOT_SETUP env variable in the install script.
