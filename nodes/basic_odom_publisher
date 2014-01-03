@@ -97,7 +97,7 @@ class DeadReckoning(object):
         self.odom.twist.twist.linear.x = ddr
         self.odom.twist.twist.angular.z = dda
         
-        self.odom.header.stamp = rospy.Time.now()
+        self.odom.header.stamp = data.header.stamp
 
         # If our wheels aren't moving, we're likely not moving at all.
         # Adjust covariance appropriately
