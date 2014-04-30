@@ -37,6 +37,19 @@ if [ -e /dev/clearpath/imu ]; then
 
 fi
 
+# Install the IMU launchers if Microstrain 3DMGX2 IMU is attached.
+if [ -e /dev/microstrain ]; then
+  $install_pkg husky_bringup/launch/microstrain_config --job husky-core --augment
+  EKF_SETTINGS_YAML=/etc/ros/$ROS_DISTRO/husky_ekf.yaml
+  if [ -e "$EKF_SETTINGS_YAML" ]; then
+    echo "EKF Settings yaml config already exists, skipping."
+  else 
+    echo "Installing EKF settings file to $EKF_SETTINGS_YAML"
+    sudo cp "$(rospack find husky_bringup)/config/husky_ekf.yaml" "$EKF_SETTINGS_YAML"
+  fi
+
+fi
+
 # Install the NavSat launchers if an NMEA GPS is attached.
 if [ -e /dev/clearpath/gps ]; then
   $install_pkg husky_bringup/launch/navsat_config --job husky-core --augment
