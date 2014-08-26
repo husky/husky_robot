@@ -30,7 +30,7 @@ rosbag record /tf /imu/rpy /imu/data /imu/mag -O $BAG_FILE --duration $DURATION 
 ROSBAG_PID=$!
 echo "Started rosbag record, duration $DURATION seconds, pid [${ROSBAG_PID}]"
 
-rostopic pub /cmd_vel geometry_msgs/Twist '{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.4}}' -r 15 & > /dev/null
+rostopic pub /husky/cmd_vel geometry_msgs/Twist '{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.4}}' -r 15 & > /dev/null
 ROSTOPIC_PID=$!
 echo "Started motion commands, pid [${ROSTOPIC_PID}]"
 

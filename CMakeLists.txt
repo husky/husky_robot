@@ -11,7 +11,7 @@ catkin_package()
 #roslaunch_add_file_check(launch/imu_config)
 #roslaunch_add_file_check(launch/navsat_config)
 
-install(PROGRAMS scripts/install
+install(PROGRAMS scripts/install scripts/calibrate_compass
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(DIRECTORY launch udev config
