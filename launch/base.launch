@@ -31,14 +31,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <include file="$(find husky_description)/launch/description.launch" />
 
-    <!-- Differential controller and basic localization -->
+  <!-- Differential controller parameters and basic localization -->
   <include file="$(find husky_control)/launch/control.launch" />
 
   <!-- TODO teleop -->
   <!-- <include file="$(find husky_control)/launch/teleop.launch" /> -->
 
+  <!-- Husky harware driver -->
   <node pkg="husky_base" name="husky_base" type="husky_base">
-    <rosparam>
+    <rosparam subst_value="true">
+
+      port: $(arg port)
 
       control_frequency: 10.0
       diagnostic_frequency: 1.0
@@ -49,30 +52,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     </rosparam>
   </node>
-
-
-<!--   <node pkg="clearpath_base" type="kinematic_node" name="husky_kinematic" ns="husky">
-    <param name="port" value="$(arg port)" />
-    <rosparam>    
-      cmd_fill: True
-      data:
-        system_status: 10
-        safety_status: 10
-        encoders: 10
-        differential_speed: 10
-        differential_output: 10
-        power_status: 1
-    </rosparam>
-  </node> -->
-
-  <!-- Publish diagnostics information from low-level MCU outputs -->
-  <!-- <node pkg="husky_base" name="husky_base_diagnostics" type="diagnostics_publisher" /> -->
-	
-  <!-- Publish wheel odometry from MCU encoder data -->
-  <!-- <node pkg="husky_base" name="husky_basic_odom" type="basic_odom_publisher" /> -->
   
   <!-- Diagnostic Aggregator -->
-  <!-- <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator"> -->
-    <!-- <rosparam command="load" file="$(find husky_base)/config/diagnostics.yaml"/> -->
-  <!-- </node> -->
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator">
+    <rosparam command="load" file="$(find husky_base)/config/diagnostics.yaml"/>
+  </node>
+
 </launch>

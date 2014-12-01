@@ -1,29 +1,22 @@
-pub rate: 1.0 
-base_path: ''
 analyzers:
-    Safety:
+  husky:
+    type: diagnostic_aggregator/AnalyzerGroup
+    path: Husky Base
+    analyzers:
+      general:
         type: diagnostic_aggregator/GenericAnalyzer
-        path: SafetySystem
+        path: General
+        remove_prefix: 'husky_base'
         timeout: 5.0
-        contains: 'Safety'
-    Voltage:
-        type: diagnostic_aggregator/GenericAnalyzer
-        path: Voltage
-        timeout: 5.0
-        contains: 'Voltage'
-    PowerSystem:
-        type: diagnostic_aggregator/GenericAnalyzer
-        path: PowerSystem
-        timeout: 5.0
-        contains: 'Power'
-    Uptime:
-        type: diagnostic_aggregator/GenericAnalyzer
-        path: Uptime
-        timeout: 5.0
-        contains: 'Uptime'
-    Temperature:
-        type: diagnostic_aggregator/GenericAnalyzer
-        path: Temperature
-        timeout: 5.0
-        contains: 'Temperature'
-
+        expected: [
+          'husky_base: System Status',
+          'husky_base: Power Status',
+          'husky_base: Safety Status' ]
+      # sensors:
+      #   type: diagnostic_aggregator/GenericAnalyzer
+      #   path: Sensor Topics
+      #   remove_prefix: 'husky_base'
+      #   timeout: 5.0
+      #   expected: [
+      #     'husky_base: /imu/data_raw topic status',
+      #     'husky_base: /navsat/nmea_sentence topic status' ]

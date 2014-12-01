@@ -129,7 +129,7 @@ class HuskyDiagnostics():
             self.stat_temp.level = DiagnosticStatus.WARN
             self.stat_temp.message = "Motor drivers too hot"
         if max(left_mot,right_mot) > MOTOR_OVERTEMP_ERROR:
-            self.stat_temp.level = DiagnosticStatus.ERROR
+            self.stat_temp.level = DiagnosticStatus.ERROR()
             self.stat_temp.message = "Motors too hot"
         elif max(left_mot,right_mot) > MOTOR_OVERTEMP_WARN:
             self.stat_temp.level = DiagnosticStatus.WARN
