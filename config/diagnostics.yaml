@@ -1,22 +1,7 @@
 analyzers:
   husky:
-    type: diagnostic_aggregator/AnalyzerGroup
-    path: Husky Base
-    analyzers:
-      general:
-        type: diagnostic_aggregator/GenericAnalyzer
-        path: General
-        remove_prefix: 'husky_base'
-        timeout: 5.0
-        expected: [
-          'husky_base: System Status',
-          'husky_base: Power Status',
-          'husky_base: Safety Status' ]
-      # sensors:
-      #   type: diagnostic_aggregator/GenericAnalyzer
-      #   path: Sensor Topics
-      #   remove_prefix: 'husky_base'
-      #   timeout: 5.0
-      #   expected: [
-      #     'husky_base: /imu/data_raw topic status',
-      #     'husky_base: /navsat/nmea_sentence topic status' ]
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: Husky A200
+    find_and_remove_prefix: 'husky_base: '
+    expected: ['husky_base: power_status','husky_base: system_status','husky_base: safety_status']
+    timeout: 5.0

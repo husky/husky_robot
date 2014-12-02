@@ -29,11 +29,9 @@
 *
 */
 
-#include <controller_manager/controller_manager.h>
-#include <ros/callback_queue.h>
-
-#include <ros/ros.h>
-#include <husky_base/husky_hardware.h>
+#include "controller_manager/controller_manager.h"
+#include "ros/callback_queue.h"
+#include "husky_base/husky_hardware.h"
 
 void diagnosticLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky)
 {
@@ -43,12 +41,13 @@ void diagnosticLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &hus
 void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
     controller_manager::ControllerManager &cm)
 {
+
+  //Check that Husky hardware meets expected control frequency
 #ifdef ROS_DEBUG
   double frequency = 1 / (event.current_real - event.last_real).toSec();
   double expected_frequency = 1 / (event.current_expected - event.last_expected).toSec();
   ROS_WARN_STREAM_COND(frequency > expected_frequency * 10.1,
-      "Husky control loop missed target frequency of " << expected_frequency <<
-          "Hz, actual frequency of " << frequency << "Hz");
+      "Husky control loop target frequency " << expected_frequency << " Hz, actual frequency " << frequency << " Hz");
 #endif
 
   husky.updateJointsFromHardware();
@@ -66,8 +65,8 @@ int main(int argc, char *argv[])
   private_nh.param<double>("control_frequency", control_frequency, 10.0);
   private_nh.param<double>("diagnostic_frequency", diagnostic_frequency, 1.0);
 
-  // Initialize robot hardware and push to controller manager
-  husky_base::HuskyHardware husky(nh, private_nh, control_frequency, diagnostic_frequency);
+  // Initialize robot hardware and link to controller manager
+  husky_base::HuskyHardware husky(nh, private_nh);
   controller_manager::ControllerManager cm(&husky, nh);
 
   // Setup loops to process latest control and diagnostic messages
@@ -84,7 +83,7 @@ int main(int argc, char *argv[])
       &husky_queue);
   ros::Timer diagnostic_loop = nh.createTimer(diagnostic_timer);
 
-  // Process all hardware-related timer callbacks serially, horizon_legacy not threadsafe
+  // Process all hardware-related timer callbacks serially on separate queue, libhorizon_legacy not threadsafe
   ros::AsyncSpinner husky_spinner(1, &husky_queue);
   husky_spinner.start();
 

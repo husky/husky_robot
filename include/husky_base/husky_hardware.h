@@ -29,14 +29,15 @@
 *
 */
 
-#include <diagnostic_updater/diagnostic_updater.h>
+#include "husky_base/husky_diagnostics.h"
+#include "diagnostic_updater/diagnostic_updater.h"
 #include "hardware_interface/joint_state_interface.h"
 #include "hardware_interface/joint_command_interface.h"
 #include "hardware_interface/robot_hw.h"
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
-#include "husky_diagnostics.h"
 #include <string>
+#include "husky_msgs/HuskyStatus.h"
 
 #ifndef HUSKY_BASE_HUSKY_HARDWARE_H
 #define HUSKY_BASE_HUSKY_HARDWARE_H
@@ -44,14 +45,14 @@
 namespace husky_base
 {
 
+  /**
+  * Class representing Husky hardware, allows for ros_control to modify internal state via joint interfaces
+  */
   class HuskyHardware : public hardware_interface::RobotHW
   {
 
   public:
-    HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh, double control_frequency, double
-    diagnostic_frequency);
-
-    ~HuskyHardware();
+    HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh);
 
     void updateJointsFromHardware();
 
@@ -62,13 +63,11 @@ namespace husky_base
   private:
     void connect(std::string port);
 
-    void subscribe(double control_frequency, double diagnostic_frequency);
-
-    void unsubscribe();
-
     void initializeDiagnostics();
 
     void resetTravelOffset();
+
+    void registerControlInterfaces();
 
     double travelToAngle(const double &travel) const;
 
@@ -78,16 +77,24 @@ namespace husky_base
 
     ros::NodeHandle nh_, private_nh_;
 
+    // ROS Control interfaces
     hardware_interface::JointStateInterface joint_state_interface_;
     hardware_interface::VelocityJointInterface velocity_joint_interface_;
-    diagnostic_updater::Updater diagnostic_updater_;
 
+    // Diagnostics
+    diagnostic_updater::Updater diagnostic_updater_;
     HuskyDiagnosticTask<clearpath::DataSystemStatus> system_status_task_;
     HuskyDiagnosticTask<clearpath::DataPowerSystem> power_status_task_;
     HuskyDiagnosticTask<clearpath::DataSafetySystemStatus> safety_status_task_;
+    ros::Publisher diagnostic_publisher_;
+    husky_msgs::HuskyStatus husky_status_msg_;
 
+    // ROS Parameters
     double wheel_diameter_, max_accel_, max_speed_;
 
+    /**
+    * Joint structure that is hooked to ros_control's InterfaceManager, to allow control via diff_drive_controller
+    */
     struct Joint
     {
       double position;

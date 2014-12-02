@@ -31,8 +31,9 @@
 
 #include "ros/ros.h"
 #include "diagnostic_updater/diagnostic_updater.h"
-#include "horizon_legacy/clearpath.h"
-#include "horizon_legacy_wrapper.h"
+#include "husky_base/horizon_legacy/clearpath.h"
+#include "husky_base/horizon_legacy_wrapper.h"
+#include "husky_msgs/HuskyStatus.h"
 
 #ifndef HUSKY_BASE_HUSKY_DIAGNOSTICS_H
 #define HUSKY_BASE_HUSKY_DIAGNOSTICS_H
@@ -44,7 +45,7 @@ namespace husky_base
   class HuskyDiagnosticTask : public diagnostic_updater::DiagnosticTask
   {
   public:
-    HuskyDiagnosticTask(ros::NodeHandle &nh);
+    HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg);
 
     void run(diagnostic_updater::DiagnosticStatusWrapper &stat)
     {
@@ -57,19 +58,19 @@ namespace husky_base
 
     void update(diagnostic_updater::DiagnosticStatusWrapper &stat, typename Msg<T>::Ptr &status);
 
-    ros::NodeHandle &nh_;
-    ros::Publisher pub_;
+  private:
+    husky_msgs::HuskyStatus &msg_;
 
   };
 
   template<>
-  HuskyDiagnosticTask<clearpath::DataSystemStatus>::HuskyDiagnosticTask(ros::NodeHandle &nh);
+  HuskyDiagnosticTask<clearpath::DataSystemStatus>::HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg);
 
   template<>
-  HuskyDiagnosticTask<clearpath::DataPowerSystem>::HuskyDiagnosticTask(ros::NodeHandle &nh);
+  HuskyDiagnosticTask<clearpath::DataPowerSystem>::HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg);
 
   template<>
-  HuskyDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyDiagnosticTask(ros::NodeHandle &nh);
+  HuskyDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg);
 
   template<>
   void HuskyDiagnosticTask<clearpath::DataSystemStatus>::update(

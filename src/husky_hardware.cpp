@@ -29,9 +29,10 @@
 *
 */
 
-#include <husky_base/husky_hardware.h>
+#include "husky_base/husky_hardware.h"
 #include <boost/assign/list_of.hpp>
-#include <husky_base/horizon_legacy_wrapper.h>
+#include <string>
+#include <algorithm>
 
 namespace
 {
@@ -41,13 +42,15 @@ namespace
 namespace husky_base
 {
 
-  HuskyHardware::HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh, double control_frequency,
-      double diagnostic_frequency)
+  /**
+  * Initialize Husky hardware
+  */
+  HuskyHardware::HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh)
       : nh_(nh),
-        private_nh_(private_nh),
-        system_status_task_(private_nh),
-        power_status_task_(private_nh),
-        safety_status_task_(private_nh)
+        private_nh_(),
+        system_status_task_(husky_status_msg_),
+        power_status_task_(husky_status_msg_),
+        safety_status_task_(husky_status_msg_)
   {
     private_nh_.param<double>("wheel_diameter", wheel_diameter_, 0.3555);
     private_nh_.param<double>("max_accel", max_accel_, 5.0);
@@ -58,32 +61,13 @@ namespace husky_base
 
     connect(port);
     resetTravelOffset();
-    subscribe(control_frequency, diagnostic_frequency);
     initializeDiagnostics();
-
-    ros::V_string joint_names = boost::assign::list_of("joint_front_left_wheel")
-        ("joint_front_right_wheel")("joint_back_left_wheel")("joint_back_right_wheel");
-
-    for (unsigned int i = 0; i < joint_names.size(); i++)
-    {
-      hardware_interface::JointStateHandle joint_state_handle(joint_names[i],
-          &joints_[i].position, &joints_[i].velocity, &joints_[i].effort);
-      joint_state_interface_.registerHandle(joint_state_handle);
-
-      hardware_interface::JointHandle joint_handle(
-          joint_state_handle, &joints_[i].velocity_command);
-      velocity_joint_interface_.registerHandle(joint_handle);
-    }
-    registerInterface(&joint_state_interface_);
-    registerInterface(&velocity_joint_interface_);
-
+    registerControlInterfaces();
   }
 
-  HuskyHardware::~HuskyHardware()
-  {
-    unsubscribe();
-  }
-
+  /**
+  * Connect to Husky Hardware via Horizon serial API
+  */
   void HuskyHardware::connect(std::string port)
   {
     try
@@ -106,30 +90,9 @@ namespace husky_base
     }
   }
 
-  void HuskyHardware::subscribe(double control_frequency, double diagnostic_frequency)
-  {
-    // Remove subscriptions, causing garbled data in horizon_legacy api, request is fast enough
-    /*
-    Msg<clearpath::DataEncoders>::subscribe(control_frequency);
-    Msg<clearpath::DataDifferentialSpeed>::subscribe(control_frequency);
-
-    Msg<clearpath::DataSystemStatus>::subscribe(diagnostic_frequency);
-    Msg<clearpath::DataSafetySystemStatus>::subscribe(diagnostic_frequency);
-    Msg<clearpath::DataPowerSystem>::subscribe(diagnostic_frequency);
-    */
-  }
-
-  void HuskyHardware::unsubscribe()
-  {
-    /*
-    Msg<clearpath::DataEncoders>::unsubscribe();
-    Msg<clearpath::DataDifferentialSpeed>::unsubscribe();
-    Msg<clearpath::DataSystemStatus>::unsubscribe();
-    Msg<clearpath::DataSafetySystemStatus>::unsubscribe();
-    Msg<clearpath::DataPowerSystem>::unsubscribe();
-    */
-  }
-
+  /**
+  * Get current encoder travel offsets from MCU and bias future encoder readings against them
+  */
   void HuskyHardware::resetTravelOffset()
   {
     Msg<clearpath::DataEncoders>::Ptr enc = Msg<clearpath::DataEncoders>::getUpdate();
@@ -146,8 +109,13 @@ namespace husky_base
     }
   }
 
+  /**
+  * Register diagnostic tasks with updater class
+  */
   void HuskyHardware::initializeDiagnostics()
   {
+
+
     Msg<clearpath::DataPlatformInfo>::Ptr info = Msg<clearpath::DataPlatformInfo>::getUpdate();
 
     std::ostringstream hardware_id_stream;
@@ -157,14 +125,44 @@ namespace husky_base
     diagnostic_updater_.add(system_status_task_);
     diagnostic_updater_.add(power_status_task_);
     diagnostic_updater_.add(safety_status_task_);
-
+    diagnostic_publisher_ = private_nh_.advertise<husky_msgs::HuskyStatus>("status", 10);
   }
 
+
+  /**
+  * Register interfaces with the RobotHW interface manager, allowing ros_control operation
+  */
+  void HuskyHardware::registerControlInterfaces()
+  {
+    ros::V_string joint_names = boost::assign::list_of("front_left_wheel")
+        ("front_right_wheel")("rear_left_wheel")("rear_right_wheel");
+    for (unsigned int i = 0; i < joint_names.size(); i++)
+    {
+      hardware_interface::JointStateHandle joint_state_handle(joint_names[i],
+          &joints_[i].position, &joints_[i].velocity, &joints_[i].effort);
+      joint_state_interface_.registerHandle(joint_state_handle);
+
+      hardware_interface::JointHandle joint_handle(
+          joint_state_handle, &joints_[i].velocity_command);
+      velocity_joint_interface_.registerHandle(joint_handle);
+    }
+    registerInterface(&joint_state_interface_);
+    registerInterface(&velocity_joint_interface_);
+  }
+
+  /**
+  * External hook to trigger diagnostic update
+  */
   void HuskyHardware::updateDiagnostics()
   {
-    diagnostic_updater_.update();
+    diagnostic_updater_.force_update();
+    husky_status_msg_.header.stamp = ros::Time::now();
+    diagnostic_publisher_.publish(husky_status_msg_);
   }
 
+  /**
+  * Pull latest speed and travel measurements from MCU, and store in joint structure for ros_control
+  */
   void HuskyHardware::updateJointsFromHardware()
   {
 
@@ -194,6 +192,9 @@ namespace husky_base
     }
   }
 
+  /**
+  * Get latest velocity commands from ros_control via joint structure, and send to MCU
+  */
   void HuskyHardware::writeCommandsToHardware()
   {
     double diff_speed_left = angleToTravel(joints_[LEFT].velocity_command);
@@ -215,6 +216,9 @@ namespace husky_base
 
   };
 
+  /**
+  * Scale left and right speed outputs to maintain ros_control's desired trajectory without saturating the outputs
+  */
   void HuskyHardware::limitDifferentialSpeed(double &diff_speed_left, double &diff_speed_right)
   {
 
@@ -225,7 +229,6 @@ namespace husky_base
       diff_speed_left *= max_speed_ / large_speed;
       diff_speed_right *= max_speed_ / large_speed;
     }
-
   }
 
   double HuskyHardware::travelToAngle(const double &travel) const
@@ -237,6 +240,5 @@ namespace husky_base
   {
     return angle * wheel_diameter_ / 2;
   }
-
 
 } // namespace husky_base

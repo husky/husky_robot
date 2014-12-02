@@ -46,20 +46,18 @@ namespace husky_base
   struct Msg
   {
 
-    typedef boost::shared_ptr<T> Ptr;
+    typedef boost::shared_ptr <T> Ptr;
     typedef boost::shared_ptr<const T> ConstPtr;
     BOOST_STATIC_ASSERT_MSG(
-        (boost::is_base_of<clearpath::Message, T>::value),
-        "T must be a descendant of clearpath::Message"
+    (boost::is_base_of<clearpath::Message, T>::value),
+    "T must be a descendant of clearpath::Message"
     );
 
     static Ptr getLatest()
     {
       Ptr latest;
-      while (1)
+      while (T *next = T::popNext())
       {
-        T *next = T::popNext();
-        if (!next) { break; }
         latest = Ptr(new T(*next));
         delete next;
       }
