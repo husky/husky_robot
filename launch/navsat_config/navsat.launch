@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <!-- NavSat serial comms -->
   <group ns="navsat">
@@ -9,13 +10,6 @@
     <!-- interpretation -->
     <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="nmea_topic_driver">
       <remap from="nmea_sentence" to="rx" />
-    </node>
-
-    <!-- ENU translation -->
-    <node pkg="enu" type="from_fix" name="enu_from_fix">
-      <param name="invalid_covariance_value" value="1000000" />
-      <param name="lock_altitude" value="0"/>
-      <param name="scale_covariance" value="0.05"/>
     </node>
   </group>
 </launch>

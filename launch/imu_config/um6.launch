@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <node pkg="um6" type="um6_driver" name="um6_driver">
     <param name="port" type="string" value="$(optenv HUSKY_IMU_PORT /dev/clearpath/imu)"/>
