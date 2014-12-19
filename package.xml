@@ -20,7 +20,8 @@
   <run_depend>nmea_comms</run_depend>
   <run_depend>nmea_navsat_driver</run_depend>
   <run_depend>robot_upstart</run_depend>
-  <run_depend>sicktoolbox_wrapper</run_depend>
+  <run_depend>lms1xx</run_depend>
+  <run_depend>microstrain_3dmgx2_imu</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>um6</run_depend>
 
