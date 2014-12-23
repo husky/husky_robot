@@ -29,8 +29,11 @@
 *
 */
 
-#include "husky_base/husky_diagnostics.h"
 #include <algorithm>
+#include <limits>
+
+#include "husky_base/husky_diagnostics.h"
+#include "husky_msgs/HuskyStatus.h"
 
 namespace
 {
@@ -58,12 +61,12 @@ namespace husky_base
 {
 
   template<>
-  HuskyDiagnosticTask<clearpath::DataSystemStatus>::HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg)
+  HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
       : DiagnosticTask("system_status"),
         msg_(msg) { }
 
   template<>
-  void HuskyDiagnosticTask<clearpath::DataSystemStatus>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
+  void HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
       Msg<clearpath::DataSystemStatus>::Ptr &system_status)
   {
     msg_.uptime = system_status->getUptime();
@@ -127,12 +130,12 @@ namespace husky_base
   }
 
   template<>
-  HuskyDiagnosticTask<clearpath::DataPowerSystem>::HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg)
+  HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
       : DiagnosticTask("power_status"),
         msg_(msg) { }
 
   template<>
-  void HuskyDiagnosticTask<clearpath::DataPowerSystem>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
+  void HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
       Msg<clearpath::DataPowerSystem>::Ptr &power_status)
   {
     msg_.charge_estimate = power_status->getChargeEstimate(0);
@@ -157,12 +160,12 @@ namespace husky_base
   }
 
   template<>
-  HuskyDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg)
+  HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
       : DiagnosticTask("safety_status"),
         msg_(msg) { }
 
   template<>
-  void HuskyDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
+  void HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
       diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataSafetySystemStatus>::Ptr &safety_status)
   {
     msg_.flags = safety_status->getFlags();
@@ -183,12 +186,55 @@ namespace husky_base
     stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Safety System OK");
     if ((msg_.flags & SAFETY_ERROR) > 0)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Error");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Safety System Error");
     }
     else if ((msg_.flags & SAFETY_WARN) > 0)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Warning");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Safety System Warning");
     }
   }
 
+  HuskySoftwareDiagnosticTask::HuskySoftwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
+      : DiagnosticTask("software_status"),
+        msg_(msg)
+  {
+    reset();
+  }
+
+  void HuskySoftwareDiagnosticTask::update(const ros::TimerEvent &control_event)
+  {
+    // calculate rate at which control loop is executing, keep the lowest
+    control_freq_ = std::min(control_freq_,
+        1 / (control_event.current_real - control_event.last_real).toSec());
+
+    // calculate rate at which control loop is expecting to be executed, keep the highest
+    target_control_freq_ = std::max(target_control_freq_,
+        1 / (control_event.current_expected - control_event.last_expected).toSec());
+  }
+
+  void HuskySoftwareDiagnosticTask::run(diagnostic_updater::DiagnosticStatusWrapper &stat)
+  {
+    msg_.ros_control_loop_freq = control_freq_;
+    stat.add("ROS Control Loop Frequency", msg_.ros_control_loop_freq);
+
+    double margin = msg_.ros_control_loop_freq / target_control_freq_;
+
+    stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Software OK");
+    if (margin < 0.95)
+    {
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Control loop executing 5% slower than desired");
+    }
+    else if (margin < 0.98)
+    {
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Control loop executing 2% slower than desired");
+    }
+
+    reset();
+  }
+
+  void HuskySoftwareDiagnosticTask::reset()
+  {
+    control_freq_ = std::numeric_limits<double>::infinity();
+    target_control_freq_ = 0;
+  }
 }  // namespace husky_base

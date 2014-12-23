@@ -29,10 +29,11 @@
 *
 */
 
-#include "husky_base/husky_hardware.h"
 #include <boost/assign/list_of.hpp>
 #include <string>
 #include <algorithm>
+
+#include "husky_base/husky_hardware.h"
 
 namespace
 {
@@ -47,10 +48,11 @@ namespace husky_base
   */
   HuskyHardware::HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh)
       : nh_(nh),
-        private_nh_(),
+        private_nh_(private_nh),
         system_status_task_(husky_status_msg_),
         power_status_task_(husky_status_msg_),
-        safety_status_task_(husky_status_msg_)
+        safety_status_task_(husky_status_msg_),
+        software_status_task_(husky_status_msg_)
   {
     private_nh_.param<double>("wheel_diameter", wheel_diameter_, 0.3555);
     private_nh_.param<double>("max_accel", max_accel_, 5.0);
@@ -100,7 +102,7 @@ namespace husky_base
     {
       for (int i = 0; i < 4; i++)
       {
-        joints_[i].position_offset = travelToAngle(enc->getTravel(i % 2));
+        joints_[i].position_offset = linearToAngular(enc->getTravel(i % 2));
       }
     }
     else
@@ -123,6 +125,7 @@ namespace husky_base
     diagnostic_updater_.add(system_status_task_);
     diagnostic_updater_.add(power_status_task_);
     diagnostic_updater_.add(safety_status_task_);
+    diagnostic_updater_.add(software_status_task_);
     diagnostic_publisher_ = private_nh_.advertise<husky_msgs::HuskyStatus>("status", 10);
   }
 
@@ -168,7 +171,7 @@ namespace husky_base
     {
       for (int i = 0; i < 4; i++)
       {
-        joints_[i].position = travelToAngle(enc->getTravel(i % 2)) - joints_[i].position_offset;
+        joints_[i].position = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position_offset;
       }
     }
 
@@ -179,11 +182,11 @@ namespace husky_base
       {
         if (i % 2 == LEFT)
         {
-          joints_[i].velocity = travelToAngle(speed->getLeftSpeed());
+          joints_[i].velocity = linearToAngular(speed->getLeftSpeed());
         }
         else
         { // assume RIGHT
-          joints_[i].velocity = travelToAngle(speed->getRightSpeed());
+          joints_[i].velocity = linearToAngular(speed->getRightSpeed());
         }
       }
     }
@@ -194,8 +197,8 @@ namespace husky_base
   */
   void HuskyHardware::writeCommandsToHardware()
   {
-    double diff_speed_left = angleToTravel(joints_[LEFT].velocity_command);
-    double diff_speed_right = angleToTravel(joints_[RIGHT].velocity_command);
+    double diff_speed_left = angularToLinear(joints_[LEFT].velocity_command);
+    double diff_speed_right = angularToLinear(joints_[RIGHT].velocity_command);
 
     limitDifferentialSpeed(diff_speed_left, diff_speed_right);
 
@@ -209,7 +212,15 @@ namespace husky_base
     {
       ROS_ERROR_STREAM("Error sending speed command: " << ex->message);
     }
-  };
+  }
+
+  /**
+  * Update diagnostics with control loop timing information
+  */
+  void HuskyHardware::reportLoopFrequency(const ros::TimerEvent &control_event)
+  {
+    software_status_task_.update(control_event);
+  }
 
   /**
   * Scale left and right speed outputs to maintain ros_control's desired trajectory without saturating the outputs
@@ -225,14 +236,21 @@ namespace husky_base
     }
   }
 
-  double HuskyHardware::travelToAngle(const double &travel) const
+  /**
+  * Husky reports travel in metres, need radians for ros_control RobotHW
+  */
+  double HuskyHardware::linearToAngular(const double &travel) const
   {
     return travel / wheel_diameter_ * 2;
   }
 
-  double HuskyHardware::angleToTravel(const double &angle) const
+  /**
+  * RobotHW provides velocity command in rad/s, Husky needs m/s,
+  */
+  double HuskyHardware::angularToLinear(const double &angle) const
   {
     return angle * wheel_diameter_ / 2;
   }
+
 
 }  // namespace husky_base

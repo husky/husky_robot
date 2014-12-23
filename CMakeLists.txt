@@ -13,7 +13,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Dlinux_x86 -DTRANSPORT_AVAIL")
 
 add_library(horizon_legacy
   src/horizon_legacy/crc.cpp
-  src/horizon_legacy/cwrap.cpp
   src/horizon_legacy/Logger.cpp
   src/horizon_legacy/Message.cpp
   src/horizon_legacy/Message_data.cpp

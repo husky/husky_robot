@@ -59,6 +59,8 @@ namespace husky_base
 
     void updateDiagnostics();
 
+    void reportLoopFrequency(const ros::TimerEvent &control_event);
+
   private:
     void connect(std::string port);
 
@@ -68,9 +70,9 @@ namespace husky_base
 
     void registerControlInterfaces();
 
-    double travelToAngle(const double &travel) const;
+    double linearToAngular(const double &travel) const;
 
-    double angleToTravel(const double &angle) const;
+    double angularToLinear(const double &angle) const;
 
     void limitDifferentialSpeed(double &travel_speed_left, double &travel_speed_right);
 
@@ -81,12 +83,13 @@ namespace husky_base
     hardware_interface::VelocityJointInterface velocity_joint_interface_;
 
     // Diagnostics
-    diagnostic_updater::Updater diagnostic_updater_;
-    HuskyDiagnosticTask<clearpath::DataSystemStatus> system_status_task_;
-    HuskyDiagnosticTask<clearpath::DataPowerSystem> power_status_task_;
-    HuskyDiagnosticTask<clearpath::DataSafetySystemStatus> safety_status_task_;
     ros::Publisher diagnostic_publisher_;
     husky_msgs::HuskyStatus husky_status_msg_;
+    diagnostic_updater::Updater diagnostic_updater_;
+    HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus> system_status_task_;
+    HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem> power_status_task_;
+    HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus> safety_status_task_;
+    HuskySoftwareDiagnosticTask software_status_task_;
 
     // ROS Parameters
     double wheel_diameter_, max_accel_, max_speed_;

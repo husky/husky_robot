@@ -41,14 +41,7 @@ void diagnosticLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &hus
 void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
     controller_manager::ControllerManager &cm)
 {
-  // Check that Husky hardware meets expected control frequency
-#ifdef ROS_DEBUG
-  double frequency = 1 / (event.current_real - event.last_real).toSec();
-  double expected_frequency = 1 / (event.current_expected - event.last_expected).toSec();
-  ROS_WARN_STREAM_COND(frequency > expected_frequency * 10.1,
-      "Husky control loop target frequency " << expected_frequency << " Hz, actual frequency " << frequency << " Hz");
-#endif
-
+  husky.reportLoopFrequency(event);
   husky.updateJointsFromHardware();
   cm.update(event.current_real, event.current_real - event.last_real);
   husky.writeCommandsToHardware();
@@ -85,7 +78,7 @@ int main(int argc, char *argv[])
   ros::AsyncSpinner husky_spinner(1, &husky_queue);
   husky_spinner.start();
 
-  // Process remainder of ROS callbacks serially, mainly ControlManager related
+  // Process remainder of ROS callbacks separately, mainly ControlManager related
   ros::spin();
 
   return 0;
