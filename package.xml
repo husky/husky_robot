@@ -4,30 +4,28 @@
   <version>0.0.5</version>
   <description>The husky_base package</description>
 
-  <maintainer email="mpurvis@clearpathrobotics.com">Mike Purvis</maintainer>
   <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
 
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-
+  <build_depend>controller_manager</build_depend>  
   <build_depend>diagnostic_updater</build_depend>
   <build_depend>diagnostic_msgs</build_depend>
+  <build_depend>diff_drive_controller</build_depend>
   <build_depend>husky_msgs</build_depend>
   <build_depend>roslaunch</build_depend>
   <build_depend>roslint</build_depend>
-  <build_depend>controller_manager</build_depend>
-  <build_depend>diff_drive_controller</build_depend>
 
   <run_depend>controller_manager</run_depend>
-  <run_depend>diff_drive_controller</run_depend>
-  <run_depend>husky_msgs</run_depend>
-  <run_depend>topic_tools</run_depend>
   <run_depend>diagnostic_updater</run_depend>
   <run_depend>diagnostic_msgs</run_depend>
   <run_depend>diagnostic_aggregator</run_depend>
+  <run_depend>diff_drive_controller</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>husky_control</run_depend>
+  <run_depend>husky_msgs</run_depend>
+  <run_depend>topic_tools</run_depend>
 
   <export></export>
 </package>
