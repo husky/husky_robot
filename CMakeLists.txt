@@ -24,21 +24,17 @@ add_library(horizon_legacy
             src/horizon_legacy/linux_serial.cpp
             )
 
-add_executable(husky_base src/husky_base.cpp src/husky_hardware.cpp src/husky_diagnostics.cpp)
-target_link_libraries(husky_base horizon_legacy ${catkin_LIBRARIES})
-add_dependencies(husky_base husky_msgs_gencpp)
+add_executable(husky_node src/husky_base.cpp src/husky_hardware.cpp src/husky_diagnostics.cpp)
+target_link_libraries(husky_node horizon_legacy ${catkin_LIBRARIES})
+add_dependencies(husky_node husky_msgs_gencpp)
 
 roslint_cpp()
 
 roslaunch_add_file_check(launch)
-install(PROGRAMS
-  nodes/basic_odom_publisher
-  nodes/diagnostics_publisher
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+install(TARGETS husky_node
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(
-  DIRECTORY launch config
+install(DIRECTORY launch config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
