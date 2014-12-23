@@ -41,8 +41,7 @@ void diagnosticLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &hus
 void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
     controller_manager::ControllerManager &cm)
 {
-
-  //Check that Husky hardware meets expected control frequency
+  // Check that Husky hardware meets expected control frequency
 #ifdef ROS_DEBUG
   double frequency = 1 / (event.current_real - event.last_real).toSec();
   double expected_frequency = 1 / (event.current_expected - event.last_expected).toSec();
@@ -57,7 +56,6 @@ void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
 
 int main(int argc, char *argv[])
 {
-
   ros::init(argc, argv, "husky_base");
   ros::NodeHandle nh, private_nh("~");
 

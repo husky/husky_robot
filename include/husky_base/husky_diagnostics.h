@@ -45,7 +45,7 @@ namespace husky_base
   class HuskyDiagnosticTask : public diagnostic_updater::DiagnosticTask
   {
   public:
-    HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg);
+    explicit HuskyDiagnosticTask(husky_msgs::HuskyStatus &msg);
 
     void run(diagnostic_updater::DiagnosticStatusWrapper &stat)
     {
@@ -60,7 +60,6 @@ namespace husky_base
 
   private:
     husky_msgs::HuskyStatus &msg_;
-
   };
 
   template<>
@@ -84,5 +83,5 @@ namespace husky_base
   void HuskyDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
       diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataSafetySystemStatus>::Ptr &status);
 
-} // namespace husky_base
+}  // namespace husky_base
 #endif  // HUSKY_BASE_HUSKY_DIAGNOSTICS_H

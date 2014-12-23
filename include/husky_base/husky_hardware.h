@@ -50,7 +50,6 @@ namespace husky_base
   */
   class HuskyHardware : public hardware_interface::RobotHW
   {
-
   public:
     HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh);
 
@@ -105,9 +104,7 @@ namespace husky_base
 
       Joint() : position(0), velocity(0), effort(0), velocity_command(0) { }
     } joints_[4];
-
   };
 
-
-} // namespace husky_base
+}  // namespace husky_base
 #endif  // HUSKY_BASE_HUSKY_HARDWARE_H

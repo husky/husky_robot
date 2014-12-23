@@ -114,8 +114,6 @@ namespace husky_base
   */
   void HuskyHardware::initializeDiagnostics()
   {
-
-
     Msg<clearpath::DataPlatformInfo>::Ptr info = Msg<clearpath::DataPlatformInfo>::getUpdate();
 
     std::ostringstream hardware_id_stream;
@@ -165,7 +163,6 @@ namespace husky_base
   */
   void HuskyHardware::updateJointsFromHardware()
   {
-
     Msg<clearpath::DataEncoders>::Ptr enc = Msg<clearpath::DataEncoders>::getUpdate();
     if (enc)
     {
@@ -206,14 +203,12 @@ namespace husky_base
     {
       clearpath::SetDifferentialSpeed(
           diff_speed_left, diff_speed_right,
-          max_accel_, max_accel_
-      ).send();
+          max_accel_, max_accel_).send();
     }
     catch (clearpath::Exception *ex)
     {
       ROS_ERROR_STREAM("Error sending speed command: " << ex->message);
     }
-
   };
 
   /**
@@ -221,7 +216,6 @@ namespace husky_base
   */
   void HuskyHardware::limitDifferentialSpeed(double &diff_speed_left, double &diff_speed_right)
   {
-
     double large_speed = std::max(std::abs(diff_speed_left), std::abs(diff_speed_right));
 
     if (large_speed > max_speed_)
@@ -241,4 +235,4 @@ namespace husky_base
     return angle * wheel_diameter_ / 2;
   }
 
-} // namespace husky_base
+}  // namespace husky_base

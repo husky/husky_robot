@@ -30,6 +30,7 @@
 */
 
 #include "husky_base/husky_diagnostics.h"
+#include <algorithm>
 
 namespace
 {
@@ -51,7 +52,7 @@ namespace
   const unsigned int SAFETY_CURRENT = 0x40;
   const unsigned int SAFETY_WARN = (SAFETY_TIMEOUT | SAFETY_CCI | SAFETY_PSU);
   const unsigned int SAFETY_ERROR = (SAFETY_LOCKOUT | SAFETY_ESTOP | SAFETY_CURRENT);
-}
+}  // namespace
 
 namespace husky_base
 {
@@ -65,7 +66,6 @@ namespace husky_base
   void HuskyDiagnosticTask<clearpath::DataSystemStatus>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
       Msg<clearpath::DataSystemStatus>::Ptr &system_status)
   {
-
     msg_.uptime = system_status->getUptime();
     msg_.bus_voltage = system_status->getVoltage(0);
     msg_.left_driver_voltage = system_status->getVoltage(1);
@@ -124,7 +124,6 @@ namespace husky_base
     {
       stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::OK, "Temperature OK");
     }
-
   }
 
   template<>
@@ -136,7 +135,6 @@ namespace husky_base
   void HuskyDiagnosticTask<clearpath::DataPowerSystem>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
       Msg<clearpath::DataPowerSystem>::Ptr &power_status)
   {
-
     msg_.charge_estimate = power_status->getChargeEstimate(0);
     msg_.capacity_estimate = power_status->getCapacityEstimate(0);
 
@@ -167,7 +165,6 @@ namespace husky_base
   void HuskyDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
       diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataSafetySystemStatus>::Ptr &safety_status)
   {
-
     msg_.flags = safety_status->getFlags();
     msg_.timeout = (msg_.flags & SAFETY_TIMEOUT) > 0;
     msg_.lockout = (msg_.flags & SAFETY_LOCKOUT) > 0;
@@ -176,12 +173,12 @@ namespace husky_base
     msg_.no_battery = (msg_.flags & SAFETY_PSU) > 0;
     msg_.current_limit = (msg_.flags & SAFETY_CURRENT) > 0;
 
-    stat.add("Timeout", (bool)msg_.timeout);
-    stat.add("Lockout", (bool)msg_.lockout);
-    stat.add("Emergency Stop", (bool)msg_.e_stop);
-    stat.add("ROS Pause", (bool)msg_.ros_pause);
-    stat.add("No battery", (bool)msg_.no_battery);
-    stat.add("Current limit", (bool)msg_.current_limit);
+    stat.add("Timeout", static_cast<bool>(msg_.timeout));
+    stat.add("Lockout", static_cast<bool>(msg_.lockout));
+    stat.add("Emergency Stop", static_cast<bool>(msg_.e_stop));
+    stat.add("ROS Pause", static_cast<bool>(msg_.ros_pause));
+    stat.add("No battery", static_cast<bool>(msg_.no_battery));
+    stat.add("Current limit", static_cast<bool>(msg_.current_limit));
 
     stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Safety System OK");
     if ((msg_.flags & SAFETY_ERROR) > 0)
