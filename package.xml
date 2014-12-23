@@ -4,7 +4,6 @@
   <version>0.0.6</version>
   <description>Installation for Husky</description>
 
-  <maintainer email="mpurvis@clearpathrobotics.com">Mike Purvis</maintainer>
   <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
 
   <license>BSD</license>
