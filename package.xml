@@ -2,7 +2,7 @@
 <package>
   <name>husky_bringup</name>
   <version>0.0.6</version>
-  <description>Installation for Husky</description>
+  <description>Clearpath Husky installation package</description>
 
   <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
 
@@ -15,11 +15,12 @@
   <run_depend>husky_base</run_depend>
   <run_depend>husky_description</run_depend>
   <run_depend>imu_compass</run_depend>
-  <run_depend>nmea_comms</run_depend>
-  <run_depend>nmea_navsat_driver</run_depend>
-  <run_depend>robot_upstart</run_depend>
   <run_depend>lms1xx</run_depend>
   <run_depend>microstrain_3dmgx2_imu</run_depend>
+  <run_depend>nmea_comms</run_depend>
+  <run_depend>nmea_navsat_driver</run_depend>
+  <run_depend>robot_localization</run_depend>
+  <run_depend>robot_upstart</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>um6</run_depend>
 

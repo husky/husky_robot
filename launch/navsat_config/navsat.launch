@@ -11,5 +11,17 @@
     <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="nmea_topic_driver">
       <remap from="nmea_sentence" to="rx" />
     </node>
+
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" >
+      <rosparam>
+        magnetic_declination_radians: 0
+        roll_offset: 0
+        pitch_offset: 0
+        yaw_offset: 0
+        zero_altitude: false
+        broadcast_utm_transform: false
+      </rosparam>
+      <remap from="gps/fix" to="fix" />
+    </node>  
   </group>
 </launch>
