@@ -17,7 +17,6 @@ install_pkg="rosrun robot_upstart install"
 $install_pkg husky_base/launch --job husky-core \
                                --interface ${1-${ROBOT_NETWORK-eth0}} \
                                --setup ${ROBOT_SETUP-$(roscd; echo `pwd`/setup.bash)}
-$install_pkg husky_description/launch --job husky-core --augment
 
 COMPASS_YAML=/etc/ros/$ROS_DISTRO/imu_compass.yaml
 
