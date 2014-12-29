@@ -171,7 +171,19 @@ namespace husky_base
     {
       for (int i = 0; i < 4; i++)
       {
-        joints_[i].position = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position_offset;
+        double new_position = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position_offset;
+        double delta = new_position - joints_[i].position;
+
+        // detect firmware-side encoder rollover
+        if (std::abs(delta) < 1.0)
+        {
+          joints_[i].position = new_position;
+        }
+        else
+        {
+          // swallow the measurement and update the offset if rollover has occured
+          joints_[i].position_offset = delta;
+        }
       }
     }
 
