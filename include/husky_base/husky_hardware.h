@@ -107,12 +107,6 @@ namespace husky_base
 
       Joint() : position(0), velocity(0), effort(0), velocity_command(0) { }
     } joints_[4];
-
-    //rollover debug
-    double fix_speed;
-    ros::Timer turn_off_timer;
-    void turnOff();
-
   };
 
 }  // namespace husky_base
