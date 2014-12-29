@@ -52,7 +52,8 @@ namespace husky_base
         system_status_task_(husky_status_msg_),
         power_status_task_(husky_status_msg_),
         safety_status_task_(husky_status_msg_),
-        software_status_task_(husky_status_msg_)
+        software_status_task_(husky_status_msg_),
+        fix_speed(1.0)
   {
     private_nh_.param<double>("wheel_diameter", wheel_diameter_, 0.3555);
     private_nh_.param<double>("max_accel", max_accel_, 5.0);
@@ -166,11 +167,22 @@ namespace husky_base
   */
   void HuskyHardware::updateJointsFromHardware()
   {
+
     Msg<clearpath::DataEncoders>::Ptr enc = Msg<clearpath::DataEncoders>::getUpdate();
     if (enc)
     {
+      double left = enc->getTravel(LEFT);
+      double right = enc->getTravel(RIGHT);
+      ROS_INFO_STREAM("left travel "  << left << " right travel " << right);
+
       for (int i = 0; i < 4; i++)
       {
+        double new_position = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position_offset;
+        if(fabs(new_position-joints_[i].position) > 1){
+          ROS_ERROR_STREAM("joint " << i << " overflow! " << joints_[i].position << " to " << new_position);
+          turn_off_timer = nh_.createTimer(ros::Duration(10.0), boost::bind(&HuskyHardware::turnOff, this), true);
+        }
+
         joints_[i].position = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position_offset;
       }
     }
@@ -205,13 +217,17 @@ namespace husky_base
     try
     {
       clearpath::SetDifferentialSpeed(
-          diff_speed_left, diff_speed_right,
+          fix_speed, fix_speed,
           max_accel_, max_accel_).send();
     }
     catch (clearpath::Exception *ex)
     {
       ROS_ERROR_STREAM("Error sending speed command: " << ex->message);
     }
+  }
+
+  void HuskyHardware::turnOff() {
+    fix_speed = 0.0;
   }
 
   /**
