@@ -70,37 +70,51 @@ namespace husky_base
       Msg<clearpath::DataSystemStatus>::Ptr &system_status)
   {
     msg_.uptime = system_status->getUptime();
-    msg_.bus_voltage = system_status->getVoltage(0);
+    
+	msg_.battery_voltage = system_status->getVoltage(0);
     msg_.left_driver_voltage = system_status->getVoltage(1);
     msg_.right_driver_voltage = system_status->getVoltage(2);
-    msg_.left_driver_temp = system_status->getTemperature(0);
+    
+	msg_.mcu_and_user_port_current = system_status->getCurrent(0);
+	msg_.left_driver_current = system_status->getCurrent(1);
+	msg_.right_driver_current = system_status->getCurrent(2);
+	
+	msg_.left_driver_temp = system_status->getTemperature(0);
     msg_.right_driver_temp = system_status->getTemperature(1);
     msg_.left_motor_temp = system_status->getTemperature(2);
     msg_.right_motor_temp = system_status->getTemperature(3);
 
     stat.add("Uptime", msg_.uptime);
-    stat.add("Bus Voltage", msg_.bus_voltage);
-    stat.add("Left motor driver (C)", msg_.left_driver_temp);
-    stat.add("Right motor driver (C)", msg_.right_driver_temp);
-    stat.add("Left motor (C)", msg_.left_motor_temp);
-    stat.add("Right motor (C)", msg_.right_motor_temp);
+	
+    stat.add("Battery Voltage", msg_.battery_voltage);
+	stat.add("Left Motor Driver Voltage", msg_.left_driver_voltage);
+	stat.add("Right Motor Driver Voltage", msg_.right_driver_voltage);
+
+    stat.add("MCU and User Port Current", msg_.mcu_and_user_port_current);
+	stat.add("Left Motor Driver Current", msg_.left_driver_current);
+	stat.add("Right Motor Driver Current", msg_.right_driver_current);
+	
+    stat.add("Left Motor Driver Temp (C)", msg_.left_driver_temp);
+    stat.add("Right Motor Driver Temp (C)", msg_.right_driver_temp);
+    stat.add("Left Motor Temp (C)", msg_.left_motor_temp);
+    stat.add("Right Motor Temp (C)", msg_.right_motor_temp);
 
     stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "System Status OK");
     if (msg_.bus_voltage > OVERVOLT_ERROR)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Main bus voltage too high");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Main battery voltage too high");
     }
     else if (msg_.bus_voltage > OVERVOLT_WARN)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Main bus voltage too high");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Main battery voltage too high");
     }
     else if (msg_.bus_voltage < UNDERVOLT_ERROR)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Main bus voltage too low");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Main battery voltage too low");
     }
     else if (msg_.bus_voltage < UNDERVOLT_WARN)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Main bus voltage too low");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Main battery voltage too low");
     }
     else
     {
@@ -168,13 +182,13 @@ namespace husky_base
   void HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
       diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataSafetySystemStatus>::Ptr &safety_status)
   {
-    msg_.flags = safety_status->getFlags();
-    msg_.timeout = (msg_.flags & SAFETY_TIMEOUT) > 0;
-    msg_.lockout = (msg_.flags & SAFETY_LOCKOUT) > 0;
-    msg_.e_stop = (msg_.flags & SAFETY_ESTOP) > 0;
-    msg_.ros_pause = (msg_.flags & SAFETY_CCI) > 0;
-    msg_.no_battery = (msg_.flags & SAFETY_PSU) > 0;
-    msg_.current_limit = (msg_.flags & SAFETY_CURRENT) > 0;
+    uint16_t flags = safety_status->getFlags();
+    msg_.timeout = (flags & SAFETY_TIMEOUT) > 0;
+    msg_.lockout = (flags & SAFETY_LOCKOUT) > 0;
+    msg_.e_stop = (flags & SAFETY_ESTOP) > 0;
+    msg_.ros_pause = (flags & SAFETY_CCI) > 0;
+    msg_.no_battery = (flags & SAFETY_PSU) > 0;
+    msg_.current_limit = (flags & SAFETY_CURRENT) > 0;
 
     stat.add("Timeout", static_cast<bool>(msg_.timeout));
     stat.add("Lockout", static_cast<bool>(msg_.lockout));
@@ -184,11 +198,11 @@ namespace husky_base
     stat.add("Current limit", static_cast<bool>(msg_.current_limit));
 
     stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Safety System OK");
-    if ((msg_.flags & SAFETY_ERROR) > 0)
+    if ((flags & SAFETY_ERROR) > 0)
     {
       stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Safety System Error");
     }
-    else if ((msg_.flags & SAFETY_WARN) > 0)
+    else if ((flags & SAFETY_WARN) > 0)
     {
       stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Safety System Warning");
     }
