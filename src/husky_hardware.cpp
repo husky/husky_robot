@@ -126,7 +126,7 @@ namespace husky_base
     diagnostic_updater_.add(power_status_task_);
     diagnostic_updater_.add(safety_status_task_);
     diagnostic_updater_.add(software_status_task_);
-    diagnostic_publisher_ = private_nh_.advertise<husky_msgs::HuskyStatus>("status", 10);
+    diagnostic_publisher_ = nh_.advertise<husky_msgs::HuskyStatus>("status", 10);
   }
 
 
