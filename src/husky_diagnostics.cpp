@@ -100,19 +100,19 @@ namespace husky_base
     stat.add("Right Motor Temp (C)", msg_.right_motor_temp);
 
     stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "System Status OK");
-    if (msg_.bus_voltage > OVERVOLT_ERROR)
+    if (msg_.battery_voltage > OVERVOLT_ERROR)
     {
       stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Main battery voltage too high");
     }
-    else if (msg_.bus_voltage > OVERVOLT_WARN)
+    else if (msg_.battery_voltage > OVERVOLT_WARN)
     {
       stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Main battery voltage too high");
     }
-    else if (msg_.bus_voltage < UNDERVOLT_ERROR)
+    else if (msg_.battery_voltage < UNDERVOLT_ERROR)
     {
       stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Main battery voltage too low");
     }
-    else if (msg_.bus_voltage < UNDERVOLT_WARN)
+    else if (msg_.battery_voltage < UNDERVOLT_WARN)
     {
       stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Main battery voltage too low");
     }
