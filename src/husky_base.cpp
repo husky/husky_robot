@@ -33,11 +33,9 @@
 #include "ros/callback_queue.h"
 #include "husky_base/husky_hardware.h"
 
-void diagnosticLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky)
-{
-  husky.updateDiagnostics();
-}
-
+/**
+* Control loop for Husky, not realtime safe due to ros comms.
+*/
 void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
     controller_manager::ControllerManager &cm)
 {
@@ -45,6 +43,14 @@ void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
   husky.updateJointsFromHardware();
   cm.update(event.current_real, event.current_real - event.last_real);
   husky.writeCommandsToHardware();
+}
+
+/**
+* Diagnostics loop for Husky, not realtime safe.
+*/
+void diagnosticLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky)
+{
+  husky.updateDiagnostics();
 }
 
 int main(int argc, char *argv[])
@@ -60,8 +66,13 @@ int main(int argc, char *argv[])
   husky_base::HuskyHardware husky(nh, private_nh);
   controller_manager::ControllerManager cm(&husky, nh);
 
-  // Setup loops to process latest control and diagnostic messages
+  // Setup separate queue and single-threaded spinner to process timer callbacks
+  // that interface with Husky hardware - libhorizon_legacy not threadsafe. This
+  // avoids having to lock around hardware access, but precludes realtime safety
+  // in the control loop.
   ros::CallbackQueue husky_queue;
+  ros::AsyncSpinner husky_spinner(1, &husky_queue);
+
   ros::TimerOptions control_timer(
       ros::Duration(1 / control_frequency),
       boost::bind(controlLoop, _1, boost::ref(husky), boost::ref(cm)),
@@ -73,9 +84,7 @@ int main(int argc, char *argv[])
       boost::bind(diagnosticLoop, _1, boost::ref(husky)),
       &husky_queue);
   ros::Timer diagnostic_loop = nh.createTimer(diagnostic_timer);
-
-  // Process all hardware-related timer callbacks serially on separate queue, libhorizon_legacy not threadsafe
-  ros::AsyncSpinner husky_spinner(1, &husky_queue);
+  
   husky_spinner.start();
 
   // Process remainder of ROS callbacks separately, mainly ControlManager related
