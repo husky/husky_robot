@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(husky_base)
 
 find_package(catkin REQUIRED COMPONENTS controller_manager diff_drive_controller hardware_interface roscpp
-  diagnostic_updater roslaunch roslint husky_msgs tf)
+  diagnostic_updater roslaunch roslint husky_msgs)
 find_package(Boost REQUIRED COMPONENTS thread)
 
 catkin_package()
