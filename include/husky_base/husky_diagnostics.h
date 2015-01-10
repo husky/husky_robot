@@ -29,14 +29,13 @@
 *
 */
 
-#include "ros/ros.h"
-#include "diagnostic_updater/diagnostic_updater.h"
-#include "husky_base/horizon_legacy/clearpath.h"
-#include "husky_base/horizon_legacy_wrapper.h"
-#include "husky_msgs/HuskyStatus.h"
-
 #ifndef HUSKY_BASE_HUSKY_DIAGNOSTICS_H
 #define HUSKY_BASE_HUSKY_DIAGNOSTICS_H
+
+#include "ros/ros.h"
+#include "diagnostic_updater/diagnostic_updater.h"
+#include "husky_base/horizon_legacy_wrapper.h"
+#include "husky_msgs/HuskyStatus.h"
 
 namespace husky_base
 {

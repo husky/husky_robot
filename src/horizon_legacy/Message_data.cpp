@@ -62,12 +62,6 @@ enum MessageTypes MessageClass::getTypeID() { \
     return DataMsgID; \
 }
 
-// Conditions on the below to handle compiling for nonstandard hardware
-#ifndef TRANSPORT_AVAIL
-#undef MESSAGE_CONVENIENCE_FNS
-#define MESSAGE_CONVENIENCE_FNS(MessageClass, DataMsgID)
-#endif
-
   MESSAGE_CONSTRUCTORS(DataAckermannOutput, PAYLOAD_LEN)
 
   MESSAGE_CONVENIENCE_FNS(DataAckermannOutput, DATA_ACKERMANN_SETPTS)

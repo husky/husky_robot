@@ -29,13 +29,10 @@
 *
 */
 
-#include "husky_base/horizon_legacy/clearpath.h"
-
 #ifndef HUSKY_BASE_HORIZON_LEGACY_WRAPPER_H
 #define HUSKY_BASE_HORIZON_LEGACY_WRAPPER_H
 
-#define TRANSPORT_AVAIL
-#define linux_x86
+#include "husky_base/horizon_legacy/clearpath.h"
 
 namespace
 {

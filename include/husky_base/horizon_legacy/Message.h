@@ -149,11 +149,7 @@ namespace clearpath
 
     virtual ~Message();
 
-#ifdef TRANSPORT_AVAIL
-
     void send();
-
-#endif
 
     uint8_t getLength();  // as reported by packet length field.
     uint8_t getLengthComp();
@@ -206,13 +202,9 @@ namespace clearpath
 
     static Message *factory(void *input, size_t msg_len);
 
-#ifdef TRANSPORT_AVAIL
-
     static Message *popNext();
 
     static Message *waitNext(double timeout = 0.0);
-
-#endif
 
   }; // class Message
 

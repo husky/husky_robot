@@ -129,8 +129,6 @@ namespace clearpath
     // nothing to do, actually.
   }
 
-#ifdef TRANSPORT_AVAIL
-
   void Message::send()
   {
     // We will retry up to 3 times if we receive CRC errors
@@ -159,8 +157,6 @@ namespace clearpath
 #endif
     Transport::instance().send(this);
   }
-
-#endif
 
 /**
 * Copies message payload into a provided buffer.
@@ -487,8 +483,6 @@ namespace clearpath
     } // switch getType()
   } // factory()
 
-#ifdef TRANSPORT_AVAIL
-
   Message *Message::popNext()
   {
     return Transport::instance().popNext();
@@ -498,8 +492,6 @@ namespace clearpath
   {
     return Transport::instance().waitNext(timeout);
   }
-
-#endif
 
 }; // namespace clearpath
 

@@ -29,11 +29,10 @@
 *
 */
 
+#include "husky_base/husky_hardware.h"
 #include <boost/assign/list_of.hpp>
 #include <string>
 #include <algorithm>
-
-#include "husky_base/husky_hardware.h"
 
 namespace
 {

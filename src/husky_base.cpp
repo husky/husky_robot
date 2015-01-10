@@ -29,9 +29,9 @@
 *
 */
 
+#include "husky_base/husky_hardware.h"
 #include "controller_manager/controller_manager.h"
 #include "ros/callback_queue.h"
-#include "husky_base/husky_hardware.h"
 
 /**
 * Control loop for Husky, not realtime safe due to ros comms.

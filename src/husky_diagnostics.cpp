@@ -29,11 +29,10 @@
 *
 */
 
-#include <algorithm>
-#include <limits>
-
 #include "husky_base/husky_diagnostics.h"
 #include "husky_msgs/HuskyStatus.h"
+#include <algorithm>
+#include <limits>
 
 namespace
 {
