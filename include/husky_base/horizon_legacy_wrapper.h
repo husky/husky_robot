@@ -34,6 +34,9 @@
 #ifndef HUSKY_BASE_HORIZON_LEGACY_WRAPPER_H
 #define HUSKY_BASE_HORIZON_LEGACY_WRAPPER_H
 
+#define TRANSPORT_AVAIL
+#define linux_x86
+
 namespace
 {
   const uint16_t UNSUBSCRIBE = 0xFFFF;

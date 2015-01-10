@@ -2,14 +2,12 @@ cmake_minimum_required(VERSION 2.8.3)
 project(husky_base)
 
 find_package(catkin REQUIRED COMPONENTS controller_manager diff_drive_controller hardware_interface roscpp
-  diagnostic_updater roslaunch roslint husky_msgs)
+  diagnostic_updater roslaunch roslint husky_msgs tf)
 find_package(Boost REQUIRED COMPONENTS thread)
 
 catkin_package()
 
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Dlinux_x86 -DTRANSPORT_AVAIL")
 
 add_library(horizon_legacy
   src/horizon_legacy/crc.cpp
