@@ -2,6 +2,12 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixed encoder overflow issue
+* Ported to ros_control for Indigo release
+* Contributors: Mike Purvis, Paul Bovbel, finostro
+
 0.0.5 (2013-10-04)
 ------------------
 * Mark the config directory to install.
