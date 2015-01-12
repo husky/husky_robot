@@ -6,8 +6,8 @@
     <param name="mag_updates" type="bool" value="false"/>
   </node>
 
-  <node pkg="imu_compass" type="imu_compass" name="imu_compass" respawn="true">
+  <!--node pkg="imu_compass" type="imu_compass" name="imu_compass" respawn="true">
     <rosparam command="load" file="/etc/ros/$(env ROS_DISTRO)/imu_compass.yaml"/>
-  </node>
+  </node-->
 
 </launch>
