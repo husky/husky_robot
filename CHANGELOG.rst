@@ -2,8 +2,8 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2015-01-13)
+------------------
 * Port to robot_localization, gyro only pending um6 fixes
 * changed the launch file to match parameter namespace changes in the imu_compass node
 * ported kingfisher compass calibration to husky
