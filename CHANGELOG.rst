@@ -2,6 +2,11 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add missing description dependency
+* Contributors: Paul Bovbel
+
 0.1.0 (2015-01-12)
 ------------------
 * Fixed encoder overflow issue
