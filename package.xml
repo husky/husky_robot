@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>husky_base</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <description>Clearpath Husky driver, including ros_control integration</description>
 
   <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
