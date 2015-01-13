@@ -2,6 +2,18 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Port to robot_localization, gyro only pending um6 fixes
+* changed the launch file to match parameter namespace changes in the imu_compass node
+* ported kingfisher compass calibration to husky
+* Added Microstrain device condition - Looks for an attached Microstrain device and installs the necessary launch files from the microstrain_config directory.
+* Update sick.launch - Fixed binary name
+* Change default IP for LIDAR to 192.168.1.14
+* Add launcher for sick LIDAR.
+* Added Microstrain launch file and udev rule.
+* Contributors: Jeff Schmidt, Mike Purvis, Paul Bovbel, Prasenjit Mukherjee
+
 0.0.6 (2013-10-12)
 ------------------
 * Restore leading slash in checking the joystick path.
