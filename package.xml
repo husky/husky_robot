@@ -25,6 +25,7 @@
   <run_depend>geometry_msgs</run_depend>
   <run_depend>husky_control</run_depend>
   <run_depend>husky_msgs</run_depend>
+  <run_depend>husky_description</run_depend>
   <run_depend>topic_tools</run_depend>
 
   <export></export>
