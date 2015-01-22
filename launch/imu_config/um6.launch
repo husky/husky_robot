@@ -1,13 +1,23 @@
 <?xml version="1.0"?>
 <launch>
   
-  <node pkg="um6" type="um6_driver" name="um6_driver">
-    <param name="port" type="string" value="$(optenv HUSKY_IMU_PORT /dev/clearpath/imu)"/>
-    <param name="mag_updates" type="bool" value="false"/>
-  </node>
+	<node pkg="um6" type="um6_driver" name="um6_driver">
+		<param name="port" type="string" value="$(optenv HUSKY_IMU_PORT /dev/clearpath/imu)"/>
+		<param name="mag_updates" type="bool" value="false"/>
+		<param name="frame_id" value="imu_link"/>
+		<param name="tf_ned_to_enu" value="false"/>
+		<remap from="imu/data" to="imu/data_raw"/>
+	</node>
 
-  <!--node pkg="imu_compass" type="imu_compass" name="imu_compass" respawn="true">
-    <rosparam command="load" file="/etc/ros/$(env ROS_DISTRO)/imu_compass.yaml"/>
-  </node-->
+	<!-- Filter raw gyro, accel and mag data into a usable IMU message -->
+	<node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
+	  <rosparam file="/opt/ros/indigo/etc/husky_base/mag_config.yaml" />
+	  <rosparam>
+	    gain: 0.1
+	    zeta: 0.001
+	    publish_tf: false
+	  </rosparam>
+	</node> 
+
 
 </launch>

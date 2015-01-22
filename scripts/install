@@ -1,7 +1,7 @@
 #!/bin/bash
 source `rospack find rosbash`/rosbash
 
-# Install the udev rules.
+# Install the udev rules TODO do with deb
 rospd husky_bringup/udev > /dev/null
 echo "Installing udev rules."
 sudo cp *.rules /etc/udev/rules.d/
@@ -18,28 +18,15 @@ $install_pkg husky_base/launch --job husky-core \
                                --interface ${1-${ROBOT_NETWORK-eth0}} \
                                --setup ${ROBOT_SETUP-$(roscd; echo `pwd`/setup.bash)}
 
-COMPASS_YAML=/etc/ros/$ROS_DISTRO/imu_compass.yaml
 
 # Install the IMU launchers if the standard serial imu (um6) is attached.
 if [ -e /dev/clearpath/imu ]; then
   $install_pkg husky_bringup/launch/imu_config --job husky-core --augment
-  if [ -e "$COMPASS_YAML" ]; then
-    echo "Compass yaml config already exists, skipping."
-  else 
-    echo "Installing compass yaml file to $COMPASS_YAML"
-    sudo cp "$(rospack find husky_bringup)/config/imu_compass.yaml" "$COMPASS_YAML"
-  fi
 fi
 
 # Install the IMU launchers if Microstrain 3DMGX2 IMU is attached.
 if [ -e /dev/microstrain ]; then
   $install_pkg husky_bringup/launch/microstrain_config --job husky-core --augment
-  if [ -e "$COMPASS_YAML" ]; then
-    echo "Compass yaml config already exists, skipping."
-  else 
-    echo "Installing compass yaml file to $COMPASS_YAML"
-    sudo cp "$(rospack find husky_bringup)/config/imu_compass.yaml" "$COMPASS_YAML"
-  fi
 fi
 
 # Install the NavSat launchers if an NMEA GPS is attached.
