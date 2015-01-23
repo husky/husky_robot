@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <launch>
-  
-  <!-- Push um6 data into raw namespace, ignore internal orientation output -->
-	<node pkg="um6" type="um6_driver" name="um6_driver">
-		<param name="port" type="string" value="$(optenv HUSKY_IMU_PORT /dev/clearpath/imu)"/>
-		<param name="mag_updates" type="bool" value="false"/>
-		<param name="frame_id" value="imu_link"/>
-		<param name="tf_ned_to_enu" value="false"/>
-		<remap from="imu/data" to="imu/data_raw"/>
-	</node>
 
-	<!-- Filter raw gyro, accel and mag data into a usable orientation -->
-	<node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
+  <!-- Push um6 data into raw namespace, ignore internal orientation output -->
+  <node pkg="um6" type="um6_driver" name="um6_driver">
+    <param name="port" type="string" value="$(optenv HUSKY_IMU_PORT /dev/clearpath/imu)"/>
+    <param name="mag_updates" type="bool" value="false"/>
+    <param name="frame_id" value="imu_link"/>
+    <param name="tf_ned_to_enu" value="false"/>
+    <remap from="imu/data" to="imu/data_raw"/>
+  </node>
+
+  <!-- Filter raw gyro, accel and mag data into a usable orientation -->
+  <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
     <rosparam file="$(env HUSKY_MAG_CONFIG)" />
-	  <rosparam>
-	    gain: 0.1
-	    zeta: 0.001
-	    publish_tf: false
-	  </rosparam>
-	</node> 
+    <rosparam>
+      gain: 0.1
+      zeta: 0.001
+      publish_tf: false
+    </rosparam>
+  </node> 
 
 
 </launch>

@@ -10,6 +10,7 @@ catkin_add_env_hooks(50.husky_find_mag_config
 roslaunch_add_file_check(launch/imu_config)
 roslaunch_add_file_check(launch/microstrain_config)
 roslaunch_add_file_check(launch/sick_config)
+roslaunch_add_file_check(launch/navsat_config)
 
 # These won't pass as long as we explicitly include a config file
 # from an absolute /etc path. Probably need to specify that location
