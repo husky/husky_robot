@@ -1,37 +1,20 @@
-#!/bin/bash
-source `rospack find rosbash`/rosbash
+#!/usr/bin/env python
 
-# Install the udev rules TODO do with deb
-rospd husky_bringup/udev > /dev/null
-echo "Installing udev rules."
-sudo cp *.rules /etc/udev/rules.d/
-popd > /dev/null
-sudo udevadm trigger
+import robot_upstart
+import os
 
-# Install the upstart job, populate it with launch files.
-#  * For the network interface, first try script parameter $1, then ROBOT_NETWORK, then eth0.
-#  * For the setup.bash to use, first try ROBOT_SETUP, then fall back on setup.bash from active workspace.
-#    In CPR-configured Ubuntu machines, /etc/ros/setup.bash is a wrapper on /opt/ros/xxx/setup.bash, and sets the
-#    ROBOT_SETUP var to itself. This allows platform-wide env vars to be placed in that file.
-install_pkg="rosrun robot_upstart install"
-$install_pkg husky_base/launch --job husky-core \
-                               --interface ${1-${ROBOT_NETWORK-eth0}} \
-                               --setup ${ROBOT_SETUP-$(roscd; echo `pwd`/setup.bash)}
+j = robot_upstart.Job(name="husky-core", interface=os.environ['ROBOT_NETWORK'], workspace_setup=os.environ['ROBOT_SETUP'])
 
+# Stuff to launch on system startup.
+j.add(package="husky_base", glob="launch/*")
 
-# Install the IMU launchers if the standard serial imu (um6) is attached.
-if [ -e /dev/clearpath/imu ]; then
-  $install_pkg husky_bringup/launch/imu_config --job husky-core --augment
-fi
+if os.path.exists('/dev/clearpath/imu'):
+  j.add(package="husky_bringup", glob="launch/um6_config/*")
 
-# Install the IMU launchers if Microstrain 3DMGX2 IMU is attached.
-if [ -e /dev/microstrain ]; then
-  $install_pkg husky_bringup/launch/microstrain_config --job husky-core --augment
-fi
+if os.path.exists('/dev/microstrain'):
+  j.add(package="husky_bringup", glob="launch/microstrain_config/*")
 
-# Install the NavSat launchers if an NMEA GPS is attached.
-if [ -e /dev/clearpath/gps ]; then
-  $install_pkg husky_bringup/launch/navsat_config --job husky-core --augment
-fi
+if os.path.exists('/dev/clearpath/gos'):
+  j.add(package="husky_bringup", glob="launch/navsat_config/*")
 
-# TODO: Automatically detect more standard peripherals.
+j.install()
