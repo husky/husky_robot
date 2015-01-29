@@ -9,8 +9,8 @@ catkin_add_env_hooks(50.husky_find_mag_config
 
 roslaunch_add_file_check(launch)
 
-install(DIRECTORY scripts
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(PROGRAMS scripts/install scripts/calibrate_compass scripts/compute_calibration 
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(DIRECTORY launch udev config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
