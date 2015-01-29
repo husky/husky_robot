@@ -24,8 +24,8 @@
     <remap from="imu/mag" to="imu_enu/mag"/>
     <rosparam file="$(env HUSKY_MAG_CONFIG)" />
     <rosparam>
-      orientation_stddev: 0.01
-      gain: 0.1
+      orientation_stddev: 0.001
+      gain: 0.01
       zeta: 0.001
       publish_tf: false
     </rosparam>
