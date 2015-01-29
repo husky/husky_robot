@@ -43,9 +43,9 @@ for topic, msg, time in bag.read_messages(topics=("/imu/mag",)):
 
 print ("Using " + str(len(vecs)) + " samples.")
 
-def calc_R(yc, zc):
+def calc_R(xc, yc):
     """ calculate the distance of each 2D points from the center (xc, yc) """
-    return hypot(y-yc, z-zc)
+    return hypot(x-xc, y-yc)
 
 def f_2(c):
     """ calculate the algebraic distance between the 2D points and the mean circle centered at c=(xc, yc) """
@@ -54,16 +54,15 @@ def f_2(c):
 
 
 x,y,z = zip(*vecs)
-center_estimate = mean(y), mean(z)
+center_estimate = mean(x), mean(y)
 center, ier = optimize.leastsq(f_2, center_estimate)
 radius = calc_R(*center).mean()
-center = (mean(x), center[0], center[1])
+center = (center[0], center[1], mean(z))
 
 a = arange(0, 2*pi + pi/50, pi/50)
-circle_points = (center[0] * ones(len(a)),
-                 center[1] + cos(a) * radius, 
-                 center[2] + sin(a) * radius
-                 )
+circle_points = (center[0] + cos(a) * radius, 
+                 center[1] + sin(a) * radius, 
+                 center[2] * ones(len(a)))
 
 print("Magnetic circle centered at " + str(center) + ", with radius " + str(radius))
 
@@ -73,7 +72,6 @@ with open(args.outfile, "w") as f:
   f.write("mag_bias_x: {:.9f}\n".format(center[0]))
   f.write("mag_bias_y: {:.9f}\n".format(center[1]))
   f.write("mag_bias_z: {:.9f}\n".format(center[2]))
-  f.write("mag_radius: {:.9f}\n".format(radius))
 
 print("Calibration file written to " + args.outfile)
 
@@ -83,3 +81,4 @@ if pyplot:
   ax2.scatter(x, y, z)
   ax2.plot(*circle_points, c="red")
   pyplot.show()
+
