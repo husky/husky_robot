@@ -2,6 +2,11 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update description and maintainers
+* Contributors: Paul Bovbel
+
 0.1.2 (2015-01-20)
 ------------------
 * Fix library install location
