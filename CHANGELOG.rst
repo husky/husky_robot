@@ -2,6 +2,17 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update website and authors
+* Add transform to transfer IMU data to base_link frame
+* Make ROBOT_NETWORK optional
+* Switch to robot_upstart python API
+* Switch to debhelper install method for udeb rules
+* Switch to env-hook for file storage
+* Switch to new calibration method for um6; switch to imu_filter_magwick
+* Contributors: Paul Bovbel
+
 0.1.0 (2015-01-13)
 ------------------
 * Port to robot_localization, gyro only pending um6 fixes
