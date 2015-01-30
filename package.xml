@@ -11,6 +11,10 @@
 
   <license>BSD</license>
 
+  <url type="website">http://ros.org/wiki/husky_base</url>
+  <url type="bugtracker">https://github.com/husky/husky_base/issues</url>
+  <url type="repository">https://github.com/husly/husky_base</url>
+
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>controller_manager</build_depend>  
   <build_depend>diagnostic_updater</build_depend>
