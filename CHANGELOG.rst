@@ -2,8 +2,8 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.1 (2015-01-30)
+------------------
 * Update website and authors
 * Add transform to transfer IMU data to base_link frame
 * Make ROBOT_NETWORK optional
