@@ -2,8 +2,8 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.3 (2015-01-30)
+------------------
 * Update description and maintainers
 * Contributors: Paul Bovbel
 
