@@ -2,7 +2,10 @@
 <package>
   <name>husky_base</name>
   <version>0.1.2</version>
-  <description>Clearpath Husky driver, including ros_control integration</description>
+  <description>Clearpath Husky robot driver</description>
+
+  <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
+  <author email="pbovbel@clearpathrobotics.com">Paul Bovbel</author>
 
   <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
 
