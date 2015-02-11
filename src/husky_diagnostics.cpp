@@ -46,6 +46,8 @@ namespace
   const int MOTOR_OVERTEMP_WARN = 70;
   const double LOWPOWER_ERROR = 0.2;
   const double LOWPOWER_WARN = 0.3;
+  const int CONTROLFREQ_WARN = 90;
+  const int CONTROLFREQ_ERROR = 80;
   const unsigned int SAFETY_TIMEOUT = 0x1;
   const unsigned int SAFETY_LOCKOUT = 0x2;
   const unsigned int SAFETY_ESTOP = 0x8;
@@ -230,16 +232,23 @@ namespace husky_base
     msg_.ros_control_loop_freq = control_freq_;
     stat.add("ROS Control Loop Frequency", msg_.ros_control_loop_freq);
 
-    double margin = msg_.ros_control_loop_freq / target_control_freq_;
+    double margin = control_freq_ / target_control_freq_ * 100;
+
+    ROS_INFO_STREAM("loop " << control_freq_ << " target " << target_control_freq_);
 
     stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Software OK");
-    if (margin < 0.95)
+    if (margin < CONTROLFREQ_ERROR)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Control loop executing 5% slower than desired");
+      std::ostringstream message;
+      message << "Control loop executing " << 100 - static_cast<int>(margin) << "% slower than "
+          "desired";
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, message.str());
     }
-    else if (margin < 0.98)
+    else if (margin < CONTROLFREQ_WARN)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Control loop executing 2% slower than desired");
+      std::ostringstream message;
+      message << "Control loop executing " << 100 - static_cast<int>(margin) << "% slower than desired";
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, message.str());
     }
 
     reset();
