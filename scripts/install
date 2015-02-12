@@ -14,7 +14,7 @@ if os.path.exists('/dev/clearpath/imu'):
 if os.path.exists('/dev/microstrain'):
   j.add(package="husky_bringup", glob="launch/microstrain_config/*")
 
-if os.path.exists('/dev/clearpath/gos'):
+if os.path.exists('/dev/clearpath/gps'):
   j.add(package="husky_bringup", glob="launch/navsat_config/*")
 
 j.install()

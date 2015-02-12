@@ -19,7 +19,7 @@ if [[ "$?" != "0" ]]; then
   exit 1
 fi
 
-rosbag record /tf /imu_enu/data /imu_enu/mag -O $BAG_FILE --duration $DURATION &
+rosbag record /tf /imu/data /imu/mag -O $BAG_FILE --duration $DURATION &
 ROSBAG_PID=$!
 echo "Started rosbag record, duration $DURATION seconds, pid [${ROSBAG_PID}]"
 
