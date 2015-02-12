@@ -1,7 +1,7 @@
 /**
 *
 *  \author     Paul Bovbel <pbovbel@clearpathrobotics.com>
-*  \copyright  Copyright (c) 2014, Clearpath Robotics, Inc.
+*  \copyright  Copyright (c) 2014-2015, Clearpath Robotics, Inc.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -63,14 +63,14 @@ namespace husky_base
 
     void run(diagnostic_updater::DiagnosticStatusWrapper &stat)
     {
-      typename Msg<T>::Ptr latest = Msg<T>::getUpdate();
+      typename horizon_legacy::Channel<T>::Ptr latest = horizon_legacy::Channel<T>::requestData(1.0);
       if (latest)
       {
         update(stat, latest);
       }
     }
 
-    void update(diagnostic_updater::DiagnosticStatusWrapper &stat, typename Msg<T>::Ptr &status);
+    void update(diagnostic_updater::DiagnosticStatusWrapper &stat, typename horizon_legacy::Channel<T>::Ptr &status);
 
   private:
     husky_msgs::HuskyStatus &msg_;
@@ -87,15 +87,15 @@ namespace husky_base
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataSystemStatus>::Ptr &status);
+      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataSystemStatus>::Ptr &status);
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataPowerSystem>::Ptr &status);
+      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataPowerSystem>::Ptr &status);
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataSafetySystemStatus>::Ptr &status);
+      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataSafetySystemStatus>::Ptr &status);
 
 }  // namespace husky_base
 #endif  // HUSKY_BASE_HUSKY_DIAGNOSTICS_H

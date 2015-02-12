@@ -1,7 +1,7 @@
 /**
 *
 *  \author     Paul Bovbel <pbovbel@clearpathrobotics.com>
-*  \copyright  Copyright (c) 2014, Clearpath Robotics, Inc.
+*  \copyright  Copyright (c) 2014-2015, Clearpath Robotics, Inc.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,7 @@
 * Control loop for Husky, not realtime safe due to ros comms.
 */
 void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
-    controller_manager::ControllerManager &cm)
+                 controller_manager::ControllerManager &cm)
 {
   husky.reportLoopFrequency(event);
   husky.updateJointsFromHardware();
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
       boost::bind(diagnosticLoop, _1, boost::ref(husky)),
       &husky_queue);
   ros::Timer diagnostic_loop = nh.createTimer(diagnostic_timer);
-  
+
   husky_spinner.start();
 
   // Process remainder of ROS callbacks separately, mainly ControlManager related

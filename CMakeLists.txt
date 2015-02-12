@@ -21,14 +21,18 @@ add_library(horizon_legacy
   src/horizon_legacy/linux_serial.cpp
   )
 
-add_executable(husky_node src/husky_base.cpp src/husky_hardware.cpp src/husky_diagnostics.cpp)
+add_executable(husky_node
+  src/husky_base.cpp
+  src/husky_hardware.cpp
+  src/husky_diagnostics.cpp
+  src/horizon_legacy_wrapper.cpp)
 target_link_libraries(husky_node horizon_legacy ${catkin_LIBRARIES})
 add_dependencies(husky_node husky_msgs_gencpp)
 
 roslint_cpp(
   src/husky_base.cpp 
   src/husky_hardware.cpp 
-  src/husky_diagnostics.cpp 
+  src/husky_diagnostics.cpp
   include/husky_base/husky_diagnostics.h 
   include/husky_base/husky_hardware.h
   )

@@ -1,7 +1,7 @@
 /**
 *
 *  \author     Paul Bovbel <pbovbel@clearpathrobotics.com>
-*  \copyright  Copyright (c) 2014, Clearpath Robotics, Inc.
+*  \copyright  Copyright (c) 2014-2015, Clearpath Robotics, Inc.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -30,9 +30,6 @@
 */
 
 #include "husky_base/husky_diagnostics.h"
-#include "husky_msgs/HuskyStatus.h"
-#include <algorithm>
-#include <limits>
 
 namespace
 {
@@ -47,7 +44,6 @@ namespace
   const double LOWPOWER_ERROR = 0.2;
   const double LOWPOWER_WARN = 0.3;
   const int CONTROLFREQ_WARN = 90;
-  const int CONTROLFREQ_ERROR = 80;
   const unsigned int SAFETY_TIMEOUT = 0x1;
   const unsigned int SAFETY_LOCKOUT = 0x2;
   const unsigned int SAFETY_ESTOP = 0x8;
@@ -64,37 +60,38 @@ namespace husky_base
   template<>
   HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
       : DiagnosticTask("system_status"),
-        msg_(msg) { }
+        msg_(msg)
+  {}
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
-      Msg<clearpath::DataSystemStatus>::Ptr &system_status)
+                                                                        horizon_legacy::Channel<clearpath::DataSystemStatus>::Ptr &system_status)
   {
     msg_.uptime = system_status->getUptime();
-    
-	msg_.battery_voltage = system_status->getVoltage(0);
+
+    msg_.battery_voltage = system_status->getVoltage(0);
     msg_.left_driver_voltage = system_status->getVoltage(1);
     msg_.right_driver_voltage = system_status->getVoltage(2);
-    
-	msg_.mcu_and_user_port_current = system_status->getCurrent(0);
-	msg_.left_driver_current = system_status->getCurrent(1);
-	msg_.right_driver_current = system_status->getCurrent(2);
-	
-	msg_.left_driver_temp = system_status->getTemperature(0);
+
+    msg_.mcu_and_user_port_current = system_status->getCurrent(0);
+    msg_.left_driver_current = system_status->getCurrent(1);
+    msg_.right_driver_current = system_status->getCurrent(2);
+
+    msg_.left_driver_temp = system_status->getTemperature(0);
     msg_.right_driver_temp = system_status->getTemperature(1);
     msg_.left_motor_temp = system_status->getTemperature(2);
     msg_.right_motor_temp = system_status->getTemperature(3);
 
     stat.add("Uptime", msg_.uptime);
-	
+
     stat.add("Battery Voltage", msg_.battery_voltage);
-	stat.add("Left Motor Driver Voltage", msg_.left_driver_voltage);
-	stat.add("Right Motor Driver Voltage", msg_.right_driver_voltage);
+    stat.add("Left Motor Driver Voltage", msg_.left_driver_voltage);
+    stat.add("Right Motor Driver Voltage", msg_.right_driver_voltage);
 
     stat.add("MCU and User Port Current", msg_.mcu_and_user_port_current);
-	stat.add("Left Motor Driver Current", msg_.left_driver_current);
-	stat.add("Right Motor Driver Current", msg_.right_driver_current);
-	
+    stat.add("Left Motor Driver Current", msg_.left_driver_current);
+    stat.add("Right Motor Driver Current", msg_.right_driver_current);
+
     stat.add("Left Motor Driver Temp (C)", msg_.left_driver_temp);
     stat.add("Right Motor Driver Temp (C)", msg_.right_driver_temp);
     stat.add("Left Motor Temp (C)", msg_.left_motor_temp);
@@ -147,11 +144,12 @@ namespace husky_base
   template<>
   HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
       : DiagnosticTask("power_status"),
-        msg_(msg) { }
+        msg_(msg)
+  {}
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
-      Msg<clearpath::DataPowerSystem>::Ptr &power_status)
+                                                                       horizon_legacy::Channel<clearpath::DataPowerSystem>::Ptr &power_status)
   {
     msg_.charge_estimate = power_status->getChargeEstimate(0);
     msg_.capacity_estimate = power_status->getCapacityEstimate(0);
@@ -177,11 +175,12 @@ namespace husky_base
   template<>
   HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
       : DiagnosticTask("safety_status"),
-        msg_(msg) { }
+        msg_(msg)
+  {}
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, Msg<clearpath::DataSafetySystemStatus>::Ptr &safety_status)
+      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataSafetySystemStatus>::Ptr &safety_status)
   {
     uint16_t flags = safety_status->getFlags();
     msg_.timeout = (flags & SAFETY_TIMEOUT) > 0;
@@ -220,11 +219,11 @@ namespace husky_base
   {
     // calculate rate at which control loop is executing, keep the lowest
     control_freq_ = std::min(control_freq_,
-        1 / (control_event.current_real - control_event.last_real).toSec());
+                             1 / (control_event.current_real - control_event.last_real).toSec());
 
     // calculate rate at which control loop is expecting to be executed, keep the highest
     target_control_freq_ = std::max(target_control_freq_,
-        1 / (control_event.current_expected - control_event.last_expected).toSec());
+                                    1 / (control_event.current_expected - control_event.last_expected).toSec());
   }
 
   void HuskySoftwareDiagnosticTask::run(diagnostic_updater::DiagnosticStatusWrapper &stat)
@@ -234,17 +233,8 @@ namespace husky_base
 
     double margin = control_freq_ / target_control_freq_ * 100;
 
-    ROS_INFO_STREAM("loop " << control_freq_ << " target " << target_control_freq_);
-
     stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Software OK");
-    if (margin < CONTROLFREQ_ERROR)
-    {
-      std::ostringstream message;
-      message << "Control loop executing " << 100 - static_cast<int>(margin) << "% slower than "
-          "desired";
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, message.str());
-    }
-    else if (margin < CONTROLFREQ_WARN)
+    if (margin < CONTROLFREQ_WARN)
     {
       std::ostringstream message;
       message << "Control loop executing " << 100 - static_cast<int>(margin) << "% slower than desired";
