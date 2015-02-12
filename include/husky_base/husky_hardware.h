@@ -1,7 +1,7 @@
 /**
 *
 *  \author     Paul Bovbel <pbovbel@clearpathrobotics.com>
-*  \copyright  Copyright (c) 2014, Clearpath Robotics, Inc.
+*  \copyright  Copyright (c) 2014-2015, Clearpath Robotics, Inc.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -62,7 +62,6 @@ namespace husky_base
     void reportLoopFrequency(const ros::TimerEvent &control_event);
 
   private:
-    void connect(std::string port);
 
     void initializeDiagnostics();
 
@@ -93,6 +92,8 @@ namespace husky_base
 
     // ROS Parameters
     double wheel_diameter_, max_accel_, max_speed_;
+
+    double polling_timeout_;
 
     /**
     * Joint structure that is hooked to ros_control's InterfaceManager, to allow control via diff_drive_controller

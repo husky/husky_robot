@@ -1,7 +1,7 @@
 /**
 *
 *  \author     Paul Bovbel <pbovbel@clearpathrobotics.com>
-*  \copyright  Copyright (c) 2014, Clearpath Robotics, Inc.
+*  \copyright  Copyright (c) 2014-2015, Clearpath Robotics, Inc.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
@@ -31,8 +31,6 @@
 
 #include "husky_base/husky_hardware.h"
 #include <boost/assign/list_of.hpp>
-#include <string>
-#include <algorithm>
 
 namespace
 {
@@ -56,39 +54,16 @@ namespace husky_base
     private_nh_.param<double>("wheel_diameter", wheel_diameter_, 0.3555);
     private_nh_.param<double>("max_accel", max_accel_, 5.0);
     private_nh_.param<double>("max_speed", max_speed_, 1.0);
+    private_nh_.param<double>("polling_timeout_", polling_timeout_, 10.0);
 
     std::string port;
     private_nh_.param<std::string>("port", port, "/dev/prolific");
 
-    connect(port);
+    horizon_legacy::connect(port);
+    horizon_legacy::configureLimits(max_speed_, max_accel_);
     resetTravelOffset();
     initializeDiagnostics();
     registerControlInterfaces();
-  }
-
-  /**
-  * Connect to Husky Hardware via Horizon serial API
-  */
-  void HuskyHardware::connect(std::string port)
-  {
-    try
-    {
-      clearpath::Transport::instance().configure(port.c_str(), 3 /* max retries*/);
-    }
-    catch (clearpath::Exception *ex)
-    {
-      ROS_ERROR_STREAM("Error connecting to Husky: " << ex->message);
-    }
-
-    try
-    {
-      clearpath::SetMaxAccel(max_accel_, max_accel_).send();
-      clearpath::SetMaxSpeed(max_speed_, max_speed_).send();
-    }
-    catch (clearpath::Exception *ex)
-    {
-      ROS_ERROR_STREAM("Error setting Husky parameters: " << ex->message);
-    }
   }
 
   /**
@@ -96,7 +71,7 @@ namespace husky_base
   */
   void HuskyHardware::resetTravelOffset()
   {
-    Msg<clearpath::DataEncoders>::Ptr enc = Msg<clearpath::DataEncoders>::getUpdate();
+    horizon_legacy::Channel<clearpath::DataEncoders>::Ptr enc = horizon_legacy::Channel<clearpath::DataEncoders>::requestData(polling_timeout_);
     if (enc)
     {
       for (int i = 0; i < 4; i++)
@@ -115,8 +90,8 @@ namespace husky_base
   */
   void HuskyHardware::initializeDiagnostics()
   {
-    Msg<clearpath::DataPlatformInfo>::Ptr info = Msg<clearpath::DataPlatformInfo>::getUpdate();
-
+    horizon_legacy::Channel<clearpath::DataPlatformInfo>::Ptr info =
+        horizon_legacy::Channel<clearpath::DataPlatformInfo>::requestData(polling_timeout_);
     std::ostringstream hardware_id_stream;
     hardware_id_stream << "Husky " << info->getModel() << "-" << info->getSerial();
 
@@ -139,7 +114,7 @@ namespace husky_base
     for (unsigned int i = 0; i < joint_names.size(); i++)
     {
       hardware_interface::JointStateHandle joint_state_handle(joint_names[i],
-          &joints_[i].position, &joints_[i].velocity, &joints_[i].effort);
+                                                              &joints_[i].position, &joints_[i].velocity, &joints_[i].effort);
       joint_state_interface_.registerHandle(joint_state_handle);
 
       hardware_interface::JointHandle joint_handle(
@@ -165,7 +140,8 @@ namespace husky_base
   */
   void HuskyHardware::updateJointsFromHardware()
   {
-    Msg<clearpath::DataEncoders>::Ptr enc = Msg<clearpath::DataEncoders>::getUpdate();
+
+    horizon_legacy::Channel<clearpath::DataEncoders>::Ptr enc = horizon_legacy::Channel<clearpath::DataEncoders>::requestData(polling_timeout_);
     if (enc)
     {
       for (int i = 0; i < 4; i++)
@@ -173,20 +149,20 @@ namespace husky_base
         double new_position = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position_offset;
         double delta = new_position - joints_[i].position;
 
-        // detect firmware-side encoder rollover
+        // detect encoder rollover
         if (std::abs(delta) < 1.0)
         {
           joints_[i].position = new_position;
         }
         else
         {
-          // swallow the measurement and update the offset if rollover has occured
+          //  rollover has occured, swallow the measurement and update the offset
           joints_[i].position_offset = delta;
         }
       }
     }
 
-    Msg<clearpath::DataDifferentialSpeed>::Ptr speed = Msg<clearpath::DataDifferentialSpeed>::getUpdate();
+    horizon_legacy::Channel<clearpath::DataDifferentialSpeed>::Ptr speed = horizon_legacy::Channel<clearpath::DataDifferentialSpeed>::requestData(polling_timeout_);
     if (speed)
     {
       for (int i = 0; i < 4; i++)
@@ -213,16 +189,7 @@ namespace husky_base
 
     limitDifferentialSpeed(diff_speed_left, diff_speed_right);
 
-    try
-    {
-      clearpath::SetDifferentialSpeed(
-          diff_speed_left, diff_speed_right,
-          max_accel_, max_accel_).send();
-    }
-    catch (clearpath::Exception *ex)
-    {
-      ROS_ERROR_STREAM("Error sending speed command: " << ex->message);
-    }
+    horizon_legacy::controlSpeed(diff_speed_left, diff_speed_right, max_accel_, max_accel_);
   }
 
   /**
