@@ -52,10 +52,8 @@ namespace horizon_legacy
   void controlSpeed(double speed_left, double speed_right, double accel_left, double accel_right);
 
   template<typename T>
-  class Channel
+  struct Channel
   {
-
-  public:
 
     typedef boost::shared_ptr <T> Ptr;
     typedef boost::shared_ptr<const T> ConstPtr;
@@ -114,11 +112,6 @@ namespace horizon_legacy
     {
       T::subscribe(UNSUBSCRIBE);
     }
-
-  private:
-    std::string port_;
-    unsigned int retry_;
-
 
   };
 
