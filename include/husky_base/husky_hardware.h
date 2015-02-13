@@ -51,7 +51,7 @@ namespace husky_base
   class HuskyHardware : public hardware_interface::RobotHW
   {
   public:
-    HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh);
+    HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh, double target_control_freq);
 
     void updateJointsFromHardware();
 
@@ -59,7 +59,7 @@ namespace husky_base
 
     void updateDiagnostics();
 
-    void reportLoopFrequency(const ros::TimerEvent &control_event);
+    void reportLoopDuration(const ros::Duration &duration);
 
   private:
 

@@ -33,22 +33,34 @@
 #include "controller_manager/controller_manager.h"
 #include "ros/callback_queue.h"
 
+#include <boost/chrono.hpp>
+
+typedef boost::chrono::steady_clock time_source;
+
 /**
-* Control loop for Husky, not realtime safe due to ros comms.
+* Control loop for Husky, not realtime safe
 */
-void controlLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky,
-                 controller_manager::ControllerManager &cm)
+void controlLoop(husky_base::HuskyHardware &husky,
+                 controller_manager::ControllerManager &cm,
+                 time_source::time_point &last_time)
 {
-  husky.reportLoopFrequency(event);
+  // Calculate monotonic time difference
+  time_source::time_point this_time = time_source::now();
+  ros::Duration elapsed(
+      boost::chrono::duration_cast<boost::chrono::seconds>(this_time - last_time).count());
+  last_time = this_time;
+
+  // Process control loop
+  husky.reportLoopDuration(elapsed);
   husky.updateJointsFromHardware();
-  cm.update(event.current_real, event.current_real - event.last_real);
+  cm.update(ros::Time::now(), elapsed);
   husky.writeCommandsToHardware();
 }
 
 /**
-* Diagnostics loop for Husky, not realtime safe.
+* Diagnostics loop for Husky, not realtime safe
 */
-void diagnosticLoop(const ros::TimerEvent &event, husky_base::HuskyHardware &husky)
+void diagnosticLoop(husky_base::HuskyHardware &husky)
 {
   husky.updateDiagnostics();
 }
@@ -63,7 +75,7 @@ int main(int argc, char *argv[])
   private_nh.param<double>("diagnostic_frequency", diagnostic_frequency, 1.0);
 
   // Initialize robot hardware and link to controller manager
-  husky_base::HuskyHardware husky(nh, private_nh);
+  husky_base::HuskyHardware husky(nh, private_nh, control_frequency);
   controller_manager::ControllerManager cm(&husky, nh);
 
   // Setup separate queue and single-threaded spinner to process timer callbacks
@@ -73,15 +85,16 @@ int main(int argc, char *argv[])
   ros::CallbackQueue husky_queue;
   ros::AsyncSpinner husky_spinner(1, &husky_queue);
 
+  time_source::time_point last_time = time_source::now();
   ros::TimerOptions control_timer(
       ros::Duration(1 / control_frequency),
-      boost::bind(controlLoop, _1, boost::ref(husky), boost::ref(cm)),
+      boost::bind(controlLoop, boost::ref(husky), boost::ref(cm), boost::ref(last_time)),
       &husky_queue);
   ros::Timer control_loop = nh.createTimer(control_timer);
 
   ros::TimerOptions diagnostic_timer(
       ros::Duration(1 / diagnostic_frequency),
-      boost::bind(diagnosticLoop, _1, boost::ref(husky)),
+      boost::bind(diagnosticLoop, boost::ref(husky)),
       &husky_queue);
   ros::Timer diagnostic_loop = nh.createTimer(diagnostic_timer);
 

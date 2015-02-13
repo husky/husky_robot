@@ -3,7 +3,7 @@ project(husky_base)
 
 find_package(catkin REQUIRED COMPONENTS controller_manager diff_drive_controller hardware_interface roscpp
   diagnostic_updater roslaunch roslint husky_msgs)
-find_package(Boost REQUIRED COMPONENTS thread)
+find_package(Boost REQUIRED COMPONENTS chrono)
 
 catkin_package()
 
@@ -26,7 +26,7 @@ add_executable(husky_node
   src/husky_hardware.cpp
   src/husky_diagnostics.cpp
   src/horizon_legacy_wrapper.cpp)
-target_link_libraries(husky_node horizon_legacy ${catkin_LIBRARIES})
+target_link_libraries(husky_node horizon_legacy ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_dependencies(husky_node husky_msgs_gencpp)
 
 roslint_cpp(

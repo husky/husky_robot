@@ -208,22 +208,18 @@ namespace husky_base
     }
   }
 
-  HuskySoftwareDiagnosticTask::HuskySoftwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
+  HuskySoftwareDiagnosticTask::HuskySoftwareDiagnosticTask(husky_msgs::HuskyStatus &msg, double target_control_freq)
       : DiagnosticTask("software_status"),
-        msg_(msg)
+        msg_(msg),
+        target_control_freq_(target_control_freq)
   {
     reset();
   }
 
-  void HuskySoftwareDiagnosticTask::update(const ros::TimerEvent &control_event)
+  void HuskySoftwareDiagnosticTask::updateControlFrequency(double frequency)
   {
-    // calculate rate at which control loop is executing, keep the lowest
-    control_freq_ = std::min(control_freq_,
-                             1 / (control_event.current_real - control_event.last_real).toSec());
-
-    // calculate rate at which control loop is expecting to be executed, keep the highest
-    target_control_freq_ = std::max(target_control_freq_,
-                                    1 / (control_event.current_expected - control_event.last_expected).toSec());
+    // Keep minimum observed frequency for diagnostics purposes
+    control_freq_ = std::min(control_freq_, frequency);
   }
 
   void HuskySoftwareDiagnosticTask::run(diagnostic_updater::DiagnosticStatusWrapper &stat)
