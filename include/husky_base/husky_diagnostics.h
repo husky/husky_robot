@@ -43,10 +43,10 @@ namespace husky_base
   class HuskySoftwareDiagnosticTask : public diagnostic_updater::DiagnosticTask
   {
   public:
-    explicit HuskySoftwareDiagnosticTask(husky_msgs::HuskyStatus &msg);
+    explicit HuskySoftwareDiagnosticTask(husky_msgs::HuskyStatus &msg, double target_control_freq);
 
     void run(diagnostic_updater::DiagnosticStatusWrapper &stat);
-    void update(const ros::TimerEvent &control_event);
+    void updateControlFrequency(double frequency);
 
   private:
     void reset();

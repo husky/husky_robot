@@ -43,13 +43,13 @@ namespace husky_base
   /**
   * Initialize Husky hardware
   */
-  HuskyHardware::HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh)
+  HuskyHardware::HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh, double target_control_freq)
       : nh_(nh),
         private_nh_(private_nh),
         system_status_task_(husky_status_msg_),
         power_status_task_(husky_status_msg_),
         safety_status_task_(husky_status_msg_),
-        software_status_task_(husky_status_msg_)
+        software_status_task_(husky_status_msg_, target_control_freq)
   {
     private_nh_.param<double>("wheel_diameter", wheel_diameter_, 0.3555);
     private_nh_.param<double>("max_accel", max_accel_, 5.0);
@@ -195,9 +195,9 @@ namespace husky_base
   /**
   * Update diagnostics with control loop timing information
   */
-  void HuskyHardware::reportLoopFrequency(const ros::TimerEvent &control_event)
+  void HuskyHardware::reportLoopDuration(const ros::Duration &duration)
   {
-    software_status_task_.update(control_event);
+    software_status_task_.updateControlFrequency(1 / duration.toSec());
   }
 
   /**
