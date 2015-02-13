@@ -2,8 +2,8 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.4 (2015-02-13)
+------------------
 * Correct issues with ROS time discontinuities - now using monotonic time source
 * Implement a sane retry policy for communication with MCU
 * Contributors: Paul Bovbel
