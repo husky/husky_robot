@@ -2,8 +2,8 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.5 (2015-02-19)
+------------------
 * Fix duration cast
 * Contributors: Paul Bovbel
 
