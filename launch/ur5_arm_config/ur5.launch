@@ -28,7 +28,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <!-- Launches the drivers and sets parameters for the ur5 arm -->
   <!-- Mostly taken from the ur_common.launch inside ur_common.launch -->
 
-  <arg name="robot_ip" default="192.168.0.11"/>
+  <arg name="robot_ip" default="$(env HUSKY_UR5_IP)"/>
   <arg name="reverse_port" default="50001"/>
   <arg name="min_payload"/>
   <arg name="max_payload"/>
