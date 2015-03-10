@@ -28,10 +28,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <!-- Launches the drivers and sets parameters for the ur5 arm -->
   <!-- Mostly taken from the ur_common.launch inside ur_common.launch -->
 
+  <!-- NOTE: you MUST set IP on real robot to point towards real UR5 arm -->
   <arg name="robot_ip" default="192.168.0.11"/>
   <arg name="reverse_port" default="50001"/>
-  <arg name="min_payload"/>
-  <arg name="max_payload"/>
+  <arg name="min_payload" default="0.0"/>
+  <arg name="max_payload" default="10.0"/>
   <arg name="prefix" default="ur5_arm_"/>
 
   <!-- The max_velocity parameter is only used for debugging in the ur_driver. It's not related to actual velocity limits -->
