@@ -6,7 +6,8 @@
 
   <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
   <author email="pbovbel@clearpathrobotics.com">Paul Bovbel</author>
-  
+  <author email="dash@clearpathrobotics.com">Devon Ash</author>  
+
   <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
 
   <license>BSD</license>
@@ -32,6 +33,9 @@
   <run_depend>robot_upstart</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>um6</run_depend>
+  <run_depend>tf2_ros</run_depend>
+  <run_depend>ur_driver</run_depend>
+  <run_depend>husky_control</run_depend>
 
   <export>
   </export>
