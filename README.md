@@ -1,4 +1,5 @@
-== husky_robot ==
+husky_robot
+===========
 
 Robot ROS packages for the Clearpath Husky, for operating robot hardware.
 
