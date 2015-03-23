@@ -1,11 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(husky_base)
 
-find_package(catkin REQUIRED COMPONENTS controller_manager hardware_interface roscpp
-  diagnostic_updater roslaunch roslint husky_msgs)
+find_package(catkin REQUIRED COMPONENTS controller_manager hardware_interface husky_msgs
+  diagnostic_updater roslaunch roslint  roscpp sensor_msgs)
 find_package(Boost REQUIRED COMPONENTS chrono)
 
-catkin_package()
+catkin_package(
+    INCLUDE_DIRS include
+    LIBRARIES horizon_legacy
+    CATKIN_DEPENDS diagnostic_updater hardware_interface husky_msgs roscpp sensor_msgs
+    DEPENDS Boost
+)
 
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
@@ -30,10 +35,10 @@ target_link_libraries(husky_node horizon_legacy ${catkin_LIBRARIES} ${Boost_LIBR
 add_dependencies(husky_node husky_msgs_gencpp)
 
 roslint_cpp(
-  src/husky_base.cpp 
-  src/husky_hardware.cpp 
+  src/husky_base.cpp
+  src/husky_hardware.cpp
   src/husky_diagnostics.cpp
-  include/husky_base/husky_diagnostics.h 
+  include/husky_base/husky_diagnostics.h
   include/husky_base/husky_hardware.h
   )
 
