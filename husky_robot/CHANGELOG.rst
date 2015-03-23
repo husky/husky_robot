@@ -2,6 +2,9 @@
 Changelog for package husky_robot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.1.1 (2015-02-20)
 ------------------
 * Remove navigation

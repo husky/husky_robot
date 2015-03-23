@@ -2,6 +2,11 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add UR5 bringup
+* Contributors: Paul Bovbel, Devon Ash
+
 0.1.2 (2015-02-12)
 ------------------
 * Namespace fixes

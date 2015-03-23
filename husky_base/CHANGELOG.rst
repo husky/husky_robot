@@ -2,6 +2,11 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add UR5_ENABLED envvar
+* Contributors: Paul Bovbel
+
 0.1.5 (2015-02-19)
 ------------------
 * Fix duration cast
