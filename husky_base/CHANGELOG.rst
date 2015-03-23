@@ -2,8 +2,8 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.1 (2015-03-23)
+------------------
 * Add missing dependencies
 * Contributors: Paul Bovbel
 
