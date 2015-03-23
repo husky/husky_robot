@@ -2,8 +2,8 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2015-03-23)
+------------------
 * Add UR5_ENABLED envvar
 * Contributors: Paul Bovbel
 
