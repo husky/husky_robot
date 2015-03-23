@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <package>
   <name>husky_bringup</name>
-  <version>0.1.2</version>
+  <version>0.1.5</version>
   <description>Clearpath Husky installation and integration package</description>
 
   <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
   <author email="pbovbel@clearpathrobotics.com">Paul Bovbel</author>
-  <author email="dash@clearpathrobotics.com">Devon Ash</author>  
+  <author email="dash@clearpathrobotics.com">Devon Ash</author>
 
   <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
 
