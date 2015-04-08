@@ -2,6 +2,11 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Integrate husky_customization workflow
+* Contributors: Paul Bovbel
+
 0.2.2 (2015-03-23)
 ------------------
 * Fix package urls
