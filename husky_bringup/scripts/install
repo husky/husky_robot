@@ -21,6 +21,6 @@ if os.environ.get('HUSKY_UR5_IP'):
   j.add(package="husky_bringup", glob="launch/ur5_arm_config/*")
 
 if os.environ.get('HUSKY_LMS1XX_IP'):
-  j.add(package="husky_bringup", glob="launch/sick_config/*")
+  j.add(package="husky_bringup", glob="launch/lms1xx_config/*")
 
 j.install()
