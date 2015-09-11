@@ -57,24 +57,30 @@ namespace horizon_legacy
     reconnect();
   }
 
-  void configureLimits(double max_speed, double max_accel){
+  void configureLimits(double max_speed, double max_accel)
+  {
 
     bool success = false;
-    while(!success){
-      try{
+    while (!success)
+    {
+      try
+      {
         clearpath::SetMaxAccel(max_accel, max_accel).send();
         clearpath::SetMaxSpeed(max_speed, max_speed).send();
         success = true;
-      }catch (clearpath::Exception *ex){
+      }
+      catch (clearpath::Exception *ex)
+      {
         ROS_ERROR_STREAM("Error configuring velocity and accel limits: " << ex->message);
         reconnect();
       }
     }
   }
 
-  void controlSpeed(double speed_left, double speed_right, double accel_left, double accel_right){
+  void controlSpeed(double speed_left, double speed_right, double accel_left, double accel_right)
+  {
     bool success = false;
-    while(!success)
+    while (!success)
     {
       try
       {

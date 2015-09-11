@@ -55,11 +55,11 @@ namespace horizon_legacy
   struct Channel
   {
 
-    typedef boost::shared_ptr <T> Ptr;
+    typedef boost::shared_ptr<T> Ptr;
     typedef boost::shared_ptr<const T> ConstPtr;
     BOOST_STATIC_ASSERT_MSG(
-        (boost::is_base_of<clearpath::Message, T>::value),
-        "T must be a descendant of clearpath::Message"
+      (boost::is_base_of<clearpath::Message, T>::value),
+      "T must be a descendant of clearpath::Message"
     );
 
     static Ptr getLatest(double timeout)
@@ -69,7 +69,8 @@ namespace horizon_legacy
       // Iterate over all messages in queue and find the latest
       while (T *next = T::popNext())
       {
-        if(latest){
+        if (latest)
+        {
           delete latest;
           latest = 0;
         }
@@ -77,12 +78,13 @@ namespace horizon_legacy
       }
 
       // If no messages found in queue, then poll for timeout until one is received
-      if(!latest){
+      if (!latest)
+      {
         latest = T::waitNext(timeout);
       }
 
       // If no messages received within timeout, make a request
-      if(!latest)
+      if (!latest)
       {
         return requestData(timeout);
       }
@@ -93,10 +95,11 @@ namespace horizon_legacy
     static Ptr requestData(double timeout)
     {
       T *update = 0;
-      while(!update)
+      while (!update)
       {
         update = T::getUpdate(timeout);
-        if(!update){
+        if (!update)
+        {
           reconnect();
         }
       }

@@ -88,15 +88,15 @@ int main(int argc, char *argv[])
 
   time_source::time_point last_time = time_source::now();
   ros::TimerOptions control_timer(
-      ros::Duration(1 / control_frequency),
-      boost::bind(controlLoop, boost::ref(husky), boost::ref(cm), boost::ref(last_time)),
-      &husky_queue);
+    ros::Duration(1 / control_frequency),
+    boost::bind(controlLoop, boost::ref(husky), boost::ref(cm), boost::ref(last_time)),
+    &husky_queue);
   ros::Timer control_loop = nh.createTimer(control_timer);
 
   ros::TimerOptions diagnostic_timer(
-      ros::Duration(1 / diagnostic_frequency),
-      boost::bind(diagnosticLoop, boost::ref(husky)),
-      &husky_queue);
+    ros::Duration(1 / diagnostic_frequency),
+    boost::bind(diagnosticLoop, boost::ref(husky)),
+    &husky_queue);
   ros::Timer diagnostic_loop = nh.createTimer(diagnostic_timer);
 
   husky_spinner.start();

@@ -59,13 +59,15 @@ namespace husky_base
 
   template<>
   HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
-      : DiagnosticTask("system_status"),
-        msg_(msg)
-  {}
+    :
+    DiagnosticTask("system_status"),
+    msg_(msg)
+  { }
 
   template<>
-  void HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
-                                                                        horizon_legacy::Channel<clearpath::DataSystemStatus>::Ptr &system_status)
+  void HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::update(
+    diagnostic_updater::DiagnosticStatusWrapper &stat,
+    horizon_legacy::Channel<clearpath::DataSystemStatus>::Ptr &system_status)
   {
     msg_.uptime = system_status->getUptime();
 
@@ -143,13 +145,15 @@ namespace husky_base
 
   template<>
   HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
-      : DiagnosticTask("power_status"),
-        msg_(msg)
-  {}
+    :
+    DiagnosticTask("power_status"),
+    msg_(msg)
+  { }
 
   template<>
-  void HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::update(diagnostic_updater::DiagnosticStatusWrapper &stat,
-                                                                       horizon_legacy::Channel<clearpath::DataPowerSystem>::Ptr &power_status)
+  void HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::update(
+    diagnostic_updater::DiagnosticStatusWrapper &stat,
+    horizon_legacy::Channel<clearpath::DataPowerSystem>::Ptr &power_status)
   {
     msg_.charge_estimate = power_status->getChargeEstimate(0);
     msg_.capacity_estimate = power_status->getCapacityEstimate(0);
@@ -173,14 +177,17 @@ namespace husky_base
   }
 
   template<>
-  HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg)
-      : DiagnosticTask("safety_status"),
-        msg_(msg)
-  {}
+  HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyHardwareDiagnosticTask(
+    husky_msgs::HuskyStatus &msg)
+    :
+    DiagnosticTask("safety_status"),
+    msg_(msg)
+  { }
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataSafetySystemStatus>::Ptr &safety_status)
+    diagnostic_updater::DiagnosticStatusWrapper &stat,
+    horizon_legacy::Channel<clearpath::DataSafetySystemStatus>::Ptr &safety_status)
   {
     uint16_t flags = safety_status->getFlags();
     msg_.timeout = (flags & SAFETY_TIMEOUT) > 0;
@@ -209,9 +216,10 @@ namespace husky_base
   }
 
   HuskySoftwareDiagnosticTask::HuskySoftwareDiagnosticTask(husky_msgs::HuskyStatus &msg, double target_control_freq)
-      : DiagnosticTask("software_status"),
-        msg_(msg),
-        target_control_freq_(target_control_freq)
+    :
+    DiagnosticTask("software_status"),
+    msg_(msg),
+    target_control_freq_(target_control_freq)
   {
     reset();
   }

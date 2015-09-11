@@ -48,7 +48,8 @@ namespace husky_base
   /**
   * Class representing Husky hardware, allows for ros_control to modify internal state via joint interfaces
   */
-  class HuskyHardware : public hardware_interface::RobotHW
+  class HuskyHardware :
+    public hardware_interface::RobotHW
   {
   public:
     HuskyHardware(ros::NodeHandle nh, ros::NodeHandle private_nh, double target_control_freq);
@@ -106,7 +107,9 @@ namespace husky_base
       double effort;
       double velocity_command;
 
-      Joint() : position(0), velocity(0), effort(0), velocity_command(0) { }
+      Joint() :
+        position(0), velocity(0), effort(0), velocity_command(0)
+      { }
     } joints_[4];
   };
 

@@ -40,12 +40,14 @@
 namespace husky_base
 {
 
-  class HuskySoftwareDiagnosticTask : public diagnostic_updater::DiagnosticTask
+  class HuskySoftwareDiagnosticTask :
+    public diagnostic_updater::DiagnosticTask
   {
   public:
     explicit HuskySoftwareDiagnosticTask(husky_msgs::HuskyStatus &msg, double target_control_freq);
 
     void run(diagnostic_updater::DiagnosticStatusWrapper &stat);
+
     void updateControlFrequency(double frequency);
 
   private:
@@ -56,7 +58,8 @@ namespace husky_base
   };
 
   template<typename T>
-  class HuskyHardwareDiagnosticTask : public diagnostic_updater::DiagnosticTask
+  class HuskyHardwareDiagnosticTask :
+    public diagnostic_updater::DiagnosticTask
   {
   public:
     explicit HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg);
@@ -83,19 +86,23 @@ namespace husky_base
   HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg);
 
   template<>
-  HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyHardwareDiagnosticTask(husky_msgs::HuskyStatus &msg);
+  HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::HuskyHardwareDiagnosticTask(
+    husky_msgs::HuskyStatus &msg);
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataSystemStatus>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataSystemStatus>::Ptr &status);
+    diagnostic_updater::DiagnosticStatusWrapper &stat,
+    horizon_legacy::Channel<clearpath::DataSystemStatus>::Ptr &status);
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataPowerSystem>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataPowerSystem>::Ptr &status);
+    diagnostic_updater::DiagnosticStatusWrapper &stat,
+    horizon_legacy::Channel<clearpath::DataPowerSystem>::Ptr &status);
 
   template<>
   void HuskyHardwareDiagnosticTask<clearpath::DataSafetySystemStatus>::update(
-      diagnostic_updater::DiagnosticStatusWrapper &stat, horizon_legacy::Channel<clearpath::DataSafetySystemStatus>::Ptr &status);
+    diagnostic_updater::DiagnosticStatusWrapper &stat,
+    horizon_legacy::Channel<clearpath::DataSafetySystemStatus>::Ptr &status);
 
 }  // namespace husky_base
 #endif  // HUSKY_BASE_HUSKY_DIAGNOSTICS_H

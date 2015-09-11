@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 2.8.3)
 project(husky_base)
 
 find_package(catkin REQUIRED COMPONENTS controller_manager hardware_interface husky_msgs
-  diagnostic_updater roslaunch roslint  roscpp sensor_msgs)
+  diagnostic_updater roslaunch roslint roscpp sensor_msgs)
 find_package(Boost REQUIRED COMPONENTS chrono)
 
 catkin_package(
-    INCLUDE_DIRS include
-    LIBRARIES horizon_legacy
-    CATKIN_DEPENDS diagnostic_updater hardware_interface husky_msgs roscpp sensor_msgs
-    DEPENDS Boost
+  INCLUDE_DIRS include
+  LIBRARIES horizon_legacy
+  CATKIN_DEPENDS diagnostic_updater hardware_interface husky_msgs roscpp sensor_msgs
+  DEPENDS Boost
 )
 
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
@@ -24,7 +24,7 @@ add_library(horizon_legacy
   src/horizon_legacy/Transport.cpp
   src/horizon_legacy/Number.cpp
   src/horizon_legacy/linux_serial.cpp
-  )
+)
 
 add_executable(husky_node
   src/husky_base.cpp
@@ -40,7 +40,7 @@ roslint_cpp(
   src/husky_diagnostics.cpp
   include/husky_base/husky_diagnostics.h
   include/husky_base/husky_hardware.h
-  )
+)
 
 roslaunch_add_file_check(launch)
 
@@ -50,7 +50,7 @@ install(TARGETS horizon_legacy husky_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
 
 install(DIRECTORY include/${PROJECT_NAME}/
-        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 
 install(DIRECTORY launch config
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
