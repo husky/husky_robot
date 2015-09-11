@@ -148,20 +148,21 @@ namespace husky_base
       polling_timeout_);
     if (enc)
     {
+      ROS_DEBUG_STREAM("Received travel information (L:" << enc->getTravel(LEFT) << " R:" << enc->getTravel(RIGHT) << ")");
       for (int i = 0; i < 4; i++)
       {
-        double new_position = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position_offset;
-        double delta = new_position - joints_[i].position;
+        double delta = linearToAngular(enc->getTravel(i % 2)) - joints_[i].position - joints_[i].position_offset;
 
-        // detect encoder rollover
+        // detect suspiciously large readings, possibly from encoder rollover
         if (std::abs(delta) < 1.0)
         {
-          joints_[i].position = new_position;
+          joints_[i].position += delta;
         }
         else
         {
-          //  rollover has occured, swallow the measurement and update the offset
-          joints_[i].position_offset = delta;
+          // suspicious! drop this measurement and update the offset for subsequent readings
+          joints_[i].position_offset += delta;
+          ROS_DEBUG("Dropping overflow measurement from encoder");
         }
       }
     }
@@ -170,6 +171,7 @@ namespace husky_base
       polling_timeout_);
     if (speed)
     {
+      ROS_DEBUG_STREAM("Received linear speed information (L:" << speed->getLeftSpeed() << " R:" << speed->getRightSpeed() << ")");
       for (int i = 0; i < 4; i++)
       {
         if (i % 2 == LEFT)
