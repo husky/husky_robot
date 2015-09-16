@@ -277,7 +277,8 @@ namespace clearpath
           msg_len = rx_buf[1] + 3;
 
           /* Check for valid length */
-          if ((rx_buf[1] ^ rx_buf[2]) != 0xFF || (msg_len < Message::MIN_MSG_LENGTH))
+          if (static_cast<unsigned char>(rx_buf[1] ^ rx_buf[2]) != 0xFF ||
+              (msg_len < Message::MIN_MSG_LENGTH))
           {
             counters[GARBLE_BYTES] += rx_inx;
             rx_inx = 0;
