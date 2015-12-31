@@ -2,8 +2,8 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.5 (2015-12-31)
+------------------
 * Fix absolute value to handle negative rollover readings effectively
 * Another bitwise fix, now for x86.
 * Formatting
