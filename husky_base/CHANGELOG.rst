@@ -2,6 +2,17 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix absolute value to handle negative rollover readings effectively
+* Another bitwise fix, now for x86.
+* Formatting
+* Fix length complement check.
+  There's a subtle difference in how ~ is implemented in aarch64 which
+  causes this check to fail. The new implementation should work on x86
+  and ARM.
+* Contributors: Mike Purvis, Paul Bovbel
+
 0.2.4 (2015-07-08)
 ------------------
 
