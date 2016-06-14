@@ -9,6 +9,11 @@
     <remap from="imu" to="imu_um6"/>
   </node>
 
+  <node pkg="tf" type="static_transform_publisher" name="tf_imu_ned_enu_global"
+        args="0 0 0 1.5708 0 3.1416 imu_link imu_link_ned_global 10" output="screen"/>
+  <node pkg="tf" type="static_transform_publisher" name="tf_imu_ned_enu_local"
+        args="0 0 0 0 0 3.1416 imu_link imu_link_ned_local 10" output="screen"/>
+
   <node pkg="nodelet" type="nodelet" name="imu_manager" args="manager"/>
 
   <!-- Transforms UM6 tilted data in imu_link frame to ENU data in base_link frame -->
@@ -17,6 +22,7 @@
     <remap from="imu_out/data" to="imu/data_raw"/>
     <remap from="imu_out/mag" to="imu/mag"/>
     <param name="target_frame" value="base_link"/>
+    <param name="convert_ned_to_enu" type="bool" value="true"/>
   </node>
 
   <!-- Filter raw gyro, accel and mag data into a usable orientation -->
