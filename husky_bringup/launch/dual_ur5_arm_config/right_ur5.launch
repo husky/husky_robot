@@ -34,7 +34,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <!-- Mostly taken from the ur_common.launch inside ur_common.launch -->
 
     <arg name="robot_ip" default="$(env HUSKY_RIGHT_UR5_IP)"/>
-    <arg name="reverse_port" default="50001"/>
+    <arg name="reverse_port" default="50002"/>
     <arg name="min_payload" default="0.0"/>
     <arg name="max_payload" default="10.0"/>
     <arg name="prefix" default="r_ur5_arm_"/>
