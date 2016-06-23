@@ -29,7 +29,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
    <!-- THIS IS FOR THE LEFT ARM ON THE DUAL UR5 HUSKY -->
 
  <arg name="dual_ur5_enabled" default="$(optenv HUSKY_DUAL_UR5_ENABLED false)" />
-  <group if="$(arg dual_ur5_enabled)">
+  <group if="$(optenv HUSKY_DUAL_UR5_ENABLED false)" name="husky_left_ur5">
     <!-- Launches the drivers and sets parameters for the ur5 arm -->
     <!-- Mostly taken from the ur_common.launch inside ur_common.launch -->
 
@@ -56,7 +56,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </node>
 
     <!-- TF Buffer Server -->
-    <node pkg="tf2_ros" type="buffer_server" name="tf2_buffer_server">
+    <node pkg="tf2_ros" type="buffer_server" name="left_tf2_buffer_server">
       <param name="buffer_size" value="120.0"/>
     </node>
 
