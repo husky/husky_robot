@@ -53,6 +53,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <param name="max_payload" type="double" value="$(arg max_payload)"/>
       <param name="max_velocity" type="double" value="$(arg max_velocity)"/>
       <param name="prefix" type="string" value="$(arg prefix)"/>
+      <param name="reverse_port" value="$(arg reverse_port)"/>
     </node>
 
     <!-- TF Buffer Server -->
