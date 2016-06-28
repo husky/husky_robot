@@ -26,4 +26,7 @@ if os.environ.get('HUSKY_LMS1XX_IP'):
 if os.environ.get('HUSKY_DUAL_UR5_ENABLED'):
   j.add(package="husky_bringup", glob="launch/dual_ur5_arm_config/*")
 
+if os.environ.get('HUSKY_FLIR_PTU'):
+  j.add(package="husky_bringup", glob="launch/flir_ptu/*")
+
 j.install()
