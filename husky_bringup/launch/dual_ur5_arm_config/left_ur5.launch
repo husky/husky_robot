@@ -50,7 +50,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <param name="robot_reverse_port" type="int" value="$(arg reverse_port)"/>
 
     <!-- driver -->
-    <node name="left_ur5_driver" pkg="ur_modern_driver" type="ur_driver" args="$(arg robot_ip) $(arg reverse_port)" output="screen">
+    <node name="left_ur5_driver" pkg="ur_modern_driver" type="ur_driver" args="$(arg robot_ip) $(arg reverse_port)" output="screen" respawn="true">
       <param name="min_payload" type="double" value="$(arg min_payload)"/>
       <param name="max_payload" type="double" value="$(arg max_payload)"/>
       <param name="max_velocity" type="double" value="$(arg max_velocity)"/>
@@ -59,7 +59,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </node>
 
     <!-- TF Buffer Server -->
-    <node pkg="tf2_ros" type="buffer_server" name="left_tf2_buffer_server">
+    <node pkg="tf2_ros" type="buffer_server" name="left_tf2_buffer_server" respawn="true">
       <param name="buffer_size" value="120.0"/>
     </node>
 
