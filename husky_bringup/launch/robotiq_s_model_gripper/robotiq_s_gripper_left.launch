@@ -1,6 +1,0 @@
-<launch>
- 
-  <node pkg="robotiq_s_model_control" type="SModelTcpNode.py" respawn="true" args="192.168.1.17" output="screen" name="left_s_model_gripper_driver"/>
-  <node pkg="robotiq_force_torque_sensor" type="rq_sensor" respawn="true" output="screen" name="left_ft_sensor_driver"/>
-
-</launch>
