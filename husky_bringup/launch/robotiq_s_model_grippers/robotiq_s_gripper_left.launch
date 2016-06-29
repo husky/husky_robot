@@ -1,4 +1,6 @@
 <launch>
+
+  <remap from="/husky_gripper_left/joint_states" to="/joint_states"/>
  
   <group ns="husky_gripper_left">
       <node pkg="robotiq_s_model_control" type="SModelTcpNode.py" respawn="true" args="192.168.1.17" output="screen" name="left_s_model_gripper_driver"/>
