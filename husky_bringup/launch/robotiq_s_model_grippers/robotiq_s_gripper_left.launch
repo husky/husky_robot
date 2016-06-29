@@ -3,7 +3,7 @@
   <group ns="husky_gripper_left">
       <node pkg="robotiq_s_model_control" type="SModelTcpNode.py" respawn="true" args="192.168.1.17" output="screen" name="left_s_model_gripper_driver"/>
       <node pkg="robotiq_force_torque_sensor" type="rq_sensor" respawn="true" output="screen" name="left_ft_sensor_driver"/>
-      <node pkg="robotiq_joint_state_publisher" type="robotiq_joint_state_publisher" name="left_robotiq_gripper_joint_state_publisher"/>
+      <node pkg="robotiq_joint_state_publisher" type="s_model_joint_states" name="left_robotiq_gripper_joint_state_publisher"/>
       <param name="prefix" value="l_"/>
   </group>
 
