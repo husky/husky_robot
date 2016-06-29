@@ -35,4 +35,7 @@ if os.environ.get('BUMBLEBEE_ENABLED'):
 if os.environ.get('ROBOTIQ_GRIPPERS_ENABLED'):
   j.add(package="husky_bringup", glob="launch/robotiq_s_model_grippers/*")
 
+if os.environ.get('VELODYNE_VLP16_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/velodyne/*")
+
 j.install()
