@@ -2,7 +2,7 @@
 
   <remap from="/husky_gripper_left/joint_states" to="/joint_states"/>
  
-  <arg name="serial_id" default="ftdi_DA4N19U"/>
+  <arg name="serial_id" default="ftdi_DA4PE3R"/>
 
   <group ns="husky_gripper_left">
       <node pkg="robotiq_s_model_control" type="SModelTcpNode.py" respawn="true" args="192.168.1.17" output="screen" name="left_s_model_gripper_driver"/>

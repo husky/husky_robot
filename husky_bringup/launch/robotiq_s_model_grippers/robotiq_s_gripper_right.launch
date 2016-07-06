@@ -2,9 +2,13 @@
 
 <remap from="/husky_gripper_right/joint_states" to="/joint_states"/>
 
+  <arg name="serial_id" default="ftdi_DA4N19U"/>
+
   <group ns="husky_gripper_right"> 
      <node pkg="robotiq_s_model_control" type="SModelTcpNode.py" respawn="true" args="192.168.1.19" output="screen" name="right_s_model_gripper_driver"/>
-     <node pkg="robotiq_force_torque_sensor" type="rq_sensor" respawn="true" output="screen" name="right_ft_sensor_driver"/>
+     <node pkg="robotiq_force_torque_sensor" type="rq_sensor" respawn="true" output="screen" name="right_ft_sensor_driver">
+          <param name="serial_id" value="$(arg serial_id)"/>
+     </node>
      <node pkg="robotiq_joint_state_publisher" type="s_model_joint_states" name="right_robotiq_gripper_joint_state_publisher"/>
      <param name="prefix" value="r_"/> 
   </group>
