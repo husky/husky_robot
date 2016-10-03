@@ -14,7 +14,7 @@
 
   <url type="website">http://ros.org/wiki/husky_bringup</url>
   <url type="bugtracker">https://github.com/husky/husky_robot/issues</url>
-  <url type="repository">https://github.com/husly/husky_robot</url>
+  <url type="repository">https://github.com/husky/husky_robot</url>
 
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -35,6 +35,7 @@
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>um6</run_depend>
+  <run_depend>um7</run_depend>
   <run_depend>ur_driver</run_depend>
 
   <export>

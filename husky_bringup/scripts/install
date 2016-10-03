@@ -11,6 +11,9 @@ j.add(package="husky_base", glob="launch/*")
 if os.path.exists('/dev/clearpath/imu'):
   j.add(package="husky_bringup", glob="launch/um6_config/*")
 
+if os.path.exists('/dev/clearpath/um7'):
+  j.add(package="husky_bringup", glob="launch/um7_config/*")
+
 if os.path.exists('/dev/microstrain'):
   j.add(package="husky_bringup", glob="launch/microstrain_config/*")
 
