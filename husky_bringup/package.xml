@@ -36,7 +36,7 @@
   <run_depend>tf2_ros</run_depend>
   <run_depend>um6</run_depend>
   <run_depend>um7</run_depend>
-  <run_depend>ur_driver</run_depend>
+  <run_depend>ur_modern_driver</run_depend>
 
   <export>
   </export>
