@@ -26,4 +26,22 @@ if os.environ.get('HUSKY_UR5_IP'):
 if os.environ.get('HUSKY_LMS1XX_IP'):
   j.add(package="husky_bringup", glob="launch/lms1xx_config/*")
 
+if os.environ.get('HUSKY_DUAL_UR5_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/dual_ur5_arm_config/*")
+
+if os.environ.get('FLIR_PTU_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/flir_ptu/*")
+
+if os.environ.get('BUMBLEBEE_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/bumblebee/*")
+
+if os.environ.get('ROBOTIQ_GRIPPERS_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/robotiq_s_model_grippers/*")
+
+if os.environ.get('VELODYNE_VLP16_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/velodyne/*")
+
+if os.environ.get("ROBOTIQ_FT_300_ENABLED"):
+  j.add(package="husky_bringup", glob="launch/ft_300/*")
+
 j.install()

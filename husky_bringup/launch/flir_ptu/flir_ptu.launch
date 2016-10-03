@@ -1,0 +1,11 @@
+<launch>
+
+  <arg name="port" default="/dev/ttyS1"/>
+  <remap from="state" to="/joint_states"/>
+
+  <node pkg="flir_ptu_driver" type="ptu_node" name="flir_ptu_driver">
+    <param name="port" value="$(arg port)"/>
+    <param name="joint_name_prefix" value="husky_ptu_"/>
+  </node>
+
+</launch>

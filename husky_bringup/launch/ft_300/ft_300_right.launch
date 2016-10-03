@@ -1,0 +1,15 @@
+<launch>
+
+
+      <arg name="serial_id" default="ftdi_DA4N19U"/>
+
+      <group ns="husky_right_gripper">
+
+      <node pkg="robotiq_force_torque_sensor" type="rq_sensor" respawn="false" output="screen" name="right_ft_sensor_driver">
+          <param name="serial_id" value="$(arg serial_id)"/>
+      </node>
+
+      </group>
+
+
+</launch>
