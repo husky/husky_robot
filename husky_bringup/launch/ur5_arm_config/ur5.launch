@@ -49,6 +49,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <param name="max_payload" type="double" value="$(arg max_payload)"/>
       <param name="max_velocity" type="double" value="$(arg max_velocity)"/>
       <param name="prefix" type="string" value="$(arg prefix)"/>
+      <remap from="follow_joint_trajectory" to="arm_controller/follow_joint_trajectory"/>
     </node>
 
     <!-- TF Buffer Server -->
@@ -56,7 +57,5 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <param name="buffer_size" value="120.0"/>
     </node>
 
-    <!-- Stow the arm -->
-    <node pkg="husky_control" type="stow_ur5" name="stow_ur5"/>
   </group>
 </launch>
