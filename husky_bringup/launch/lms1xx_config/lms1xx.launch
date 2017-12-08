@@ -4,6 +4,7 @@
     <node pkg="lms1xx" name="lms1xx_front" type="LMS1xx_node">
       <param name="host" value="$(optenv HUSKY_FRONT_LASER_HOST 192.168.131.14)" />
       <param name="frame_id" value="front_laser" />
+      <param name="publish_min_range_as_inf" value="true" />
       <remap from="scan" to="front/scan" />
     </node>
   </group>
@@ -13,6 +14,7 @@
     <node pkg="lms1xx" name="lms1xx_rear" type="LMS1xx_node">
       <param name="host" value="$(optenv HUSKY_REAR_LASER_HOST 192.168.131.15)" />
       <param name="frame_id" value="rear_laser" />
+      <param name="publish_min_range_as_inf" value="true" />
       <remap from="scan" to="rear/scan" />
     </node>
   </group>
