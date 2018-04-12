@@ -2,8 +2,8 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.7 (2018-04-11)
+------------------
 * Fixes for single-ur5 husky platform so that it works in production
 * Contributors: Devon Ash
 

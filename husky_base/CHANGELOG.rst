@@ -2,8 +2,8 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.7 (2018-04-11)
+------------------
 * Follow-up to `#9 <https://github.com/husky/husky_robot/issues/9>`_, missing default value for wheel_diameter
 * changed Husky tire to 13 inches (0.3302m)
 * Contributors: Martin Cote, Wolfgang Merkt
