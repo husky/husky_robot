@@ -2,6 +2,11 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fixes for single-ur5 husky platform so that it works in production
+* Contributors: Devon Ash
+
 0.2.6 (2016-10-03)
 ------------------
 * Adding support for the UM7 IMU.

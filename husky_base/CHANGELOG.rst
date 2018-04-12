@@ -2,6 +2,12 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Follow-up to `#9 <https://github.com/husky/husky_robot/issues/9>`_, missing default value for wheel_diameter
+* changed Husky tire to 13 inches (0.3302m)
+* Contributors: Martin Cote, Wolfgang Merkt
+
 0.2.6 (2016-10-03)
 ------------------
 * Adding support for the UM7 IMU.
