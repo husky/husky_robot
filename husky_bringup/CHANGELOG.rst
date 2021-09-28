@@ -2,10 +2,85 @@
 Changelog for package husky_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.7 (2018-04-11)
+0.5.1 (2021-09-16)
 ------------------
-* Fixes for single-ur5 husky platform so that it works in production
-* Contributors: Devon Ash
+* Fix the name of teh VLP16 launch file that gets included
+* Add a missing colon to the install script
+* Add VLP16, secondary LMS1xx support (`#164 <https://github.com/husky/husky/issues/164>`_)
+  * Minimal refactor to add VLP16 + secondary LMS1xx support. Update defaults for the laser_enabled and realsense_enabled args to refer to the underlying envars to improve consistency when launching simulations. Modify the sensor bar to allow it to be positioned in the center by default, but with configurable xyz and rpy offsets
+  * Add the new run dependencies
+  * Remove the prefix's trailing underscore in the vlp16 mount to make it consistent. Fix an inconsistent envar for the sensor arch, add an arg to explicitly enable it, to stay internally consistent with the rest of Husky.
+  * Fix the envars; its just HUSKY_LMS1XX, not HUSKY_LASER_LMS1XX
+  * Revert to enabling the main laser by default in the simulations, add the velodyne_gazebo_plugins dependency
+* Contributors: Chris I-B
+
+0.5.0 (2021-08-23)
+------------------
+* [husky_bringup] Switched microstrain_mips to ros_mscl.
+* Fix the python-scipy dependency to refer to the python-3 version; python-scipy isn't installable on Focal
+* Fix a bug where the UM7 and UM6 launch files don't work when installed to /etc/ros/*/ros.d; they fail to find the mag config files.
+* Contributors: Chris Iverach-Brereton, Tony Baltovski
+
+0.4.4 (2020-08-13)
+------------------
+* Set default for optenv HUSKY_MAG_CONFIG
+* Removed env-hooks
+* Removed Paul Bovbel as maintainer.
+* Add support for some environment variables to override realsense defaults
+* Sort the dependencies alphabetically
+* Finish adding the simulated realsense to the topbar, add support for the physical realsense. Tidy up some parameters that were copied in last night but not yet configured.
+* Mark the Kinect for Xbox 360 as deprecated, start adding support for the Intel Realsense D400 series as a replacement
+* Contributors: Chris I-B, Dave Niewinski, Tony Baltovski
+
+0.4.3 (2020-04-20)
+------------------
+* Add the other product ID for the PS4 controller to the udev rule
+* Update the udev rules to map the controllers to appropriate symlinks instead of relying on device enumeration to save us
+* Contributors: Chris I-B
+
+0.4.2 (2019-12-11)
+------------------
+* [husky_bringup] Installed udev rule for Logitech controller.
+* Contributors: Tony Baltovski
+
+0.4.1 (2019-09-30)
+------------------
+* [husky_bringup] Enabled using MagnenticField message for UM6 and UM7 since imu_filter_madgwick now uses it by default.
+* Added Udev rule for Logitech joy. (`#116 <https://github.com/husky/husky/issues/116>`_)
+* Contributors: Tony Baltovski
+
+0.4.0 (2019-08-01)
+------------------
+
+0.3.4 (2019-08-01)
+------------------
+* Properly support GX5.
+* Contributors: Dave Niewinski
+
+0.3.3 (2019-04-18)
+------------------
+
+0.3.2 (2019-03-25)
+------------------
+* [husky_bringup] Disabled the use of magnetic field msgs in imu_filter_madgwick.
+* Contributors: Tony Baltovski
+
+0.3.1 (2018-08-02)
+------------------
+* Renamed udev so it is installed
+* Contributors: Dave Niewinski, Tony Baltovski
+
+0.3.0 (2018-04-11)
+------------------
+* Remove defunct email address
+* Re-added microstrain_3dmgx2_imu as run  dependency.
+* Re-added imu_transformer and um7 as run dependencies.
+* Updated maintainers.
+* Changed the name of robot_upstart job to ros.
+* Added the UM6 as a run dep.
+* Purge more UR; Implement urdf_extras
+* Move packages into monorepo for kinetic; strip out ur packages
+* Contributors: Paul Bovbel, Tony Baltovski
 
 0.2.6 (2016-10-03)
 ------------------

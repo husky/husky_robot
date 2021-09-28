@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 <package>
   <name>husky_base</name>
-  <version>0.2.7</version>
+  <version>0.5.1</version>
   <description>Clearpath Husky robot driver</description>
 
   <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
-  <author email="pbovbel@clearpathrobotics.com">Paul Bovbel</author>
+  <author email="paul@bovbel.com">Paul Bovbel</author>
 
-  <maintainer email="pbovbel@clearpathrobotics.com">Paul Bovbel</maintainer>
+  <maintainer email="tbaltovski@clearpathrobotics.com">Tony Baltovski</maintainer>
+
 
   <license>BSD</license>
 

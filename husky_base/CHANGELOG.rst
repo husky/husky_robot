@@ -2,11 +2,53 @@
 Changelog for package husky_base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.7 (2018-04-11)
+0.5.1 (2021-09-16)
 ------------------
-* Follow-up to `#9 <https://github.com/husky/husky_robot/issues/9>`_, missing default value for wheel_diameter
-* changed Husky tire to 13 inches (0.3302m)
-* Contributors: Martin Cote, Wolfgang Merkt
+* Eliminate roslint errors
+* Contributors: Lucas Walter, Tony Baltovski
+
+0.5.0 (2021-08-23)
+------------------
+
+0.4.4 (2020-08-13)
+------------------
+* Removed Paul Bovbel as maintainer.
+* Contributors: Tony Baltovski
+
+0.4.3 (2020-04-20)
+------------------
+
+0.4.2 (2019-12-11)
+------------------
+
+0.4.1 (2019-09-30)
+------------------
+
+0.4.0 (2019-08-01)
+------------------
+
+0.3.4 (2019-08-01)
+------------------
+
+0.3.3 (2019-04-18)
+------------------
+
+0.3.2 (2019-03-25)
+------------------
+
+0.3.1 (2018-08-02)
+------------------
+
+0.3.0 (2018-04-11)
+------------------
+* Fix default tyre radius
+* changed the tire radius in base.launch to reflect a 13 inch Husky outdoor tire
+* Remove defunct email address
+* Updated maintainers.
+* Update bringup for multirobot
+* Update URDF for multirobot
+* Move packages into monorepo for kinetic; strip out ur packages
+* Contributors: Martin Cote, Paul Bovbel, Tony Baltovski, Wolfgang Merkt
 
 0.2.6 (2016-10-03)
 ------------------
