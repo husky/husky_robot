@@ -50,8 +50,8 @@ Changelog for package husky_base
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Martin Cote, Paul Bovbel, Tony Baltovski, Wolfgang Merkt
 
-Forthcoming
------------
+0.6.0 (2021-09-28)
+------------------
 * Re-added husky_robot from husky.
 * Contributors: Tony Baltovski
 
