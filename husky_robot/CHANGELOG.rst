@@ -44,6 +44,11 @@ Changelog for package husky_robot
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* Re-added husky_robot from husky.
+* Contributors: Tony Baltovski
+
 0.2.6 (2016-10-03)
 ------------------
 * Adding support for the UM7 IMU.
