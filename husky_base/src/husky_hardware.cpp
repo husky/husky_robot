@@ -58,6 +58,7 @@ namespace husky_base
     private_nh_.param<double>("max_accel", max_accel_, 5.0);
     private_nh_.param<double>("max_speed", max_speed_, 1.0);
     private_nh_.param<double>("polling_timeout_", polling_timeout_, 10.0);
+    private_nh_.param<std::string>("tf_prefix", tf_prefix_, "");
 
     std::string port;
     private_nh_.param<std::string>("port", port, "/dev/prolific");
@@ -113,8 +114,8 @@ namespace husky_base
   */
   void HuskyHardware::registerControlInterfaces()
   {
-    ros::V_string joint_names = boost::assign::list_of("front_left_wheel")
-      ("front_right_wheel")("rear_left_wheel")("rear_right_wheel");
+    ros::V_string joint_names = boost::assign::list_of(tf_prefix_ + "front_left_wheel")
+      (tf_prefix_ + "front_right_wheel")(tf_prefix_ + "rear_left_wheel")(tf_prefix_ + "rear_right_wheel");
     for (unsigned int i = 0; i < joint_names.size(); i++)
     {
       hardware_interface::JointStateHandle joint_state_handle(joint_names[i],
