@@ -82,8 +82,8 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
-Forthcoming
------------
+0.6.1 (2022-01-18)
+------------------
 * Added Hokuyo
 * Contributors: Luis Camero
 
