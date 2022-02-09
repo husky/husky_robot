@@ -11,7 +11,7 @@
   <arg name="baudrate"        default = "115200" />
   <arg name="debug"           default = "false" />
   <arg name="diagnostics"     default = "true" />
-  <arg name="imu_frame_id"    default = "$(optenv HUSKY_IMU_LINK imu_link)" />
+  <arg name="imu_frame_id"    default = "imu_link" />
   <arg name="gnss1_frame_id"  default = "gnss1_antenna_wgs84" />
   <arg name="gnss2_frame_id"  default = "gnss2_antenna_wgs84" />
   <arg name="filter_frame_id" default = "sensor_wgs84" />
