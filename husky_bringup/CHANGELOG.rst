@@ -82,6 +82,16 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* Removed HUSKY_IMU_LINK since it can be strictly imu_link
+* Removed udev rules from bringup package
+* Removed references to microstrain_mips, now use ros_mscl
+* Bump CMake version to avoid CMP0048 warning.
+* Remove unnecessary PS4, Logitech udev rules.
+  These were previously removed from Melodic; not sure why they were re-added for Noetic, but I suspect it was a copy-paste error
+* Contributors: Chris I-B, Luis Camero, Tony Baltovski
+
 0.6.1 (2022-01-18)
 ------------------
 * Added Hokuyo
