@@ -82,8 +82,8 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
-Forthcoming
------------
+0.6.2 (2022-02-15)
+------------------
 * Removed HUSKY_IMU_LINK since it can be strictly imu_link
 * Removed udev rules from bringup package
 * Removed references to microstrain_mips, now use ros_mscl
