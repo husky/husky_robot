@@ -82,8 +82,8 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
-Forthcoming
------------
+0.6.3 (2022-02-17)
+------------------
 * [husky_bringup] Removed udev folder from CMakeLists.txt.
 * Contributors: Tony Baltovski
 
