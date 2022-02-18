@@ -13,7 +13,7 @@ jobs:
           - {ROS_DISTRO: noetic, ROS_REPO: testing}
     runs-on: ubuntu-latest
     steps:
-      - run: wget -c https://gist.githubusercontent.com/tonybaltovski/ab7a4ddc58d85590e3a7ce7ef6c33ea0/raw/b4da6778bdf4e7ba0c2e3d0770f335d996895c70/ci-test.bash && bash ci-test.sh 
+      - run: wget -c https://gist.githubusercontent.com/tonybaltovski/ab7a4ddc58d85590e3a7ce7ef6c33ea0/raw/b4da6778bdf4e7ba0c2e3d0770f335d996895c70/ci-test.bash && bash ci-test.bash
       - uses: actions/checkout@v1
       - uses: 'ros-industrial/industrial_ci@master'
         env: ${{matrix.env}}
