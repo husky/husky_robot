@@ -82,8 +82,8 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
-Forthcoming
------------
+0.6.4 (2022-03-21)
+------------------
 * [husky_bringup] Updated compute_calibration script to explicitly use Python3.
 * [husky_bringup] Updated install script to explicitly use Python3.
 * Contributors: Tony Baltovski
