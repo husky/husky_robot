@@ -82,6 +82,12 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* [husky_bringup] Updated compute_calibration script to explicitly use Python3.
+* [husky_bringup] Updated install script to explicitly use Python3.
+* Contributors: Tony Baltovski
+
 0.6.3 (2022-02-17)
 ------------------
 * [husky_bringup] Removed udev folder from CMakeLists.txt.
