@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rosbag
 
@@ -15,7 +15,7 @@ try:
   from scipy import optimize
 except ImportError:
   print("This script requires scipy be available.")
-  print("On Ubuntu: sudo apt-get install python-scipy")
+  print("On Ubuntu: sudo apt-get install python3-scipy")
   exit(1)
 
 # Plots are optional
