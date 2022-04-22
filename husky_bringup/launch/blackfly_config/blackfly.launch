@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <group if="$(optenv HUSKY_BLACKFLY 0)">
+    <include file="$(find spinnaker_camera_driver)/launch/camera.launch">
+      <arg name="camera_name"   value="$(optenv HUSKY_BLACKFLY_PREFIX front_camera)"/>
+      <arg name="camera_serial" value="$(optenv HUSKY_BLACKFLY_SERIAL 0)"/>
+      <arg name="device_type"   value="$(optenv HUSKY_BLACKFLY_DEVICE USB)"/> <!-- USB3 or GigE -->
+      <arg name="encoding"      value="$(optenv HUSKY_BLACKFLY_ENCODING BayerRGB)"/>
+      <arg name="frame_rate"    value="$(optenv HUSKY_BLACKFLY_FRAMERATE 30)"/>
+    </include>
+  </group>
+</launch>
