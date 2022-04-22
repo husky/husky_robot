@@ -34,6 +34,7 @@
   <run_depend>robot_localization</run_depend>
   <run_depend>robot_upstart</run_depend>
   <run_depend>ros_mscl</run_depend>
+  <run_depend>spinnaker_camera_driver</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>um6</run_depend>
