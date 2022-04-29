@@ -29,4 +29,7 @@ if os.environ.get('HUSKY_UST10_IP') or os.environ.get('HUSKY_UST10_SECONDARY_IP'
 if os.environ.get('HUSKY_LASER_3D_ENABLED'):
   j.add(package="husky_bringup", glob="launch/velodyne_config/*")
 
+if os.environ.get('HUSKY_BLACKFLY'):
+  j.add(package="husky_bringup", glob="launch/blackfly_config/*")
+
 j.install()
