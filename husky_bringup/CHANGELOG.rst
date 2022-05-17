@@ -82,6 +82,15 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* Added Blackfly entry to install script
+* Added Blackfly launch file
+* Added spinnaker_camera_driver to package.xml
+* Add HUSKY_REALSENSE_TOPIC envar for choosing prefix namespace for all realsense topics
+* Update realsense launch file based on changes from realsense2_camera
+* Contributors: Joey Yang, Luis Camero
+
 0.6.4 (2022-03-21)
 ------------------
 * [husky_bringup] Updated compute_calibration script to explicitly use Python3.
