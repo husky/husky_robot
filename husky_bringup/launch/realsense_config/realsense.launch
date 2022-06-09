@@ -1,161 +1,84 @@
+
 <launch>
-  <arg name="serial_no"           default=""/>
-  <arg name="usb_port_id"         default=""/>
-  <arg name="device_type"         default=""/>
-  <arg name="json_file_path"      default=""/>
-  <arg name="camera"              default="$(optenv HUSKY_REALSENSE_TOPIC realsense)"/>
-  <arg name="tf_prefix"           default="$(arg camera)"/>
-  <arg name="external_manager"    default="false"/>
-  <arg name="manager"             default="realsense2_camera_manager"/>
-  <arg name="base_frame_id"       default="$(optenv HUSKY_REALSENSE_MOUNT_FRAME sensor_arch_mount_link)" />
-  <arg name="output"              default="screen"/>
-  <arg name="respawn"             default="false"/>
+  <arg name="initial_reset"     default="false"/>
+  <arg name="reconnect_timeout" default="6.0"/>
+  <!-- Primary -->
+  <arg name="enable"                 default="$(optenv HUSKY_REALSENSE_ENABLED 0)"/>
+  <arg name="serial"                 default="$(optenv HUSKY_REALSENSE_SERIAL 0)"/> <!-- Serial No. -->
+  <arg name="topic"                  default="$(optenv HUSKY_REALSENSE_TOPIC realsense)"/> <!-- Namespace -->
+  <arg name="pointcloud_enabled"     default="$(optenv HUSKY_REALSENSE_POINTCLOUD_ENABLED 1)"/>
+  <arg name="filters"                default="$(eval 'pointcloud' if arg('pointcloud_enabled') else '')"/>
+  <arg name="depth_enabled"          default="$(optenv HUSKY_REALSENSE_DEPTH_ENABLED 1)"/>
+  <arg name="depth_frames"           default="$(optenv HUSKY_REALSENSE_DEPTH_FRAMERATE 30)"/>
+  <arg name="depth_height"           default="$(optenv HUSKY_REALSENSE_DEPTH_HEIGHT 480)"/>
+  <arg name="depth_width"            default="$(optenv HUSKY_REALSENSE_DEPTH_WIDTH 640)"/>
+  <arg name="color_enabled"          default="$(optenv HUSKY_REALSENSE_COLOR_ENABLED true)"/>
+  <arg name="color_frames"           default="$(optenv HUSKY_REALSENSE_COLOR_FRAMERATE 30)"/>
+  <arg name="color_height"           default="$(optenv HUSKY_REALSENSE_COLOR_HEIGHT 480)"/>
+  <arg name="color_width"            default="$(optenv HUSKY_REALSENSE_COLOR_WIDTH 640)"/>
+  <arg name="tf_prefix"              default="$(optenv HUSKY_REALSENSE_PREFIX camera)"/>
+  <arg name="base_frame_id"          default="$(arg tf_prefix)_realsense_mountpoint"/>
 
-  <arg name="fisheye_width"       default="640"/>
-  <arg name="fisheye_height"      default="480"/>
-  <arg name="enable_fisheye"      default="true"/>
+  <!-- Secondary -->
+  <arg name="secondary_enable"              default="$(optenv HUSKY_REALSENSE_SECONDARY_ENABLED 0)"/>
+  <arg name="secondary_serial"              default="$(optenv HUSKY_REALSENSE_SECONDARY_SERIAL 0)"/> <!-- Serial No. -->
+  <arg name="secondary_topic"               default="$(optenv HUSKY_REALSENSE_SECONDARY_TOPIC realsense_secondary)"/> <!-- Namespace -->
+  <arg name="secondary_pointcloud_enabled"  default="$(optenv HUSKY_REALSENSE_SECONDARY_POINTCLOUD_ENABLED 1)"/>
+  <arg name="secondary_filters"             default="$(eval 'pointcloud' if arg('secondary_pointcloud_enabled') else '')"/>
+  <arg name="secondary_depth_enabled"       default="$(optenv HUSKY_REALSENSE_DEPTH_ENABLED 1)"/>
+  <arg name="secondary_depth_frames"        default="$(optenv HUSKY_REALSENSE_DEPTH_FRAMERATE 30)"/>
+  <arg name="secondary_depth_height"        default="$(optenv HUSKY_REALSENSE_DEPTH_HEIGHT 480)"/>
+  <arg name="secondary_depth_width"         default="$(optenv HUSKY_REALSENSE_DEPTH_WIDTH 640)"/>
+  <arg name="secondary_color_enabled"       default="$(optenv HUSKY_REALSENSE_COLOR_ENABLED true)"/>
+  <arg name="secondary_color_frames"        default="$(optenv HUSKY_REALSENSE_COLOR_FRAMERATE 30)"/>
+  <arg name="secondary_color_height"        default="$(optenv HUSKY_REALSENSE_COLOR_HEIGHT 480)"/>
+  <arg name="secondary_color_width"         default="$(optenv HUSKY_REALSENSE_COLOR_WIDTH 640)"/>
+  <arg name="secondary_tf_prefix"           default="$(optenv HUSKY_REALSENSE_SECONDARY_PREFIX secondary_camera)"/>
+  <arg name="secondary_base_frame_id"       default="$(arg secondary_tf_prefix)_realsense_mountpoint"/>
 
-  <arg name="depth_width"         default="640"/>
-  <arg name="depth_height"        default="480"/>
-  <arg name="enable_depth"        default="true"/>
-
-  <arg name="infra_width"         default="640"/>
-  <arg name="infra_height"        default="480"/>
-  <arg name="enable_infra"        default="true"/>
-  <arg name="enable_infra1"       default="true"/>
-  <arg name="enable_infra2"       default="true"/>
-  <arg name="infra_rgb"           default="true"/>
-
-  <arg name="color_width"         default="640"/>
-  <arg name="color_height"        default="480"/>
-  <arg name="enable_color"        default="true"/>
-
-  <arg name="fisheye_fps"         default="30"/>
-  <arg name="depth_fps"           default="30"/>
-  <arg name="infra_fps"           default="30"/>
-  <arg name="color_fps"           default="30"/>
-  <arg name="gyro_fps"            default="400"/>
-  <arg name="accel_fps"           default="250"/>
-  <arg name="enable_gyro"         default="true"/>
-  <arg name="enable_accel"        default="true"/>
-
-  <!-- 
-    Usage of enable_pointcloud=true is deprecated, use filters=pointcloud instead
-  -->
-  <arg name="enable_pointcloud"         default="false"/>
-  <arg name="filters"                   default="pointcloud"/>
-  <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
-  <arg name="pointcloud_texture_index"  default="0"/>
-  <arg name="allow_no_texture_points"   default="false"/>
-  <arg name="ordered_pc"                default="false"/>
-
-  <arg name="enable_sync"               default="false"/>
-  <arg name="align_depth"               default="false"/>
-
-  <arg name="publish_tf"                default="true"/>
-  <arg name="tf_publish_rate"           default="0"/>
-
-  <arg name="clip_distance"             default="-2"/>
-  <arg name="linear_accel_cov"          default="0.01"/>
-  <arg name="initial_reset"             default="false"/>
-  <arg name="reconnect_timeout"         default="6.0"/>
-  <arg name="wait_for_device_timeout"   default="-1.0"/>
-  <arg name="unite_imu_method"          default=""/>
-  <arg name="topic_odom_in"             default="odom_in"/>
-  <arg name="calib_odom_file"           default=""/>
-  <arg name="publish_odom_tf"           default="true"/>
-
-  <group ns="$(arg camera)">
+  <!-- Primary Launch -->
+  <group if="$(arg enable)" ns="$(arg topic)">
     <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
-      <arg name="tf_prefix"                value="$(arg tf_prefix)"/>
-      <arg name="base_frame_id"            value="$(arg base_frame_id)"/>
-      <arg name="external_manager"         value="$(arg external_manager)"/>
-      <arg name="manager"                  value="$(arg manager)"/>
-      <arg name="output"                   value="$(arg output)"/>
-      <arg name="respawn"                  value="$(arg respawn)"/>
-      <arg name="serial_no"                value="$(arg serial_no)"/>
-      <arg name="usb_port_id"              value="$(arg usb_port_id)"/>
-      <arg name="device_type"              value="$(arg device_type)"/>
-      <arg name="json_file_path"           value="$(arg json_file_path)"/>
-
-      <arg name="fisheye_width"            value="$(arg fisheye_width)"/>
-      <arg name="fisheye_height"           value="$(arg fisheye_height)"/>
-      <arg name="enable_fisheye"           value="$(arg enable_fisheye)"/>
-
-      <arg name="depth_width"              value="$(arg depth_width)"/>
-      <arg name="depth_height"             value="$(arg depth_height)"/>
-      <arg name="enable_depth"             value="$(arg enable_depth)"/>
-
-      <arg name="color_width"              value="$(arg color_width)"/>
-      <arg name="color_height"             value="$(arg color_height)"/>
-      <arg name="enable_color"             value="$(arg enable_color)"/>
-
-      <arg name="infra_width"              value="$(arg infra_width)"/>
-      <arg name="infra_height"             value="$(arg infra_height)"/>
-      <arg name="enable_infra"             value="$(arg enable_infra)"/>
-      <arg name="enable_infra1"            value="$(arg enable_infra1)"/>
-      <arg name="enable_infra2"            value="$(arg enable_infra2)"/>
-      <arg name="infra_rgb"                value="$(arg infra_rgb)"/>
-
-      <arg name="fisheye_fps"              value="$(arg fisheye_fps)"/>
-      <arg name="depth_fps"                value="$(arg depth_fps)"/>
-      <arg name="infra_fps"                value="$(arg infra_fps)"/>
-      <arg name="color_fps"                value="$(arg color_fps)"/>
-      <arg name="gyro_fps"                 value="$(arg gyro_fps)"/>
-      <arg name="accel_fps"                value="$(arg accel_fps)"/>
-      <arg name="enable_gyro"              value="$(arg enable_gyro)"/>
-      <arg name="enable_accel"             value="$(arg enable_accel)"/>
-
-      <arg name="enable_pointcloud"        value="$(arg enable_pointcloud)"/>
-      <arg name="filters"                  value="$(arg filters)"/>
-      <arg name="pointcloud_texture_stream" value="$(arg pointcloud_texture_stream)"/>
-      <arg name="pointcloud_texture_index"  value="$(arg pointcloud_texture_index)"/>
-      <arg name="allow_no_texture_points"  value="$(arg allow_no_texture_points)"/>
-      <arg name="ordered_pc"               value="$(arg ordered_pc)"/>
-
-      <arg name="enable_sync"              value="$(arg enable_sync)"/>
-      <arg name="align_depth"              value="$(arg align_depth)"/>
-      
-      <arg name="publish_tf"               value="$(arg publish_tf)"/>
-      <arg name="tf_publish_rate"          value="$(arg tf_publish_rate)"/>
-
-      <arg name="clip_distance"            value="$(arg clip_distance)"/>
-      <arg name="linear_accel_cov"         value="$(arg linear_accel_cov)"/>
-      <arg name="initial_reset"            value="$(arg initial_reset)"/>
-      <arg name="reconnect_timeout"        value="$(arg reconnect_timeout)"/>
-      <arg name="wait_for_device_timeout"  value="$(arg wait_for_device_timeout)"/>
-      <arg name="unite_imu_method"         value="$(arg unite_imu_method)"/>
-      <arg name="topic_odom_in"            value="$(arg topic_odom_in)"/>
-      <arg name="calib_odom_file"          value="$(arg calib_odom_file)"/>
-      <arg name="publish_odom_tf"          value="$(arg publish_odom_tf)"/>
+      <arg name="serial_no"             value="$(arg serial)"/>
+      <arg name="tf_prefix"             value="$(arg tf_prefix)"/>
+      <arg name="base_frame_id"         value="$(arg base_frame_id)"/>
+      <arg name="initial_reset"         value="$(arg initial_reset)"/>
+      <arg name="reconnect_timeout"     value="$(arg reconnect_timeout)"/>
+      <!-- color -->
+      <arg name="enable_color"          value="$(arg color_enabled)"/>
+      <arg name="color_width"           value="$(arg color_width)"/>
+      <arg name="color_height"          value="$(arg color_height)"/>
+      <arg name="color_fps"             value="$(arg color_frames)"/>
+      <!-- depth -->
+      <arg name="enable_depth"          value="$(arg depth_enabled)"/>
+      <arg name="depth_width"           value="$(arg depth_width)"/>
+      <arg name="depth_height"          value="$(arg depth_height)"/>
+      <arg name="depth_fps"             value="$(arg depth_frames)"/>
+      <!-- pointcloud -->
+      <arg name="filters"               value="$(arg filters)"/>
     </include>
   </group>
 
-  <!-- Include poincloud_to_laserscan if realsense is attached -->
-  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="realsense_to_laserscan" output="screen">
-
-      <remap from="cloud_in" to="realsense/depth/color/points"/>
-      <remap from="scan" to="realsense/scan"/>
-      <!-- TODO: modify these to match the Realsense D400 series parameters -->
-      <rosparam>
-          target_frame: base_link # Leave empty to output scan in the pointcloud frame
-          tolerance: 1.0
-          min_height: 0.05
-          max_height: 1.0
-
-          angle_min: -0.7592182246175333 # -(87/2))*M_PI/180.0
-          angle_max: 0.7592182246175333 # (87/2))*M_PI/180.0
-          angle_increment: 0.005 # M_PI/360.0
-          scan_time: 0.3333
-          range_min: 0.105
-          range_max: 8.0
-          use_inf: true
-
-          # Concurrency level, affects number of pointclouds queued for processing and number of threads used
-          # 0 : Detect number of cores
-          # 1 : Single threaded
-          # 2->inf : Parallelism level
-          concurrency_level: 1
-      </rosparam>
-  </node>
+  <!-- Secondary Launch -->
+  <group if="$(arg secondary_enable)" ns="$(arg secondary_topic)">
+    <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+      <arg name="serial_no"             value="$(arg secondary_serial)"/>
+      <arg name="tf_prefix"             value="$(arg secondary_tf_prefix)"/>
+      <arg name="base_frame_id"         value="$(arg secondary_base_frame_id)"/>
+      <arg name="initial_reset"         value="$(arg initial_reset)"/>
+      <arg name="reconnect_timeout"     value="$(arg reconnect_timeout)"/>
+      <!-- color -->
+      <arg name="enable_color"          value="$(arg secondary_color_enabled)"/>
+      <arg name="color_width"           value="$(arg secondary_color_width)"/>
+      <arg name="color_height"          value="$(arg secondary_color_height)"/>
+      <arg name="color_fps"             value="$(arg secondary_color_frames)"/>
+      <!-- depth -->
+      <arg name="enable_depth"          value="$(arg secondary_depth_enabled)"/>
+      <arg name="depth_width"           value="$(arg secondary_depth_width)"/>
+      <arg name="depth_height"          value="$(arg secondary_depth_height)"/>
+      <arg name="depth_fps"             value="$(arg secondary_depth_frames)"/>
+      <!-- pointcloud -->
+      <arg name="filters"               value="$(arg secondary_filters)"/>
+    </include>
+  </group>
 </launch>
