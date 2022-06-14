@@ -5,13 +5,13 @@
   <group if="$(arg lms1xx_enabled)">
     <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node">
       <param name="host" value="$(env HUSKY_LMS1XX_IP)" />
-      <param name="frame_id" value="base_laser" />
+      <param name="frame_id" value="$(optenv HUSKY_LMS1XX_PREFIX front)_laser" />
     </node>
   </group>
   <group if="$(arg lms1xx_secondary_enabled)">
     <node pkg="lms1xx" name="lms1xx_secondary" type="LMS1xx_node">
       <param name="host" value="$(env HUSKY_LMS1XX_SECONDARY_IP)" />
-      <param name="frame_id" value="rear_laser" />
+      <param name="frame_id" value="$(optenv HUSKY_LMS1XX_SECONDARY_PREFIX rear)_laser" />
     </node>
   </group>
 </launch>
