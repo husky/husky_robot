@@ -1,12 +1,36 @@
 <?xml version="1.0"?>
 <launch>
-  <group if="$(optenv HUSKY_BLACKFLY 0)">
+  <arg name="blackfly_enable" default="$(optenv HUSKY_BLACKFLY 0)"/>
+  <arg name="blackfly_prefix" default="$(optenv HUSKY_BLACKFLY_PREFIX blackfly)"/>
+  <arg name="blackfly_serial" default="$(optenv HUSKY_BLACKFLY_SERIAL 0)"/>
+  <arg name="blackfly_device" default="$(optenv HUSKY_BLACKFLY_DEVICE USB3)"/> <!-- USB3 or GigE-->
+  <arg name="blackfly_encode" default="$(optenv HUSKY_BLACKFLY_ENCODING BayerRG8)"/>
+  <arg name="blackfly_frames" default="$(optenv HUSKY_BLACKFLY_FRAMERATE 30)"/>
+
+  <arg name="blackfly_secondary_enable" default="$(optenv HUSKY_BLACKFLY_SECONDARY 0)"/>
+  <arg name="blackfly_secondary_prefix" default="$(optenv HUSKY_BLACKFLY_SECONDARY_PREFIX blackfly_secondary)"/>
+  <arg name="blackfly_secondary_serial" default="$(optenv HUSKY_BLACKFLY_SECONDARY_SERIAL 0)"/>
+  <arg name="blackfly_secondary_device" default="$(optenv HUSKY_BLACKFLY_SECONDARY_DEVICE USB3)"/> <!-- USB3 or GigE-->
+  <arg name="blackfly_secondary_encode" default="$(optenv HUSKY_BLACKFLY_SECONDARY_ENCODING BayerRG8)"/>
+  <arg name="blackfly_secondary_frames" default="$(optenv HUSKY_BLACKFLY_SECONDARY_FRAMERATE 30)"/>
+
+  <group if="$(arg blackfly_enable)">
     <include file="$(find spinnaker_camera_driver)/launch/camera.launch">
-      <arg name="camera_name"   value="$(optenv HUSKY_BLACKFLY_PREFIX front_camera)"/>
-      <arg name="camera_serial" value="$(optenv HUSKY_BLACKFLY_SERIAL 0)"/>
-      <arg name="device_type"   value="$(optenv HUSKY_BLACKFLY_DEVICE USB)"/> <!-- USB3 or GigE -->
-      <arg name="encoding"      value="$(optenv HUSKY_BLACKFLY_ENCODING BayerRGB)"/>
-      <arg name="frame_rate"    value="$(optenv HUSKY_BLACKFLY_FRAMERATE 30)"/>
+      <arg name="camera_name"   value="$(arg blackfly_prefix)"/>
+      <arg name="camera_serial" value="$(arg blackfly_serial)"/>
+      <arg name="device_type"   value="$(arg blackfly_device)"/>
+      <arg name="encoding"      value="$(arg blackfly_encode)"/>
+      <arg name="frame_rate"    value="$(arg blackfly_frames)"/>
+    </include>
+  </group>
+
+  <group if="$(arg blackfly_secondary_enable)">
+    <include file="$(find spinnaker_camera_driver)/launch/camera.launch">
+      <arg name="camera_name"   value="$(arg blackfly_secondary_prefix)"/>
+      <arg name="camera_serial" value="$(arg blackfly_secondary_serial)"/>
+      <arg name="device_type"   value="$(arg blackfly_secondary_device)"/>
+      <arg name="encoding"      value="$(arg blackfly_secondary_encode)"/>
+      <arg name="frame_rate"    value="$(arg blackfly_secondary_frames)"/>
     </include>
   </group>
 </launch>

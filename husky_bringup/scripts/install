@@ -26,10 +26,13 @@ if os.environ.get('HUSKY_LMS1XX_IP') or os.environ.get('HUSKY_LMS1XX_SECONDARY_I
 if os.environ.get('HUSKY_UST10_IP') or os.environ.get('HUSKY_UST10_SECONDARY_IP'):
   j.add(package="husky_bringup", glob="launch/hokuyo_config/*")
 
-if os.environ.get('HUSKY_LASER_3D_ENABLED'):
+if os.environ.get('HUSKY_LASER_3D_ENABLED') or os.environ.get('HUSKY_LASER_3D_SECONDARY_ENABLED'):
   j.add(package="husky_bringup", glob="launch/velodyne_config/*")
 
-if os.environ.get('HUSKY_BLACKFLY'):
+if os.environ.get('HUSKY_REALSENSE_ENABLED') or os.environ.get('HUSKY_REALSENSE_SECONDARY_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/realsense_config/*")
+
+if os.environ.get('HUSKY_BLACKFLY') or os.environ.get("HUSKY_BLACKFLY_SECONDARY"):
   j.add(package="husky_bringup", glob="launch/blackfly_config/*")
 
 j.install()

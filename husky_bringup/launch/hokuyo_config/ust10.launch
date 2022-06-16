@@ -2,12 +2,12 @@
 <launch>
   <arg name="laser_front_enabled" default="$(optenv HUSKY_UST10_ENABLED false)" />
   <arg name="laser_front_ip"      default="$(optenv HUSKY_UST10_IP 192.168.131.20)" />
-  <arg name="laser_front_prefix"  default="$(optenv HUSKY_UST10_PREFIX front)_laser" />
+  <arg name="laser_front_prefix"  default="$(optenv HUSKY_UST10_PREFIX front)" />
   <arg name="laser_front_topic"   default="$(optenv HUSKY_UST10_TOPIC front/scan)" />
 
   <arg name="laser_rear_enabled" default="$(optenv HUSKY_UST10_SECONDARY_ENABLED false)" />
   <arg name="laser_rear_ip"      default="$(optenv HUSKY_UST10_SECONDARY_IP 192.168.131.21)" />
-  <arg name="laser_rear_prefix"  default="$(optenv HUSKY_UST10_SECONDARY_PREFIX rear)_laser" />
+  <arg name="laser_rear_prefix"  default="$(optenv HUSKY_UST10_SECONDARY_PREFIX rear)" />
   <arg name="laser_rear_topic"   default="$(optenv HUSKY_UST10_SECONDARY_TOPIC rear/scan)" />
 
   <group if="$(arg laser_front_enabled)" >
