@@ -2,7 +2,7 @@
 <launch>
   <!-- Primary Parameters -->
   <arg name="laser_3d_enabled"  default="$(optenv HUSKY_LASER_3D_ENABLED false)" />
-  <arg name="laser_3d_prefix"   default="$(optenv HUSKY_LASER_3D_PREFIX '')" />
+  <arg name="laser_3d_prefix"   default="$(optenv HUSKY_LASER_3D_PREFIX )" />
   <arg name="laser_3d_host"     default="$(optenv HUSKY_LASER_3D_HOST 192.168.131.20)" />
   <arg name="laser_3d_topic"    default="$(optenv HUSKY_LASER_3D_TOPIC points)"/>
   <arg name="laser_3d_frame"    default="$(arg laser_3d_prefix)velodyne"/>
