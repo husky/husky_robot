@@ -82,6 +82,25 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* Fixes for velodyne prefix
+* Secondary sensors (`#24 <https://github.com/husky/husky_robot/issues/24>`_)
+  * Added second blackfly to launch
+  * Fixed prefix in UST10 launch
+  * Added remap to launch file to get desired topics
+  * Launch file now launches 2 Reaslenses directly using Nodelet launch
+  * Added second 3D laser to launch file
+  * Added entries for secondary sensors
+  * Added new line at EOF
+* Use configurable laser prefix
+  husky_description supports changing the frame ID, but without being able to change the frame ID in the launch file you wind up with a broken tf
+  - https://github.com/husky/husky/blob/2c46d3b0d4815bdf4a8973d62439657155f831da/husky_description/urdf/husky.urdf.xacro#L35
+  - https://github.com/husky/husky/blob/2c46d3b0d4815bdf4a8973d62439657155f831da/husky_description/urdf/husky.urdf.xacro#L42
+  Also, the existing default "base_laser" is inconsistent with the latest husky_description.
+  IndoorNav, because of how Otto's implemented parts of it, currently requires the front & rear lidar frames to be `front_laser` and `rear_laser` respectively, so fixing this will also make IndoorNav easier to develop/maintain.
+* Contributors: Chris I-B, Luis Camero, luis-camero
+
 0.6.6 (2022-05-17)
 ------------------
 
