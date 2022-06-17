@@ -82,8 +82,8 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
-Forthcoming
------------
+0.6.7 (2022-06-16)
+------------------
 * Fixes for velodyne prefix
 * Secondary sensors (`#24 <https://github.com/husky/husky_robot/issues/24>`_)
   * Added second blackfly to launch
