@@ -1,10 +1,33 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="laser_3d_enabled" default="$(optenv HUSKY_LASER_3D_ENABLED false)" />
+  <!-- Primary Parameters -->
+  <arg name="laser_3d_enabled"  default="$(optenv HUSKY_LASER_3D_ENABLED false)" />
+  <arg name="laser_3d_prefix"   default="$(optenv HUSKY_LASER_3D_PREFIX )" />
+  <arg name="laser_3d_host"     default="$(optenv HUSKY_LASER_3D_HOST 192.168.131.20)" />
+  <arg name="laser_3d_topic"    default="$(optenv HUSKY_LASER_3D_TOPIC points)"/>
+  <arg name="laser_3d_frame"    default="$(arg laser_3d_prefix)velodyne"/>
+
+  <!-- Secondary Parameters -->
+  <arg name="laser_3d_secondary_enabled"  default="$(optenv HUSKY_LASER_3D_SECONDARY_ENABLED false)" />
+  <arg name="laser_3d_secondary_prefix"   default="$(optenv HUSKY_LASER_3D_SECONDARY_PREFIX secondary_)" />
+  <arg name="laser_3d_secondary_host"     default="$(optenv HUSKY_LASER_3D_SECONDARY_HOST 192.168.131.21)" />
+  <arg name="laser_3d_secondary_topic"    default="$(optenv HUSKY_LASER_3D_SECONDARY_TOPIC secondary_points)"/>
+  <arg name="laser_3d_secondary_frame"    default="$(arg laser_3d_secondary_prefix)velodyne"/>
+
+  <!-- Primary Launch -->
   <group if="$(arg laser_3d_enabled)">
     <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
-      <arg name="device_ip" value="$(optenv HUSKY_LASER_3D_HOST 192.168.131.20)" />
-      <remap from="velodyne_points" to="$(optenv HUSKY_LASER_3D_TOPIC points)" />
+      <arg name="frame_id" value="$(arg laser_3d_frame)" />
+      <arg name="device_ip" value="$(arg laser_3d_host)" />
+      <remap from="velodyne_points" to="$(arg laser_3d_topic)" />
+    </include>
+  </group>
+  <!-- Secondary Launch -->
+  <group if="$(arg laser_3d_secondary_enabled)">
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+      <arg name="frame_id" value="$(arg laser_3d_secondary_frame)" />
+      <arg name="device_ip" value="$(arg laser_3d_secondary_host)" />
+      <remap from="velodyne_points" to="$(arg laser_3d_secondary_topic)" />
     </include>
   </group>
 </launch>

@@ -82,6 +82,63 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+0.6.7 (2022-06-16)
+------------------
+* Fixes for velodyne prefix
+* Secondary sensors (`#24 <https://github.com/husky/husky_robot/issues/24>`_)
+  * Added second blackfly to launch
+  * Fixed prefix in UST10 launch
+  * Added remap to launch file to get desired topics
+  * Launch file now launches 2 Reaslenses directly using Nodelet launch
+  * Added second 3D laser to launch file
+  * Added entries for secondary sensors
+  * Added new line at EOF
+* Use configurable laser prefix
+  husky_description supports changing the frame ID, but without being able to change the frame ID in the launch file you wind up with a broken tf
+  - https://github.com/husky/husky/blob/2c46d3b0d4815bdf4a8973d62439657155f831da/husky_description/urdf/husky.urdf.xacro#L35
+  - https://github.com/husky/husky/blob/2c46d3b0d4815bdf4a8973d62439657155f831da/husky_description/urdf/husky.urdf.xacro#L42
+  Also, the existing default "base_laser" is inconsistent with the latest husky_description.
+  IndoorNav, because of how Otto's implemented parts of it, currently requires the front & rear lidar frames to be `front_laser` and `rear_laser` respectively, so fixing this will also make IndoorNav easier to develop/maintain.
+* Contributors: Chris I-B, Luis Camero, luis-camero
+
+0.6.6 (2022-05-17)
+------------------
+
+0.6.5 (2022-05-17)
+------------------
+* Added Blackfly entry to install script
+* Added Blackfly launch file
+* Added spinnaker_camera_driver to package.xml
+* Add HUSKY_REALSENSE_TOPIC envar for choosing prefix namespace for all realsense topics
+* Update realsense launch file based on changes from realsense2_camera
+* Contributors: Joey Yang, Luis Camero
+
+0.6.4 (2022-03-21)
+------------------
+* [husky_bringup] Updated compute_calibration script to explicitly use Python3.
+* [husky_bringup] Updated install script to explicitly use Python3.
+* Contributors: Tony Baltovski
+
+0.6.3 (2022-02-17)
+------------------
+* [husky_bringup] Removed udev folder from CMakeLists.txt.
+* Contributors: Tony Baltovski
+
+0.6.2 (2022-02-15)
+------------------
+* Removed HUSKY_IMU_LINK since it can be strictly imu_link
+* Removed udev rules from bringup package
+* Removed references to microstrain_mips, now use ros_mscl
+* Bump CMake version to avoid CMP0048 warning.
+* Remove unnecessary PS4, Logitech udev rules.
+  These were previously removed from Melodic; not sure why they were re-added for Noetic, but I suspect it was a copy-paste error
+* Contributors: Chris I-B, Luis Camero, Tony Baltovski
+
+0.6.1 (2022-01-18)
+------------------
+* Added Hokuyo
+* Contributors: Luis Camero
+
 0.6.0 (2021-09-28)
 ------------------
 * Re-added husky_robot from husky.

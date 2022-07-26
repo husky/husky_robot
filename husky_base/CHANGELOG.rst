@@ -50,6 +50,29 @@ Changelog for package husky_base
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Martin Cote, Paul Bovbel, Tony Baltovski, Wolfgang Merkt
 
+0.6.7 (2022-06-16)
+------------------
+
+0.6.6 (2022-05-17)
+------------------
+
+0.6.5 (2022-05-17)
+------------------
+
+0.6.4 (2022-03-21)
+------------------
+
+0.6.3 (2022-02-17)
+------------------
+
+0.6.2 (2022-02-15)
+------------------
+* Bump CMake version to avoid CMP0048 warning.
+* Contributors: Tony Baltovski
+
+0.6.1 (2022-01-18)
+------------------
+
 0.6.0 (2021-09-28)
 ------------------
 * Re-added husky_robot from husky.

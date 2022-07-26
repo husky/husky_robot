@@ -1,17 +1,28 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="lms1xx_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)" />
-  <arg name="lms1xx_secondary_enabled" default="$(optenv HUSKY_LMS1XX_SECONDARY_ENABLED false)" />
+  <arg name="lms1xx_enabled"  default="$(optenv HUSKY_LMS1XX_ENABLED false)" />
+  <arg name="lms1xx_topic"    default="$(optenv HUSKY_LMS1XX_TOPIC front/scan)"/>
+  <arg name="lms1xx_ip"       default="$(optenv HUSKY_LMS1XX_IP 192.168.131.20)"/>
+  <arg name="lms1xx_prefix"   default="$(optenv HUSKY_LMS1XX_PREFIX front)"/>
+
+  <arg name="lms1xx_secondary_enabled"  default="$(optenv HUSKY_LMS1XX_SECONDARY_ENABLED false)" />
+  <arg name="lms1xx_secondary_topic"    default="$(optenv HUSKY_LMS1XX_SECONDARY_TOPIC rear/scan)"/>
+  <arg name="lms1xx_secondary_ip"       default="$(optenv HUSKY_LMS1XX_SECONDARY_IP 192.168.131.21)"/>
+  <arg name="lms1xx_secondary_prefix"   default="$(optenv HUSKY_LMS1XX_SECONDARY_PREFIX rear)"/>
+
   <group if="$(arg lms1xx_enabled)">
     <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node">
-      <param name="host" value="$(env HUSKY_LMS1XX_IP)" />
-      <param name="frame_id" value="base_laser" />
+      <param name="host" value="$(arg lms1xx_ip)" />
+      <param name="frame_id" value="$(arg lms1xx_prefix)_laser" />
+      <remap from="scan" to="$(arg lms1xx_topic)"/>
     </node>
   </group>
+
   <group if="$(arg lms1xx_secondary_enabled)">
     <node pkg="lms1xx" name="lms1xx_secondary" type="LMS1xx_node">
-      <param name="host" value="$(env HUSKY_LMS1XX_SECONDARY_IP)" />
-      <param name="frame_id" value="rear_laser" />
+      <param name="host" value="$(arg lms1xx_secondary_ip)" />
+      <param name="frame_id" value="$(arg lms1xx_secondary_prefix)_laser" />
+      <remap from="scan" to="$(arg lms1xx_secondary_topic)"/>
     </node>
   </group>
 </launch>

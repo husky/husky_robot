@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import robot_upstart
 import os
@@ -14,11 +14,8 @@ if os.path.exists('/dev/clearpath/imu') or os.path.exists('/dev/clearpath/um6'):
 if os.path.exists('/dev/clearpath/um7'):
   j.add(package="husky_bringup", glob="launch/um7_config/*")
 
-if os.path.exists('/dev/microstrain_gx3'):
-  j.add(package="husky_bringup", glob="launch/microstrain_gx3_config/*")
-
-if os.path.exists('/dev/microstrain_gx5'):
-  j.add(package="husky_bringup", glob="launch/microstrain_gx5_config/*")
+if os.path.exists('/dev/microstrain'):
+  j.add(package="husky_bringup", glob="launch/microstrain_config/*")
 
 if os.path.exists('/dev/clearpath/gps'):
   j.add(package="husky_bringup", glob="launch/navsat_config/*")
@@ -26,7 +23,16 @@ if os.path.exists('/dev/clearpath/gps'):
 if os.environ.get('HUSKY_LMS1XX_IP') or os.environ.get('HUSKY_LMS1XX_SECONDARY_IP'):
   j.add(package="husky_bringup", glob="launch/lms1xx_config/*")
 
-if os.environ.get('HUSKY_LASER_3D_ENABLED'):
+if os.environ.get('HUSKY_UST10_IP') or os.environ.get('HUSKY_UST10_SECONDARY_IP'):
+  j.add(package="husky_bringup", glob="launch/hokuyo_config/*")
+
+if os.environ.get('HUSKY_LASER_3D_ENABLED') or os.environ.get('HUSKY_LASER_3D_SECONDARY_ENABLED'):
   j.add(package="husky_bringup", glob="launch/velodyne_config/*")
+
+if os.environ.get('HUSKY_REALSENSE_ENABLED') or os.environ.get('HUSKY_REALSENSE_SECONDARY_ENABLED'):
+  j.add(package="husky_bringup", glob="launch/realsense_config/*")
+
+if os.environ.get('HUSKY_BLACKFLY') or os.environ.get("HUSKY_BLACKFLY_SECONDARY"):
+  j.add(package="husky_bringup", glob="launch/blackfly_config/*")
 
 j.install()

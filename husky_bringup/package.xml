@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>husky_bringup</name>
-  <version>0.6.0</version>
+  <version>0.6.7</version>
   <description>Clearpath Husky installation and integration package</description>
 
   <author email="mpurvis@clearpathrobotics.com">Mike Purvis</author>
@@ -34,10 +34,12 @@
   <run_depend>robot_localization</run_depend>
   <run_depend>robot_upstart</run_depend>
   <run_depend>ros_mscl</run_depend>
+  <run_depend>spinnaker_camera_driver</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>um6</run_depend>
   <run_depend>um7</run_depend>
+  <run_depend>urg_node</run_depend>
   <run_depend>velodyne_pointcloud</run_depend>
 
   <export>
