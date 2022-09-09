@@ -17,7 +17,6 @@
   <arg name="color_height"           default="$(optenv HUSKY_REALSENSE_COLOR_HEIGHT 480)"/>
   <arg name="color_width"            default="$(optenv HUSKY_REALSENSE_COLOR_WIDTH 640)"/>
   <arg name="tf_prefix"              default="$(optenv HUSKY_REALSENSE_PREFIX camera)"/>
-  <arg name="base_frame_id"          default="$(arg tf_prefix)_realsense_mountpoint"/>
 
   <!-- Secondary -->
   <arg name="secondary_enable"              default="$(optenv HUSKY_REALSENSE_SECONDARY_ENABLED 0)"/>
@@ -34,14 +33,12 @@
   <arg name="secondary_color_height"        default="$(optenv HUSKY_REALSENSE_COLOR_HEIGHT 480)"/>
   <arg name="secondary_color_width"         default="$(optenv HUSKY_REALSENSE_COLOR_WIDTH 640)"/>
   <arg name="secondary_tf_prefix"           default="$(optenv HUSKY_REALSENSE_SECONDARY_PREFIX secondary_camera)"/>
-  <arg name="secondary_base_frame_id"       default="$(arg secondary_tf_prefix)_realsense_mountpoint"/>
 
   <!-- Primary Launch -->
   <group if="$(arg enable)" ns="$(arg topic)">
     <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
       <arg name="serial_no"             value="$(arg serial)"/>
       <arg name="tf_prefix"             value="$(arg tf_prefix)"/>
-      <arg name="base_frame_id"         value="$(arg base_frame_id)"/>
       <arg name="initial_reset"         value="$(arg initial_reset)"/>
       <arg name="reconnect_timeout"     value="$(arg reconnect_timeout)"/>
       <!-- color -->
@@ -64,7 +61,6 @@
     <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
       <arg name="serial_no"             value="$(arg secondary_serial)"/>
       <arg name="tf_prefix"             value="$(arg secondary_tf_prefix)"/>
-      <arg name="base_frame_id"         value="$(arg secondary_base_frame_id)"/>
       <arg name="initial_reset"         value="$(arg initial_reset)"/>
       <arg name="reconnect_timeout"     value="$(arg reconnect_timeout)"/>
       <!-- color -->
