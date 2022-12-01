@@ -39,10 +39,10 @@ namespace
   const int UNDERVOLT_WARN = 19;
   const int OVERVOLT_ERROR = 30;
   const int OVERVOLT_WARN = 29;
-  const int DRIVER_OVERTEMP_ERROR = 50;
-  const int DRIVER_OVERTEMP_WARN = 30;
+  const int DRIVER_OVERTEMP_ERROR = 60;
+  const int DRIVER_OVERTEMP_WARN = 50;
   const int MOTOR_OVERTEMP_ERROR = 80;
-  const int MOTOR_OVERTEMP_WARN = 70;
+  const int MOTOR_OVERTEMP_WARN = 65;
   const double LOWPOWER_ERROR = 0.2;
   const double LOWPOWER_WARN = 0.3;
   const int CONTROLFREQ_WARN = 90;
@@ -125,19 +125,19 @@ namespace husky_base
 
     if (std::max(msg_.left_driver_temp, msg_.right_driver_temp) > DRIVER_OVERTEMP_ERROR)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Motor drivers too hot");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Motor drivers are over temp");
     }
     else if (std::max(msg_.left_driver_temp, msg_.right_driver_temp) > DRIVER_OVERTEMP_WARN)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Motor drivers too hot");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Motor drivers are at or over 50 degrees C");
     }
     else if (std::max(msg_.left_motor_temp, msg_.right_motor_temp) > MOTOR_OVERTEMP_ERROR)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Motors too hot");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::ERROR, "Motors are over temp");
     }
     else if (std::max(msg_.left_motor_temp, msg_.right_motor_temp) > MOTOR_OVERTEMP_WARN)
     {
-      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Motors too hot");
+      stat.mergeSummary(diagnostic_msgs::DiagnosticStatus::WARN, "Motors are at or over 65 degrees C");
     }
     else
     {
