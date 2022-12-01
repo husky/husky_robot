@@ -50,6 +50,11 @@ Changelog for package husky_base
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Martin Cote, Paul Bovbel, Tony Baltovski, Wolfgang Merkt
 
+Forthcoming
+-----------
+* [husky_base] Updated diagnostics for motor and motor driver temperatures.
+* Contributors: Tony Baltovski
+
 0.6.7 (2022-06-16)
 ------------------
 

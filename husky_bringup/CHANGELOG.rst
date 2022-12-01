@@ -82,6 +82,13 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* Removed manual definition of base_frame_id
+* [husky_bringup] Updated compute_calibration to use MagneticField message.
+* Fix MagneticField msg reading
+* Contributors: Luis Camero, Saurav Agarwal, Tony Baltovski
+
 0.6.7 (2022-06-16)
 ------------------
 * Fixes for velodyne prefix
