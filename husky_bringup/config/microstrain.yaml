@@ -13,8 +13,8 @@
 
 # port is the main port that the device will communicate over. For all devices except the GQ7, this is the only available port.
 # aux_port is only available for the GQ7 and is only needed when streaming RTCM corrections to the device from ROS, or if you want to publish NMEA sentences from this node
-port        : $(optenv HUSKY_IMU_MICROSTRAIN_PORT /dev/microstrain_main)
-aux_port    : $(optenv HUSKY_IMU_MICROSTRAIN_PORT /dev/microstrain_main)
+port        : $(optenv HUSKY_IMU_PORT /dev/microstrain_main)
+aux_port    : $(optenv HUSKY_IMU_PORT /dev/microstrain_main)
 baudrate    : $(optenv HUSKY_IMU_MICROSTRAIN_BAUDRATE 115200)
 debug       : False
 diagnostics : False
