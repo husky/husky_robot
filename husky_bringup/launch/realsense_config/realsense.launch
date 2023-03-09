@@ -24,15 +24,15 @@
   <arg name="secondary_topic"               default="$(optenv HUSKY_REALSENSE_SECONDARY_TOPIC realsense_secondary)"/> <!-- Namespace -->
   <arg name="secondary_pointcloud_enabled"  default="$(optenv HUSKY_REALSENSE_SECONDARY_POINTCLOUD_ENABLED 1)"/>
   <arg name="secondary_filters"             default="$(eval 'pointcloud' if arg('secondary_pointcloud_enabled') else '')"/>
-  <arg name="secondary_depth_enabled"       default="$(optenv HUSKY_REALSENSE_DEPTH_ENABLED 1)"/>
-  <arg name="secondary_depth_frames"        default="$(optenv HUSKY_REALSENSE_DEPTH_FRAMERATE 30)"/>
-  <arg name="secondary_depth_height"        default="$(optenv HUSKY_REALSENSE_DEPTH_HEIGHT 480)"/>
-  <arg name="secondary_depth_width"         default="$(optenv HUSKY_REALSENSE_DEPTH_WIDTH 640)"/>
-  <arg name="secondary_color_enabled"       default="$(optenv HUSKY_REALSENSE_COLOR_ENABLED true)"/>
-  <arg name="secondary_color_frames"        default="$(optenv HUSKY_REALSENSE_COLOR_FRAMERATE 30)"/>
-  <arg name="secondary_color_height"        default="$(optenv HUSKY_REALSENSE_COLOR_HEIGHT 480)"/>
-  <arg name="secondary_color_width"         default="$(optenv HUSKY_REALSENSE_COLOR_WIDTH 640)"/>
-  <arg name="secondary_tf_prefix"           default="$(optenv HUSKY_REALSENSE_SECONDARY_PREFIX secondary_camera)"/>
+  <arg name="secondary_depth_enabled"       default="$(optenv HUSKY_REALSENSE_SECONDARY_DEPTH_ENABLED 1)"/>
+  <arg name="secondary_depth_frames"        default="$(optenv HUSKY_REALSENSE_SECONDARY_DEPTH_FRAMERATE 30)"/>
+  <arg name="secondary_depth_height"        default="$(optenv HUSKY_REALSENSE_SECONDARY_DEPTH_HEIGHT 480)"/>
+  <arg name="secondary_depth_width"         default="$(optenv HUSKY_REALSENSE_SECONDARY_DEPTH_WIDTH 640)"/>
+  <arg name="secondary_color_enabled"       default="$(optenv HUSKY_REALSENSE_SECONDARY_COLOR_ENABLED true)"/>
+  <arg name="secondary_color_frames"        default="$(optenv HUSKY_REALSENSE_SECONDARY_COLOR_FRAMERATE 30)"/>
+  <arg name="secondary_color_height"        default="$(optenv HUSKY_REALSENSE_SECONDARY_COLOR_HEIGHT 480)"/>
+  <arg name="secondary_color_width"         default="$(optenv HUSKY_REALSENSE_SECONDARY_COLOR_WIDTH 640)"/>
+  <arg name="secondary_tf_prefix"           default="$(optenv HUSKY_REALSENSE_SECONDARY_SECONDARY_PREFIX secondary_camera)"/>
 
   <!-- Primary Launch -->
   <group if="$(arg enable)" ns="$(arg topic)">
