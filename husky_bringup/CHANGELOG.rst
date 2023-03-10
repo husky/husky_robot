@@ -82,6 +82,14 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* Updated Secondary Realsense Variables
+* Create README.md
+* Change HUSKY_IMU_MICROSTRAIN_PORT to HUSKY_IMU_PORT for Microstrain IMU to maintain backwards compatability with legacy microstrain launch file.
+* Replace ros_mscl with microstrain_inertial_driver
+* Contributors: Joey Yang, luis-camero
+
 0.6.8 (2022-12-01)
 ------------------
 * Removed manual definition of base_frame_id
