@@ -82,8 +82,8 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
-Forthcoming
------------
+0.6.9 (2023-03-10)
+------------------
 * Updated Secondary Realsense Variables
 * Create README.md
 * Change HUSKY_IMU_MICROSTRAIN_PORT to HUSKY_IMU_PORT for Microstrain IMU to maintain backwards compatability with legacy microstrain launch file.
