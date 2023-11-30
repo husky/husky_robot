@@ -82,6 +82,11 @@ Changelog for package husky_bringup
 * Move packages into monorepo for kinetic; strip out ur packages
 * Contributors: Paul Bovbel, Tony Baltovski
 
+Forthcoming
+-----------
+* Update realsense.launch
+* Contributors: luis-camero
+
 0.6.9 (2023-03-10)
 ------------------
 * Updated Secondary Realsense Variables
