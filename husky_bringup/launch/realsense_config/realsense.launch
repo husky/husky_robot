@@ -16,7 +16,7 @@
   <arg name="color_frames"           default="$(optenv HUSKY_REALSENSE_COLOR_FRAMERATE 30)"/>
   <arg name="color_height"           default="$(optenv HUSKY_REALSENSE_COLOR_HEIGHT 480)"/>
   <arg name="color_width"            default="$(optenv HUSKY_REALSENSE_COLOR_WIDTH 640)"/>
-  <arg name="tf_prefix"              default="$(optenv HUSKY_REALSENSE_PREFIX camera)"/>
+  <arg name="tf_prefix"              default="$(optenv HUSKY_REALSENSE_PREFIX camera)_realsense"/>
 
   <!-- Secondary -->
   <arg name="secondary_enable"              default="$(optenv HUSKY_REALSENSE_SECONDARY_ENABLED 0)"/>
@@ -32,7 +32,7 @@
   <arg name="secondary_color_frames"        default="$(optenv HUSKY_REALSENSE_SECONDARY_COLOR_FRAMERATE 30)"/>
   <arg name="secondary_color_height"        default="$(optenv HUSKY_REALSENSE_SECONDARY_COLOR_HEIGHT 480)"/>
   <arg name="secondary_color_width"         default="$(optenv HUSKY_REALSENSE_SECONDARY_COLOR_WIDTH 640)"/>
-  <arg name="secondary_tf_prefix"           default="$(optenv HUSKY_REALSENSE_SECONDARY_SECONDARY_PREFIX secondary_camera)"/>
+  <arg name="secondary_tf_prefix"           default="$(optenv HUSKY_REALSENSE_SECONDARY_SECONDARY_PREFIX secondary_camera)_realsense"/>
 
   <!-- Primary Launch -->
   <group if="$(arg enable)" ns="$(arg topic)">
