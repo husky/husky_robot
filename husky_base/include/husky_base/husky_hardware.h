@@ -95,6 +95,8 @@ private:
 
   double polling_timeout_;
 
+  std::string tf_prefix_;
+
   /**
   * Joint structure that is hooked to ros_control's InterfaceManager, to allow control via diff_drive_controller
   */
